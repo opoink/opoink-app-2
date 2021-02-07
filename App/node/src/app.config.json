@@ -1,0 +1,6 @@
+{
+    "prod": false,
+    "ouputPath": "dist",
+    "publicPath": "/dist",
+    "outputFileName": "bundle.js"
+}
