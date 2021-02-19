@@ -24,6 +24,8 @@ plugins.push(new MiniCssExtractPlugin({
     filename: appConfig.prod ? insec + 'style.css' : 'style.css' 
 }));
 plugins.push(new CleanWebpackPlugin({
+    dry: true,
+    dangerouslyAllowCleanPatternsOutsideProject: true,
     cleanAfterEveryBuildPatterns: [appConfig.ouputPath]
 }));
 plugins.push(new WebpackBeforeBuildPlugin(function(stats, callback) {

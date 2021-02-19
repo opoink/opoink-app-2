@@ -1,6 +1,6 @@
 {
-    "prod": false,
-    "ouputPath": "dist",
-    "publicPath": "/dist",
+    "prod": true,
+    "ouputPath": "./../../public/vuedist",
+    "publicPath": "./../../public/vuedist",
     "outputFileName": "bundle.js"
 }
