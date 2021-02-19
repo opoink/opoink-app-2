@@ -6,7 +6,10 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-			"": "App/Ext/"
+			"": "App/Ext/",
+			"Opoink\\Ext\\": "App/Ext/",
+			"Opoink\\Module\\": "App/Ext/",
+            "Opoink\\Cli\\": "vendor/opoink/cli/src/"
         }
     },
     "require": {

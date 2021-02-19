@@ -1,5 +1,8 @@
 const path = require('path');
+
+const DS = path.sep;
 const ROOT = path.dirname(path.dirname(__dirname));
+
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -24,13 +27,25 @@ plugins.push(new MiniCssExtractPlugin({
     filename: appConfig.prod ? insec + 'style.css' : 'style.css' 
 }));
 plugins.push(new CleanWebpackPlugin({
-    dry: true,
+    dry: false,
     dangerouslyAllowCleanPatternsOutsideProject: true,
-    cleanAfterEveryBuildPatterns: [appConfig.ouputPath]
+    cleanBeforeEveryBuildPatterns: [path.resolve(__dirname, appConfig.ouputPath)]
 }));
 plugins.push(new WebpackBeforeBuildPlugin(function(stats, callback) {
-    exec('php -v', (error, stdOut, stdErr) => {
-        callback();
+    let opoinkCli = ROOT + DS + 'vendor' + DS + 'opoink' + DS + 'cli' + DS + 'src' + DS + 'opoink';
+    opoinkCli += ' vue:clean --test=\\dasd\\dasd\\dasd';
+    exec('php ' + opoinkCli, (error, stdOut, stdErr) => {
+        try {
+            let result = JSON.parse(stdOut);
+            if(result.error){
+                console.log(result);
+            } else {
+                callback();
+            }
+        }
+        catch(err) {
+            console.log(err);
+        }
     }); 
 }));
 
