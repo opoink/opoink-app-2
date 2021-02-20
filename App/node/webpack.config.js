@@ -34,20 +34,20 @@ plugins.push(new CleanWebpackPlugin({
 plugins.push(new WebpackBeforeBuildPlugin(function(stats, callback) {
     let opoinkCli = ROOT + DS + 'vendor' + DS + 'opoink' + DS + 'cli' + DS + 'src' + DS + 'opoink';
     opoinkCli += ' Opoink\\Template\\build:build';
-    exec('php ' + opoinkCli, (error, stdOut, stdErr) => {
-        try {
-            let result = JSON.parse(stdOut);
-            console.log(result);
-            if(!result.error){
-                // callback();
-            }
-        }
-        catch(err) {
-            console.log(err);
-        }
-    }); 
+    callback();
+    // exec('php ' + opoinkCli, (error, stdOut, stdErr) => {
+    //     try {
+    //         let result = JSON.parse(stdOut);
+    //         console.log(result);
+    //         if(!result.error){
+    //             callback();
+    //         }
+    //     }
+    //     catch(err) {
+    //         console.log(err);
+    //     }
+    // }); 
 }));
-
 
 var config = {
     mode: appConfig.prod ? 'production' : 'development',
@@ -87,6 +87,9 @@ var config = {
                 ],
             }
         ]
+    },
+    resolve: {
+      extensions: ['.ts', '.js'],
     },
     plugins: plugins
 }

@@ -5,12 +5,10 @@
   <title>Vue Test</title>
 </head>
 <body>
-    <div id="app-root">
-      <img src="assets/images/webpack.jpg">
+    <div id="approot">
+      <img width="150" src="assets/images/webpack.jpg">
+      <app-one :one="one"></app-one>
+      <app-two></app-two>
     </div>
-    <div id="app-5">
-        <p>{{ message }} asdasd</p>
-        <button v-on:click="reverseMessage()">Reverse Message</button>
-      </div>
 </body>
 </html>
