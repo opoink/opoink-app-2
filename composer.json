@@ -9,6 +9,7 @@
 			"": "App/Ext/",
 			"Opoink\\Ext\\": "App/Ext/",
 			"Opoink\\Module\\": "App/Ext/",
+            "Opoink\\Template\\": "vendor/opoink/template/src/",
             "Opoink\\Cli\\": "vendor/opoink/cli/src/"
         }
     },

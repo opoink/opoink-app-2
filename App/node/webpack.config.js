@@ -33,14 +33,13 @@ plugins.push(new CleanWebpackPlugin({
 }));
 plugins.push(new WebpackBeforeBuildPlugin(function(stats, callback) {
     let opoinkCli = ROOT + DS + 'vendor' + DS + 'opoink' + DS + 'cli' + DS + 'src' + DS + 'opoink';
-    opoinkCli += ' vue:clean --test=\\dasd\\dasd\\dasd';
+    opoinkCli += ' Opoink\\Template\\build:build';
     exec('php ' + opoinkCli, (error, stdOut, stdErr) => {
         try {
             let result = JSON.parse(stdOut);
-            if(result.error){
-                console.log(result);
-            } else {
-                callback();
+            console.log(result);
+            if(!result.error){
+                // callback();
             }
         }
         catch(err) {
