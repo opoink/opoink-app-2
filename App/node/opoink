@@ -1,0 +1,14 @@
+<?php
+    /**
+    * Copyright 2021 Opoink Framework (http://opoink.com/)
+    * Licensed under MIT, see LICENSE.md
+    */
+    defined('DS') ? null : define("DS", DIRECTORY_SEPARATOR);
+    defined('ROOT') ? null : define("ROOT", dirname(dirname(dirname(__FILE__))));
+    
+    //'Opoink\Template\Vue\Generate:execute'
+
+    array_splice( $argv, 1, 0, 'Opoink\\Template\\Vue\\Generate:execute'); 
+
+    include ROOT . '/vendor/opoink/cli/src/opoink.php';
+?>
