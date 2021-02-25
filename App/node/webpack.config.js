@@ -10,6 +10,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackBeforeBuildPlugin = require('before-build-webpack');
 const exec = require('child_process').exec;
 const appConfig = require('./src/app.config.json');
+const fs = require('fs');
 
 var today = new Date();
 var insec = parseInt(today.valueOf() / 1000); 
@@ -32,9 +33,9 @@ plugins.push(new CleanWebpackPlugin({
     cleanBeforeEveryBuildPatterns: [path.resolve(__dirname, appConfig.ouputPath)]
 }));
 plugins.push(new WebpackBeforeBuildPlugin(function(stats, callback) {
-    let opoinkCli = ROOT + DS + 'vendor' + DS + 'opoink' + DS + 'cli' + DS + 'src' + DS + 'opoink';
-    opoinkCli += ' Opoink\\Template\\build:build';
     callback();
+    // let opoinkCli = ROOT + DS + 'vendor' + DS + 'opoink' + DS + 'cli' + DS + 'src' + DS + 'opoink';
+    // opoinkCli += ' Opoink\\Template\\build:build';
     // exec('php ' + opoinkCli, (error, stdOut, stdErr) => {
     //     try {
     //         let result = JSON.parse(stdOut);
@@ -50,7 +51,7 @@ plugins.push(new WebpackBeforeBuildPlugin(function(stats, callback) {
 }));
 
 var config = {
-    mode: appConfig.prod ? 'production' : 'development',
+    // mode: appConfig.prod ? 'production' : 'development',
     entry: './src/app.ts',
     output: {
         path: path.resolve(__dirname, appConfig.ouputPath),
@@ -89,7 +90,10 @@ var config = {
         ]
     },
     resolve: {
-      extensions: ['.ts', '.js'],
+        alias: { 
+            vue: path.resolve(__dirname, './node_modules/vue/dist/vue.esm') 
+        },
+        extensions: ['.ts', '.js']
     },
     plugins: plugins
 }

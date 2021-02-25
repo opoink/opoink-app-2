@@ -5,10 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "build:prod": "webpack --mode=production",
-    "serve": "webpack serve",
-    "watch": "webpack --watch"
+    "build": "node ./opoink.module && webpack --mode=development",
+    "build:prod": "node ./opoink.module && webpack --mode=production",
+    "serve": "node ./opoink.module && webpack serve --mode=development",
+    "serve:prod": "node ./opoink.module && webpack serve --mode=production",
+    "watch": "node ./opoink.module && webpack --watch --mode=development",
+    "watch:prod": "node ./opoink.module && webpack --watch --mode=production"
   },
   "author": "Opoink",
   "license": "MIT",
