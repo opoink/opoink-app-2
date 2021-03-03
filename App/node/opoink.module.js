@@ -26,10 +26,11 @@ let moduleDir = function(targerDir){
                             modVueComs.push(modDir+DS+file);
                         }
                         else if(file == 'components.json'){
-                            let components_json = require(modDir+DS+file);
-                            components_json.forEach(val => {
-                                modVuecomponents.push(val);
-                            });
+                            // let components_json = require(modDir+DS+file);
+                            // components_json.forEach(val => {
+                            //     modVuecomponents.push(val);
+                            // });
+                            modVuecomponents.push(modDir+DS+file);
                         }
                     });
                 }
@@ -60,6 +61,22 @@ contect += "});";
 
 fs.writeFileSync('./src/vue.components.ts', contect);
 
-contect = JSON.stringify(VueComs.modVuecomponents, null, "\t");
-fs.writeFileSync('./src/vue.components.json', contect);
+contect = "declare function require(name:string);\n";
+contect += "let componentInjection = [];\n\n";
+
+VueComs.modVuecomponents.forEach(val => {
+    contect += "componentInjection.push(";
+    contect += "require('"+ val.split(DS).join('/') +"')";
+    contect += ");\n";
+});
+
+contect += "\nlet injection = [];\n";
+contect += "\ncomponentInjection.forEach(val => {\n";
+contect += "\tval.forEach(val2 => {\n";
+contect += "\t\tinjection.push(val2);\n";
+contect += "\t});\n";
+contect += "});\n";
+contect += "export default injection;\n";
+
+fs.writeFileSync('./src/components.injection.ts', contect);
 

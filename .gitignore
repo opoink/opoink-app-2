@@ -3,6 +3,7 @@
 /App/node/node_modules/*/
 /App/node/src/vue.components.ts
 /App/node/src/vue.components.json
+/App/node/src/components.injection.ts
 /Var/*/
 /etc/*
 !/etc/.htaccess

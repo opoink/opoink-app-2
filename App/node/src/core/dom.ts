@@ -1,35 +1,82 @@
-// declare function require(name:string);
+declare function require(name:string);
 
 import 'jquery';
-// let path = require('path');
-// let fs = require('fs');
-
-// console.log('DS DS', DS);
-// console.log('ROOT ROOT', ROOT);
+import injection from './../components.injection';
 
 class injector {
     
+    types = {
+        before: 'before',
+        after: 'after',
+        append: 'append',
+        prepend: 'prepend'
+    }
+
+
     /**
      * inititalize the injection of the template 
      * in DomDocument
      */
-    inject(el){
+    inject(el, name){
         let newDom = $(el);
 
-        let target = newDom.find('#testinject');
-        target.append('<apptwo></apptwo>');
+        injection.forEach(com => {
+            if(typeof com.inject_to != 'undefined'){
+                com.inject_to.forEach(component => {
+                    let ComName = component.component_name.toLowerCase();
 
-        this.findComponents();
-        // newDom.append('<apptwo></apptwo>');
+                    if(ComName == name){
+                        let eltag = '<'+com.component_name+'></'+com.component_name+'>';
+                        let type  = 'append';
+                        if(typeof component.inject_type != 'undefined'){
+                            type  = component.inject_type;
+                        }
+
+                        if(typeof component.element_id != 'undefined'){
+                            /** 
+                             * there element id is set here 
+                             * so we will look for that element then make an injection
+                             * inject to the bottom if not found
+                             */
+                            let eid = component.element_id;
+                            let target = newDom.find('#'+eid);
+
+                            if(target.length){
+                                this.injectElement(target, type, eltag);
+                            } else {
+                                /** 
+                                 * we will inject into the component 
+                                 * either append or prepend only
+                                 */
+                                this.injectElement(newDom, type, eltag);
+                            }
+                        } else {
+                            /** 
+                             * we will inject into the component 
+                             * either append or prepend only
+                             */
+                            this.injectElement(newDom, type, eltag);
+                        }
+                    }
+                });
+            }
+        });
         return newDom[0].outerHTML;
     }
 
     /**
-     * look for the components 
+     * inject the element into designated area
      */
-    findComponents(){
-        // let targerDir = ROOT+DS+'App'+DS+'Ext';
-        // console.log(targerDir);
+    injectElement(el, type, eltag){
+        if(type == this.types.before){
+            $( el ).before( eltag );
+        } else if (type == this.types.after){
+            $( el ).after( eltag );
+        } else if (type == this.types.prepend){
+            el.prepend(eltag);
+        } else {
+            el.append(eltag);
+        }
     }
 }
 
