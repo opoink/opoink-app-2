@@ -16,10 +16,17 @@ var today = new Date();
 var insec = parseInt(today.valueOf() / 1000); 
 
 var plugins = [];
+
 plugins.push(new webpack.ProvidePlugin({
     $: 'jquery',
     jQuery: 'jquery'
 }));
+
+plugins.push(new webpack.DefinePlugin({
+    DS: JSON.stringify(DS),
+    ROOT: JSON.stringify(ROOT)
+}));
+
 plugins.push(new HtmlWebpackPlugin({
     inject: 'body',
     template: './src/index.html'
@@ -53,6 +60,7 @@ plugins.push(new WebpackBeforeBuildPlugin(function(stats, callback) {
 var config = {
     // mode: appConfig.prod ? 'production' : 'development',
     entry: './src/app.ts',
+    target: 'node',
     output: {
         path: path.resolve(__dirname, appConfig.ouputPath),
         filename: appConfig.prod ? insec + appConfig.outputFileName : appConfig.outputFileName
@@ -91,9 +99,12 @@ var config = {
     },
     resolve: {
         alias: { 
-            vue: path.resolve(__dirname, './node_modules/vue/dist/vue.esm') 
+            vue: path.resolve(__dirname, './node_modules/vue/dist/vue.esm')
         },
-        extensions: ['.ts', '.js']
+        extensions: ['.ts', '.js'],
+        fallback: {
+            path: require.resolve("path-browserify")
+        }
     },
     plugins: plugins
 }

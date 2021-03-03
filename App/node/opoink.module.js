@@ -13,6 +13,7 @@ if(fs.existsSync('./src/vue.components.ts')){
 
 let moduleDir = function(targerDir){
     let modVueComs = [];
+    let modVuecomponents = [];
     fs.readdirSync(targerDir).forEach(vfile => {
         let vendorDir = targerDir + DS + vfile;
         if (fs.statSync(vendorDir).isDirectory()){
@@ -24,20 +25,30 @@ let moduleDir = function(targerDir){
                         if(file == 'vue.components.ts'){
                             modVueComs.push(modDir+DS+file);
                         }
+                        else if(file == 'components.json'){
+                            let components_json = require(modDir+DS+file);
+                            components_json.forEach(val => {
+                                modVuecomponents.push(val);
+                            });
+                        }
                     });
                 }
             });
         }
     });
-    return modVueComs;
+
+    return {
+        modVueComs: modVueComs,
+        modVuecomponents: modVuecomponents,
+    }
 }
 
 let targerDir = ROOT + DS + 'App'+DS+'Ext';
-let modVueComs = moduleDir(targerDir);
+let VueComs = moduleDir(targerDir);
 
 let contect = "import Vue from 'vue';\n\n";
 
-modVueComs.forEach(target => {
+VueComs.modVueComs.forEach(target => {
     let _target = target.split(DS).join('/');
     contect += "import '"+_target+"';\n";
 });
@@ -49,4 +60,6 @@ contect += "});";
 
 fs.writeFileSync('./src/vue.components.ts', contect);
 
-require('webpack');
+contect = JSON.stringify(VueComs.modVuecomponents, null, "\t");
+fs.writeFileSync('./src/vue.components.json', contect);
+

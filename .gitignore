@@ -2,6 +2,7 @@
 /App/Theme/*/
 /App/node/node_modules/*/
 /App/node/src/vue.components.ts
+/App/node/src/vue.components.json
 /Var/*/
 /etc/*
 !/etc/.htaccess
