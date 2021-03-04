@@ -20,6 +20,7 @@ if(fs.existsSync(vueComponentInjPath)){
 let moduleDir = function(targerDir){
     let modVueComs = [];
     let modVuecomponents = [];
+    let modVueRoutes = [];
     fs.readdirSync(targerDir).forEach(vfile => {
         let vendorDir = targerDir + DS + vfile;
         if (fs.statSync(vendorDir).isDirectory()){
@@ -34,6 +35,9 @@ let moduleDir = function(targerDir){
                         else if(file == 'components.json'){
                             modVuecomponents.push(modDir+DS+file);
                         }
+                        else if(file == 'vue.routes.ts'){
+                            modVueRoutes.push(modDir+DS+file);
+                        }
                     });
                 }
             });
@@ -43,6 +47,7 @@ let moduleDir = function(targerDir){
     return {
         modVueComs: modVueComs,
         modVuecomponents: modVuecomponents,
+        modVueRoutes: modVueRoutes
     }
 }
 
@@ -56,6 +61,11 @@ content += "Vue.use(VRouter.VueRouter);\n\n";
 content += "const router = VRouter.vueRouter;\n\n";
 
 VueComs.modVueComs.forEach(target => {
+    let _target = target.split(DS).join('/');
+    content += "import '"+_target+"';\n";
+});
+
+VueComs.modVueRoutes.forEach(target => {
     let _target = target.split(DS).join('/');
     content += "import '"+_target+"';\n";
 });

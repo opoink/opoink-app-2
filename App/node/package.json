@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node ./opoink.module && webpack --mode=development",
     "build:prod": "node ./opoink.module && webpack --mode=production",
-    "serve": "node ./opoink.module && webpack serve --mode=development",
-    "serve:prod": "node ./opoink.module && webpack serve --mode=production",
+    "serve": "node ./opoink.module && webpack --watch --mode=development",
+    "serve:prod": "node ./opoink.module && webpack --watch --mode=production",
     "watch": "node ./opoink.module && webpack --watch --mode=development",
     "watch:prod": "node ./opoink.module && webpack --watch --mode=production"
   },

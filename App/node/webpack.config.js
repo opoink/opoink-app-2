@@ -29,7 +29,8 @@ plugins.push(new webpack.DefinePlugin({
 
 plugins.push(new HtmlWebpackPlugin({
     inject: 'body',
-    template: './src/index.html'
+    template: './src/index.html',
+    publicPath: '/public/vuedist'
 }));
 plugins.push(new MiniCssExtractPlugin({
     filename: appConfig.prod ? insec + 'style.css' : 'style.css' 
@@ -41,24 +42,9 @@ plugins.push(new CleanWebpackPlugin({
 }));
 plugins.push(new WebpackBeforeBuildPlugin(function(stats, callback) {
     callback();
-    // let opoinkCli = ROOT + DS + 'vendor' + DS + 'opoink' + DS + 'cli' + DS + 'src' + DS + 'opoink';
-    // opoinkCli += ' Opoink\\Template\\build:build';
-    // exec('php ' + opoinkCli, (error, stdOut, stdErr) => {
-    //     try {
-    //         let result = JSON.parse(stdOut);
-    //         console.log(result);
-    //         if(!result.error){
-    //             callback();
-    //         }
-    //     }
-    //     catch(err) {
-    //         console.log(err);
-    //     }
-    // }); 
 }));
 
 var config = {
-    // mode: appConfig.prod ? 'production' : 'development',
     entry: './src/app.ts',
     target: 'node',
     output: {
