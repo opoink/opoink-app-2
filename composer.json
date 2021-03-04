@@ -14,8 +14,8 @@
         }
     },
     "require": {
-        "php": ">=7.1.0",
-		"opoink/framework": ">1.0.5"
+        "php": ">=7.3.0",
+		"opoink/framework": ">1.2.6"
     },
     "authors": [
         {
