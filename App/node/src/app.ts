@@ -3,4 +3,4 @@
 * Licensed under MIT, see LICENSE.md
 */
 import './style.scss';
-import './vue.components';
+import './var/vue.components';

@@ -1,7 +1,7 @@
 declare function require(name:string);
 
 import 'jquery';
-import injection from './../components.injection';
+import injection from './../var/components.injection';
 
 class injector {
     
