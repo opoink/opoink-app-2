@@ -100,4 +100,3 @@ content += "});\n";
 content += "export default injection;\n";
 
 fs.writeFileSync(vueComponentInjPath, content);
-
