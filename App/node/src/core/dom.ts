@@ -29,6 +29,9 @@ class injector {
                         if(typeof component.inject_type != 'undefined'){
                             type  = component.inject_type;
                         }
+                        if(typeof component.wrapper != 'undefined'){
+                            eltag  = '<'+component.wrapper+'>' + eltag + '</'+component.wrapper+'>';
+                        }
 
                         if(typeof component.element_id != 'undefined'){
                             /** 

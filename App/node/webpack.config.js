@@ -25,7 +25,7 @@ var config = (env) => {
         publicPath: '/public/vuedist'
     }));
     plugins.push(new MiniCssExtractPlugin({
-        filename: isProd ? '[chunkhash].[name].css' : '[name].css'
+        filename: isProd ? 'css/[chunkhash].[name].css' : 'css/[name].css'
     }));
     plugins.push(new CleanWebpackPlugin({
         dry: false,
@@ -38,10 +38,9 @@ var config = (env) => {
         entry: './src/app.ts',
         // target: 'node',
         output: {
-            filename: '[name].bundle.js',
             path: path.resolve(__dirname, "./../../public/vuedist"),
-            filename: isProd ? '[chunkhash].bundle.js' : 'bundle.js',
-            chunkFilename: 'chunks/[chunkhash].[name].js'
+            filename: isProd ? 'js/[chunkhash].[name].bundle.js' : 'js/[name].bundle.js',
+            chunkFilename: isProd ? 'js/chunks/[chunkhash].[name].js' : 'js/chunks/[name].js'
         },
         resolveLoader: {
             modules: [
