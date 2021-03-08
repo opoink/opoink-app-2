@@ -1,9 +1,10 @@
 # base-app-2
 
 
+# Generate Component
+php opoink --generate=component --location=Vendor_Module::page/header --component-name=component-name
+php opoink --g=c --location=Vendor_Module::page/header --cn=component-name
+php opoink --g=c --l=Vendor_Module::page/header
 
-php opoink --generate=component --location=Opoink_Bmodule::page/header --component-name=app=three
-php opoink --g=c --location=Opoink_Bmodule::page/header --cn=app=three
-php opoink --g=c --l=Opoink_Bmodule::page/header
-
-php opoink --g=c --l=Opoink_Bmodule::page/header --cn=app-three
+php opoink --g=c --l=Vendor_Module::page/header --cn=component-name
+php opoink --g=c --l=Vendor_Module --cn=component-name

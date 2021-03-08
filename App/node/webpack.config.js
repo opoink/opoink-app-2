@@ -8,10 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-var config = () => {
-    var env = {
-        prod: false
-    }
+var config = (env) => {
 
     let isProd = env.prod ? true : false;
     let mode = env.prod ? 'production' : 'development';
@@ -39,10 +36,12 @@ var config = () => {
     return {
         mode: mode,
         entry: './src/app.ts',
-        target: 'node',
+        // target: 'node',
         output: {
+            filename: '[name].bundle.js',
             path: path.resolve(__dirname, "./../../public/vuedist"),
-            filename: isProd ? '[chunkhash].bundle.js' : 'bundle.js'
+            filename: isProd ? '[chunkhash].bundle.js' : 'bundle.js',
+            chunkFilename: 'chunks/[chunkhash].[name].js'
         },
         resolveLoader: {
             modules: [
@@ -52,7 +51,7 @@ var config = () => {
         },
         module: {
             rules: [
-                { test: /\.ts$/, use: 'awesome-typescript-loader' },
+                { test: /\.ts$/, use: 'ts-loader' },
                 { test: /\.js$/, use: 'babel-loader' },
                 {
                     test: /\.s(a|c)ss$/,

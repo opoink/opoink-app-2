@@ -11,10 +11,10 @@ let vueComponentPath = './src/var/vue.components.ts';
 let vueComponentInjPath = './src/var/components.injection.ts';
 
 if(fs.existsSync(vueComponentPath)){
-    fs.unlinkSync(vueComponentPath);
+    // fs.unlinkSync(vueComponentPath);
 }
 if(fs.existsSync(vueComponentInjPath)){
-    fs.unlinkSync(vueComponentInjPath);
+    // fs.unlinkSync(vueComponentInjPath);
 }
 
 let moduleDir = function(targerDir){
@@ -54,7 +54,7 @@ let moduleDir = function(targerDir){
 let targerDir = ROOT + DS + 'App'+DS+'Ext';
 let VueComs = moduleDir(targerDir);
 
-let content = "import Vue from './../../node_modules/vue/dist/vue.esm';\n";
+let content = "import Vue from './../../node_modules/vue/dist/vue.min';\n";
 content += "import VRouter from './../core/VueRouter';\n";
 content += "Vue.use(VRouter.VueRouter);\n\n";
 
