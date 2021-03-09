@@ -67,11 +67,8 @@ in **components.json** file add **inject_to** to the component
 2. **component_name**: required if **inject_to** is declared
 3. **element_id**: optional if has value opoink will try to look for this element, if the element is found then use this as reference for the injection, if not your component will be injected either at the top or at the botom of your component template
 4. **inject_type**: before, after, append, or prepend
-    before: your component will be injected before the element
-    
-    after: your component will be injected after the element
-    
-    append: your component will be injected at the bottom of your component element
-    
-    prepend: your component will be injected at the top of your component element
+    a. **before**: your component will be injected before the element
+    b. **after**: your component will be injected after the element
+    c. **append**: your component will be injected at the bottom of your component element
+    d. **prepend**: your component will be injected at the top of your component element
 5. **wrapper**: optional, your component will be wrapped inside this markup then inject.
