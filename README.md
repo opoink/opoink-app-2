@@ -6,7 +6,7 @@ Install
 -------
     php composer create-project opoink/opoink-app-2
     
-If you dont have composer istalled on your machine, you can download composer.phar
+If you dont have composer installed on your machine, you can download composer.phar
 
     wget https://getcomposer.org/composer.phar
 
@@ -29,7 +29,7 @@ we still use Opoink CLI to generate VueJs component
 
     --generate or --g: the action to do.
     --location or --l: is the location where to generate the component
-    --component-name or --cn: your new component name alpha, - and _ is the accepted characters. - _ is just a separator
+    --component-name or --cn: your new component name alpha, - and _ are the accepted characters. - _ is just a separator
 
 This will generate a new directory and four files under **/App/Ext/Vendor/Module/View/vue/components**
 
@@ -44,7 +44,7 @@ This will also generate **vue.components.ts** and **components.json** under **/A
 
 Component Injection
 -------
-With the help of jQuery Opoink can inject your component to the exisitng component. either of the same module or another exisitng module.
+With the help of jQuery Opoink can inject your component to the existing component. either of the same module or another existing module.
 Simply means that you don't have to make any changes from your other module component, You just have to tell opoink where do you want to inject your new component, and let opoink to do it for you. 
 
 in **components.json** file add **inject_to** to the component
@@ -66,7 +66,7 @@ in **components.json** file add **inject_to** to the component
 
 **inject_to**: is optional means that opoink should inject this component to another with the given name
 
-**component_name**: required if inject to is decalred
+**component_name**: required if **inject_to** is declared
 
 **element_id**: optional if has value opoink will try to look for this element, if the element is found then use this as reference for the injection, if not your component will be injected either at the top or at the botom of your component template
 
