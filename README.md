@@ -31,18 +31,18 @@ we still use Opoink CLI to generate VueJs component
     --location or --l: is the location where to generate the component
     --component-name or --cn: your new component name alpha, - and _ is the accepted characters. - _ is just a separator
 
-This will generate a new directory and four files under /App/Ext/Vendor/Module/View/vue/components
+This will generate a new directory and four files under **/App/Ext/Vendor/Module/View/vue/components**
 
     MyComponent.ts
     MyComponent.component.ts
     MyComponent.html
     MyComponent.scss
 
-This will also generate vue.components.ts and components.json unded /App/Ext/Vendor/Module if this two files exists opoink will updates the file to include the newly generated component.
+This will also generate **vue.components.ts** and **components.json** under **/App/Ext/Vendor/Module** if this two files exists opoink will update the file to include the newly generated component.
 
 
 
-Component injection
+Component Injection
 -------
 With the help of jQuery Opoink can inject your component to the exisitng component. either of the same module or another exisitng module.
 Simply means that you don't have to make any changes from your other module component, You just have to tell opoink where do you want to inject your new component, and let opoink to do it for you. 
@@ -62,13 +62,13 @@ Simply means that you don't have to make any changes from your other module comp
         ]
     }
 
-inject_to: is optional means that opoink should inject this component to another with the given name
+**inject_to**: is optional means that opoink should inject this component to another with the given name
 
-component_name: required if inject to is decalred
+**component_name**: required if inject to is decalred
 
-element_id: optional if has value opoink will try to look for this element, if the element is found then use this as reference for the injection, if not your component will be injected either at the top or at the botom of your component template
+**element_id**: optional if has value opoink will try to look for this element, if the element is found then use this as reference for the injection, if not your component will be injected either at the top or at the botom of your component template
 
-inject_type: before, after, append, or prepend
+**inject_type**: before, after, append, or prepend
 
     before: your component will be injected before the element
     after: your component will be injected after the element
