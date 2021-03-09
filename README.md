@@ -47,6 +47,8 @@ Component Injection
 With the help of jQuery Opoink can inject your component to the exisitng component. either of the same module or another exisitng module.
 Simply means that you don't have to make any changes from your other module component, You just have to tell opoink where do you want to inject your new component, and let opoink to do it for you. 
 
+in **components.json** file add **inject_to** to the component
+
     {
         "component_name": "MyComponent",
         "vendor": "Vendorname",
