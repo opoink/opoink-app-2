@@ -51,9 +51,13 @@ Simply means that you don't have to make any changes from your other module comp
     }
 
 inject_to: is optional means that opoink should inject this component to another with the given name
+
 component_name: required if inject to is decalred
+
 element_id: optional if has value opoink will try to look for this element, if the element is found then use this as reference for the injection, if not your component will be injected either at the top or at the botom of your component template
+
 inject_type: before, after, append, or prepend
+
     before: your component will be injected before the element
     after: your component will be injected after the element
     append: your component will be injected at the bottom of your component element
