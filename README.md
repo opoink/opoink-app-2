@@ -5,6 +5,14 @@ Is a PHP framework that offers to use VueJs as frontend single site rendering.
 Install
 -------
     php composer create-project opoink/opoink-app-2
+    
+If you dont have composer istalled on your machine, you can download composer.phar
+
+    wget https://getcomposer.org/composer.phar
+
+Then do this command on your terminal
+
+    php composer.phar create-project opoink/opoink-app-2
 
 
 # Generate Component
