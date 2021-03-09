@@ -26,14 +26,26 @@ Generate Component
 
 
 we still use Opoink CLI to generate VueJs component
---generate or --g: the action to do.
---location or --l: is the location where to generate the component 
+
+    --generate or --g: the action to do.
+    --location or --l: is the location where to generate the component
+    --component-name or --cn: your new component name alpha, - and _ is the accepted characters. - _ is just a separator
+
+This will generate a new directory and four files under /App/Ext/Vendor/Module/View/vue/components
+
+    MyComponent.ts
+    MyComponent.component.ts
+    MyComponent.html
+    MyComponent.scss
+
+This will also generate vue.components.ts and components.json unded /App/Ext/Vendor/Module if this two files exists opoink will updates the file to include the newly generated component.
+
 
 
 Component injection
 -------
 With the help of jQuery Opoink can inject your component to the exisitng component. either of the same module or another exisitng module.
-Simply means that you don't have to make any changes from your other module component, You just have to tell opoink where do you want to inject you new component, and let opoink to do the job for you. 
+Simply means that you don't have to make any changes from your other module component, You just have to tell opoink where do you want to inject your new component, and let opoink to do it for you. 
 
     {
         "component_name": "MyComponent",
