@@ -7,6 +7,10 @@ const DS = path.sep;
 const ROOT = path.dirname(path.dirname(__dirname));
 const fs = require('fs');
 const execPhp = require('exec-php');
+// const walk    = require('walk');
+
+var _execPHP = require('./src/php/php.exec.js')();
+
 
 function getConfig() {
     return new Promise(resolve => {
@@ -22,61 +26,57 @@ function getConfig() {
     });
 }
 
+function getCss(){
+    return new Promise(resolve => {
+        _execPHP.parseFile(path.resolve('./src/php/css.php'), 
+        function(error, stdout, stderr){
+            if(error){
+                throw new Error(error);
+            } else {
+                let css = JSON.parse(stdout);
+                resolve(css);
+            }
+        });
+    })
+}
+
 function moduleDir(targerDir, config){
     let modVueComs = [];
     let modVuecomponents = [];
     let modVueRoutes = [];
+    let modCss = [];
 
-    let mod = config.modules
-    for (var key of Object.keys(mod)) {
-        let vendorDir = targerDir + DS + key;
-        let vMods = mod[key];
-        vMods.forEach(vMod => {
-            let modDir = vendorDir + DS + vMod;
-            let vComTs = modDir + DS + 'vue.components.ts';
-            let vComJson = modDir + DS + 'components.json';
-            let vRoutes = modDir + DS + 'vue.routes.ts';
-
-            if (fs.existsSync(vComTs)) {
-                modVueComs.push(vComTs);
-            }
-            if (fs.existsSync(vComJson)) {
-                modVuecomponents.push(vComJson);
-            }
-            if (fs.existsSync(vRoutes)) {
-                modVueRoutes.push(vRoutes);
-            }
+    return new Promise(resolve => {
+        let mod = config.modules;
+        for (var key of Object.keys(mod)) {
+            let vendorDir = targerDir + DS + key;
+            let vMods = mod[key];
+            vMods.forEach(vMod => {
+                let modDir = vendorDir + DS + vMod;
+                let vComTs = modDir + DS + 'vue.components.ts';
+                let vComJson = modDir + DS + 'components.json';
+                let vRoutes = modDir + DS + 'vue.routes.ts';
+    
+                if (fs.existsSync(vComTs)) {
+                    modVueComs.push(vComTs);
+                }
+                if (fs.existsSync(vComJson)) {
+                    modVuecomponents.push(vComJson);
+                }
+                if (fs.existsSync(vRoutes)) {
+                    modVueRoutes.push(vRoutes);
+                }
+            });
+        }
+    
+        resolve ({
+            modVueComs: modVueComs,
+            modVuecomponents: modVuecomponents,
+            modVueRoutes: modVueRoutes,
+            modCss: modCss
         });
-    }
+    })
 
-    // fs.readdirSync(targerDir).forEach(vfile => {
-    //     let vendorDir = targerDir + DS + vfile;
-    //     if (fs.statSync(vendorDir).isDirectory()){
-
-    //         fs.readdirSync(vendorDir).forEach(mfile => {
-    //             let modDir = vendorDir + DS + mfile;
-    //             if (fs.statSync(modDir).isDirectory()){
-    //                 fs.readdirSync(modDir).forEach(file => {
-    //                     if(file == 'vue.components.ts'){
-    //                         modVueComs.push(modDir+DS+file);
-    //                     }
-    //                     else if(file == 'components.json'){
-    //                         modVuecomponents.push(modDir+DS+file);
-    //                     }
-    //                     else if(file == 'vue.routes.ts'){
-    //                         modVueRoutes.push(modDir+DS+file);
-    //                     }
-    //                 });
-    //             }
-    //         });
-    //     }
-    // });
-
-    return {
-        modVueComs: modVueComs,
-        modVuecomponents: modVuecomponents,
-        modVueRoutes: modVueRoutes
-    }
 }
 
 async function init() {
@@ -93,7 +93,7 @@ async function init() {
     }
 
     let targerDir = ROOT + DS + 'App'+DS+'Ext';
-    let VueComs = moduleDir(targerDir, config);
+    let VueComs = await moduleDir(targerDir, config);
 
     let content = "import Vue from './../../node_modules/vue/dist/vue.min';\n";
     content += "import VRouter from './../core/VueRouter';\n";
@@ -109,6 +109,11 @@ async function init() {
     VueComs.modVueRoutes.forEach(target => {
         let _target = target.split(DS).join('/');
         content += "import '"+_target+"';\n";
+    });
+
+    let css = await getCss(config);
+    css.forEach(css => {
+        content += "import '"+css+"';\n";
     });
 
     content += "\n\nconst app = new Vue({router}).$mount('#approot');\n";

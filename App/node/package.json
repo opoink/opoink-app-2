@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node ./opoink.module --env prod",
+    "test": "webpack",
     "build": "node ./opoink.module && webpack",
     "build:prod": "node ./opoink.module && webpack --env prod",
     "serve": "node ./opoink.module && webpack --watch",
@@ -42,6 +42,7 @@
     "typescript": "^4.1.3",
     "url-loader": "^4.1.1",
     "vue-router": "^3.5.1",
+    "walk": "^2.3.14",
     "webpack": "^5.24.3",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2"
