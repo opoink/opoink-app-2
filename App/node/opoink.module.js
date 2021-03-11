@@ -7,9 +7,7 @@ const DS = path.sep;
 const ROOT = path.dirname(path.dirname(__dirname));
 const fs = require('fs');
 const execPhp = require('exec-php');
-// const walk    = require('walk');
-
-var _execPHP = require('./src/php/php.exec.js')();
+const _execPHP = require('./src/php/php.exec.js')();
 
 
 function getConfig() {

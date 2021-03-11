@@ -36,11 +36,28 @@ var config = (env) => {
     return {
         mode: mode,
         entry: './src/app.ts',
-        // target: 'node',
+        devtool: isProd ? false : 'inline-source-map',
+        performance: {
+            maxEntrypointSize: 4096000,
+            maxAssetSize: 4096000
+        },
         output: {
             path: path.resolve(__dirname, "./../../public/vuedist"),
             filename: isProd ? 'js/[chunkhash].[name].bundle.js' : 'js/[name].bundle.js',
             chunkFilename: isProd ? 'js/chunks/[chunkhash].[name].js' : 'js/chunks/[name].js'
+        },
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    vendor: {
+                        chunks: 'initial',
+                        name: 'vendor',
+                        test: 'vendor',
+                        enforce: true
+                    },
+                }
+            },
+            runtimeChunk: true
         },
         resolveLoader: {
             modules: [
@@ -60,8 +77,12 @@ var config = (env) => {
                             loader: 'css-loader',
                             options: {
                                 modules: false,
-                                sourceMap: isProd
+                                sourceMap: isProd,
+                                importLoaders: 1
                             }
+                        },
+                        {
+                            loader: 'postcss-loader'
                         },
                         {
                             loader: 'opoink-url-loader'
