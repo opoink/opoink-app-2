@@ -7,6 +7,7 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 var config = (env) => {
 
@@ -57,7 +58,10 @@ var config = (env) => {
                     },
                 }
             },
-            runtimeChunk: true
+            runtimeChunk: true,
+            minimizer: [
+                new CssMinimizerPlugin(),
+            ]
         },
         resolveLoader: {
             modules: [
@@ -72,7 +76,7 @@ var config = (env) => {
                 {
                     test: /\.s(a|c)ss$/,
                     use: [
-                        MiniCssExtractPlugin.loader,
+                        isProd ? MiniCssExtractPlugin.loader : 'style-loader',
                         {
                             loader: 'css-loader',
                             options: {
@@ -91,6 +95,21 @@ var config = (env) => {
                             loader: 'sass-loader',
                             options: {
                                 sourceMap: isProd
+                            }
+                        }
+                    ]
+                },
+                
+                {
+                    test: /bootstrap\.min\.css$/,
+                    use: [
+                        isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                modules: false,
+                                sourceMap: isProd,
+                                importLoaders: 1
                             }
                         }
                     ]

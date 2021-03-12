@@ -8,7 +8,10 @@ class VRouter {
 
     constructor(){
         let routes = [];
-        this.vueRouter = new VueRouter({routes});
+        this.vueRouter = new VueRouter({
+            mode: 'history',
+            routes: []
+        });
     }
 
     addRoute(option){
