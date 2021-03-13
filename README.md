@@ -72,3 +72,22 @@ in **components.json** file add **inject_to** to the component
     3. **append**: your component will be injected at the bottom of your component element
     4. **prepend**: your component will be injected at the top of your component element
 5. **wrapper**: optional, your component will be wrapped inside this markup then inject.
+
+
+Router
+-------
+vue.routes.ts under your Vendor/Module dir
+
+    import VRouter from './../../../node/src/core/VueRouter';
+
+    const HomeComponent = () => import(/* webpackChunkName: "HomeComponent" */ './View/vue/components/pages/Home/Home.component');
+    const LoginComponent = () => import(/* webpackChunkName: "LoginComponent" */ './View/vue/components/pages/Login/Login.component');
+
+    let routes = [
+        { path: '/', component: HomeComponent },
+        { path: '/login', component: LoginComponent }
+    ]
+
+    routes.forEach(route => {
+        VRouter.addRoute(route);
+    });
