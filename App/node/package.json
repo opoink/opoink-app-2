@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "webpack",
     "build": "node ./opoink.module && webpack",
     "build:prod": "node ./opoink.module && webpack --env prod",
     "serve": "node ./opoink.module && webpack --watch",

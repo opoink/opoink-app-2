@@ -127,6 +127,19 @@ var config = (env) => {
                             }
                         }
                     ]
+                },
+                {
+                    test: /\.(eot|woff|ttf)$/i,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                name: '[name].[ext]',
+                                outputPath: 'assets/fonts/icon',
+                                publicPath: '/public/vuedist/assets/fonts/icon'
+                            }
+                        }
+                    ]
                 }
             ]
         },

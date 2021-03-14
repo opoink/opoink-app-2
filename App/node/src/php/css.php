@@ -30,11 +30,22 @@ function getCssFiles($dirPath){
                     $filePath = $dirPath.DS.$file;
                     $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 
-                    if(is_dir($filePath)){
-                        getCssFiles($filePath);
-                    } else {
-                        if($ext == 'scss' || $ext == 'css'){
-                            $cssFiles[] = str_replace(DS, '/', $filePath);
+                    // if(is_dir($filePath)){
+                    //     getCssFiles($filePath);
+                    // } else {
+                    //     if($ext == 'scss' || $ext == 'css'){
+                    //         $cssFiles[] = str_replace(DS, '/', $filePath);
+                    //     }
+                    // }
+
+                    $fInfo = pathinfo($filePath);
+
+                    if(isset($fInfo['filename'])){
+                        $fName = strtolower($fInfo['filename']);
+                        if($fName == 'style'){
+                            if($ext == 'scss' || $ext == 'css'){
+                                $cssFiles[] = str_replace(DS, '/', $filePath);
+                            }
                         }
                     }
                 }
