@@ -114,7 +114,13 @@ var config = (env) => {
                         }
                     ]
                 },
-                { test: /\.html$/, use: 'html-loader' },
+                { 
+                    test: /\.html$/, 
+                    use: [
+                        'html-loader',
+                        'opoink-html'
+                    ] 
+                },
                 {
                     test: /\.(gif|png|jpe?g|svg)$/i,
                     use: [
