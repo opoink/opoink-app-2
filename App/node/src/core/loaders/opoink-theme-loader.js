@@ -1,3 +1,7 @@
+/*!
+* Copyright 2021 Opoink Framework (http://opoink.com/)
+* Licensed under MIT, see LICENSE.md
+*/
 const path = require('path');
 const execPhp = require('exec-php');
 const fs = require('fs');
@@ -25,11 +29,12 @@ module.exports = async function(source) {
     if(typeof config['theme'] != 'undefined'){
         let tName = config['theme'];
         
-        let {resourcePath, server} = this;
+        let {resourcePath} = this;
 
-        let targetHtml = ROOT + DS + 'theme' + DS + tName + resourcePath.replace(ROOT, '');
-        if (fs.existsSync(targetHtml)) {
-            source = fs.readFileSync(targetHtml,'utf8');
+        let targetFile = ROOT + DS + 'theme' + DS + tName + resourcePath.replace(ROOT, '');
+        console.log(targetFile)
+        if (fs.existsSync(targetFile)) {
+            source = fs.readFileSync(targetFile,'utf8');
         }
     }
     return source;

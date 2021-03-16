@@ -1,3 +1,7 @@
+/*!
+* Copyright 2021 Opoink Framework (http://opoink.com/)
+* Licensed under MIT, see LICENSE.md
+*/
 const loaderUtils = require('loader-utils');
 const path = require('path');
 const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(__dirname))));

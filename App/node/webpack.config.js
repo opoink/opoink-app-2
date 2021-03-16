@@ -8,12 +8,19 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const WatchOpoinkThemeFiles = require('./src/core/plugins/watch.opoink.theme.files')
 
 var config = (env) => {
 
     let isProd = env.prod ? true : false;
     let mode = env.prod ? 'production' : 'development';
     var plugins = [];
+
+    plugins.push(new WatchOpoinkThemeFiles({
+        files: ['C:\\wamp64\\www\\opoink\\opoink-app-2\\App\\theme\\teamone\\node\\src\\index.html'],
+        // dirs: [path.resolve(__dirname, "./../theme")]
+        dirs: []
+    }));
 
     plugins.push(new webpack.ProvidePlugin({
         $: 'jquery',

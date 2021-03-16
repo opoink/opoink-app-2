@@ -1,3 +1,7 @@
+/*!
+* Copyright 2021 Opoink Framework (http://opoink.com/)
+* Licensed under MIT, see LICENSE.md
+*/
 const path = require('path');
 const injection = require('./../../var/components.injection');
 const jsdom = require('jsdom');
