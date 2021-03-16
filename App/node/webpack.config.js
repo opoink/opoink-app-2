@@ -118,7 +118,8 @@ var config = (env) => {
                     test: /\.html$/, 
                     use: [
                         'html-loader',
-                        'opoink-html'
+                        'opoink-html',
+                        'opoink-theme-loader'
                     ] 
                 },
                 {
