@@ -81,7 +81,7 @@ async function init() {
     let config = await getConfig();
 
     let vueComponentPath = './src/var/vue.components.ts';
-    let vueComponentInjPath = './src/var/components.injection.ts';
+    let vueComponentInjPath = './src/var/components.injection.js';
 
     if(fs.existsSync(vueComponentPath)){
         fs.unlinkSync(vueComponentPath);
@@ -126,8 +126,7 @@ async function init() {
     /** ================================================================== */
     /** ================================================================== */
 
-    content = "declare function require(name:string);\n";
-    content += "let componentInjection = [];\n\n";
+    content = "let componentInjection = [];\n\n";
 
     VueComs.modVuecomponents.forEach(val => {
         content += "componentInjection.push(";
@@ -141,11 +140,9 @@ async function init() {
     content += "\t\tinjection.push(val2);\n";
     content += "\t});\n";
     content += "});\n";
-    content += "export default injection;\n";
+    content += "module.exports = injection;\n";
 
     fs.writeFileSync(vueComponentInjPath, content);
-
-
 }
 
 init();
