@@ -4,21 +4,33 @@
 */
 const loaderUtils = require('loader-utils');
 const path = require('path');
-const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(__dirname))));
 
-let changeUrlString = function(source, dirname){
+function validURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+  }
+
+let changeUrlString = function(source, resourcePath){
     let regex = /url\(.*?\)/ig;
     let found = source.match(regex);
 
-    let extDir = ROOT + '/Ext/';
-
     if(found){
         found.forEach(url => {
-            let u = url.replace('url("', '').replace('url(\'', '');
-            u = u.replace('")', '').replace('\')');
-            let target = extDir + u;
-            target = target.split(path.sep).join('/');
-            source = source.replace(url, "url(\""+target+"\")");
+            let _url = url.replace('url("', '').replace('url(\'', '');
+            _url = _url.replace('")', '').replace('\')');
+
+            let isValidUrl = validURL(_url);
+            if(!isValidUrl){
+                let targetSourceDir = path.dirname(resourcePath)
+                let target = path.resolve(targetSourceDir + _url);
+                target = target.split(path.sep).join('/');
+                source = source.replace(url, "url(\""+target+"\")");
+            }
         });
     }
     return source;
@@ -39,10 +51,10 @@ module.exports = function(source) {
         }
     }
 
-    // const {resourcePath} = this;
+    const {resourcePath} = this;
     // let dirname = path.dirname(resourcePath);
 
-    source = changeUrlString(source);
+    source = changeUrlString(source, resourcePath);
 
     return source;
 };

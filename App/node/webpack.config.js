@@ -16,11 +16,13 @@ var config = (env) => {
     let mode = env.prod ? 'production' : 'development';
     var plugins = [];
 
-    plugins.push(new WatchOpoinkThemeFiles({
-        files: ['C:\\wamp64\\www\\opoink\\opoink-app-2\\App\\theme\\teamone\\node\\src\\index.html'],
-        // dirs: [path.resolve(__dirname, "./../theme")]
+    let opoinkWatcher = new WatchOpoinkThemeFiles({
+        // files: ['C:\\wamp64\\www\\opoink\\opoink-app-2\\App\\theme\\teamone\\node\\src\\index.html'],
+        files: [],
         dirs: []
-    }));
+    })
+
+    plugins.push(opoinkWatcher);
 
     plugins.push(new webpack.ProvidePlugin({
         $: 'jquery',
@@ -126,7 +128,12 @@ var config = (env) => {
                     use: [
                         'html-loader',
                         'opoink-html',
-                        'opoink-theme-loader'
+                        {
+                            loader: 'opoink-theme-loader',
+                            options: {
+                                watcher: opoinkWatcher
+                            }
+                        }
                     ] 
                 },
                 {

@@ -9,10 +9,15 @@ const validateOptions = require('schema-utils');
 const uniq = require('lodash.uniq');
 const isGlob = require('is-glob');
 const glob = require('glob');
+const fs = require('fs');
+const execPhp = require('exec-php');
+const DS = path.sep;
+const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(__dirname)))));
 
 
 class WatchOpoinkThemeFiles {
-    // Define `apply` as its prototype method which is supplied with compiler as its argument
+    config = [];
+    filesToAddInWatch = [];
 
     constructor(options = {}) {
         this.options = options
@@ -48,24 +53,59 @@ class WatchOpoinkThemeFiles {
         };
     }
 
+    getConfig() {
+        return new Promise(resolve => {
+            execPhp('./../../php/config.php', (error, php, outprint) => {
+                php.config((error, result) => {
+                    if(error){
+                        throw new Error('System config not found.');
+                    } else {
+                        this.config = result;
+                        resolve(result)
+                    }
+                });
+            });
+        });
+    }
+
     getChangedFiles(compiler) {
         if (compiler.modifiedFiles) {
             const changedFiles = Array.from(compiler.modifiedFiles, (file) => `\n  ${file}`).join('');
-            console.log('===============================');
-            console.log('FILES CHANGED:', changedFiles);
-            console.log('===============================');
+
+            if(typeof this.config['theme'] != 'undefined'){
+                let d = DS + 'App' + DS + 'theme' + DS + this.config['theme'];
+                let splitTarget = changedFiles.split(d);
+                if(splitTarget.length){
+                    let extDir = ROOT + DS + 'App';
+                    let targetFile = extDir + splitTarget[1];
+                    if (fs.existsSync(targetFile)) {
+                        let content = fs.readFileSync(targetFile,'utf8');
+                        fs.writeFileSync(targetFile, content);
+                    }
+                }
+            }
         }
     }
 
+    addFileToWatch(target){
+        this.filesToAddInWatch.push(target);
+    }
+
+    // Define `apply` as its prototype method which is supplied with compiler as its argument
     apply(compiler) {
         let { files, dirs } = this.options;
         const { cwd } = this.options;
         files = typeof files === 'string' ? [files] : files;
         dirs = typeof dirs === 'string' ? [dirs] : dirs;
+
+        this.getConfig();
         
         if (compiler.hooks) {
+            compiler.hooks.beforeCompile.tap('before-compile', (compilation) => {
+            });
+
             compiler.hooks.afterCompile.tap('after-compile', (compilation) => {
-                const changedFile = this.getChangedFiles(compiler);
+                this.getChangedFiles(compiler);
                 const {
                     fileDependencies,
                     contextDependencies,
@@ -76,24 +116,18 @@ class WatchOpoinkThemeFiles {
                         compilation.fileDependencies.add(file);
                     });
                 }
+                if(this.filesToAddInWatch.length > 0){
+                    this.filesToAddInWatch.forEach((file) => {
+                        compilation.fileDependencies.add(file);
+                    });
+                    this.filesToAddInWatch = [];
+                }
                 if (dirs.length > 0) {
                     contextDependencies.forEach((context) => {
                         compilation.contextDependencies.add(context);
                     });
                 }
             });
-
-            // compiler.hooks.watchRun.tap('WatchOpoinkThemeFiles', (comp) => {
-            //     const changedTimes = comp.watchFileSystem.watcher.mtimes;
-            //     const changedFiles = Object.keys(changedTimes)
-            //       .map(file => `\n  ${file}`)
-            //       .join('');
-            //     if (changedFiles.length) {
-            //       console.log("====================================")
-            //       console.log('NEW BUILD FILES CHANGED:', changedFiles);
-            //       console.log("====================================")
-            //     }
-            // });
         }
     }
 }
