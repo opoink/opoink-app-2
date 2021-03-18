@@ -17,7 +17,6 @@ var config = (env) => {
     var plugins = [];
 
     let opoinkWatcher = new WatchOpoinkThemeFiles({
-        // files: ['C:\\wamp64\\www\\opoink\\opoink-app-2\\App\\theme\\teamone\\node\\src\\index.html'],
         files: [],
         dirs: []
     })

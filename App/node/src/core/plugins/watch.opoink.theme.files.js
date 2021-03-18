@@ -120,7 +120,8 @@ class WatchOpoinkThemeFiles {
                     this.filesToAddInWatch.forEach((file) => {
                         compilation.fileDependencies.add(file);
                     });
-                    this.filesToAddInWatch = [];
+                    console.log(this.filesToAddInWatch);
+                    // this.filesToAddInWatch = [];
                 }
                 if (dirs.length > 0) {
                     contextDependencies.forEach((context) => {

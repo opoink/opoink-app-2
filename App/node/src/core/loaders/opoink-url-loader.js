@@ -13,7 +13,7 @@ function validURL(str) {
       '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
       '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
     return !!pattern.test(str);
-  }
+}
 
 let changeUrlString = function(source, resourcePath){
     let regex = /url\(.*?\)/ig;
