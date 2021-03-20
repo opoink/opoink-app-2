@@ -128,7 +128,12 @@ var config = (env) => {
                     test: /\.html$/, 
                     use: [
                         'html-loader',
-                        'opoink-html',
+                        {
+                            loader: 'opoink-html',
+                            options: {
+                                addFileLocation: isProd,
+                            }
+                        },
                         {
                             loader: 'opoink-theme-loader',
                             options: {
@@ -169,7 +174,7 @@ var config = (env) => {
         },
         resolve: {
             alias: { 
-                vue: path.resolve(__dirname, './node_modules/vue/dist/vue.esm')
+                vue: path.resolve(__dirname, './node_modules/vue/dist/vue.min')
             },
             extensions: ['.ts', '.js', '.scss'],
             fallback: {

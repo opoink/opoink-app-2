@@ -84,31 +84,30 @@ class StringParser {
                     let target = path.resolve(targetSourceDir + _url);
                     target = target.split(path.sep).join('/');
                     
-                    if (fs.existsSync(target)) {
-                        if(typeof emitFile === 'function'){
+                    if(typeof emitFile === 'function'){
+                        if (fs.existsSync(target)) {
                             let outputPath = '';
                             if(options){
                                 outputPath = options.outputPath;
                             }
-
+    
                             let fileName = path.basename(target);
-
+    
                             outputPath += fileName;
                             let content = fs.readFileSync(target);
                             let assetInfo = { sourceFilename: target }
                             
                             emitFile(outputPath, content, null, assetInfo)
                             source = source.replace(url, "url(" + options.publicPath + '/' + fileName + ")");
+                        }  else {
+                            console.log("File not found: " + target);
+                            console.log("In: " + resourcePath);
+                            console.log(url);
+                            process.exit();
                         }
-                        else {
-                            source = source.replace(url, "url("+target+")");
-                            console.log('extractCssUrl: ', target);
-                        }
-                    }  else {
-                        console.log("File not found: " + target);
-                        console.log("In: " + resourcePath);
-                        console.log(url);
-                        process.exit();
+                    }
+                    else {
+                        source = source.replace(url, "url("+target+")");
                     }
                 }
             });

@@ -5,8 +5,6 @@
 const path = require('path');
 const fs = require('fs');
 const loaderUtils = require('loader-utils');
-const jsdom = require('jsdom');
-const $ = require('jquery')(new jsdom.JSDOM().window);
 const StringParser = require('./../string.parser');
 const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(__dirname))));
 const DS = path.sep;

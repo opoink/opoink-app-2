@@ -6,6 +6,8 @@ const path = require('path');
 const injection = require('./../../var/components.injection');
 const jsdom = require('jsdom');
 const $ = require('jquery')(new jsdom.JSDOM().window);
+const loaderUtils = require('loader-utils');
+var crypto = require('crypto');
 
 const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(__dirname))));
 const DS = path.sep;
@@ -21,8 +23,12 @@ var types = {
  * inititalize the injection of the template 
  * in DomDocument
  */
-function inject(el, name){
+function inject(el, name, resourcePath, addFileLocation){
     let newDom = $(el);
+    if(!addFileLocation){
+        newDom.attr("file_location", resourcePath);
+    }
+    addAttr(newDom)
     injection.forEach(com => {
         if(typeof com.inject_to != 'undefined'){
             com.inject_to.forEach(component => {
@@ -86,16 +92,42 @@ function inject(el, name){
     }
 }
 
+
+let componentAttr = 'opoink_';
+function getHashDir(content){
+    let shasum = crypto.createHash('sha1');
+    componentAttr = "opoink_" + shasum.update(content).digest('hex');
+}
+
+function addAttr(el){
+    el.attr(componentAttr, "");
+    let children = el.children();
+    if(children.length){
+        $.each(children, (key, val) => {
+            addAttr($(val));
+        })
+    }
+    return el[0].outerHTML;
+}
+
 async function parseElem(source, params){
     const {resourcePath} = params;
+    const options = loaderUtils.getOptions(this);
+
+    let addFileLocation = false;
+    if(typeof options.addFileLocation != "undefined"){
+        addFileLocation = options.addFileLocation
+    }
+
     let dirname = path.dirname(resourcePath);
     let extension = path.extname(resourcePath);
     let file = path.basename(resourcePath, extension);
 
-    let splitSourcePath = resourcePath.split(DS+'App'+DS+'Ext'+DS);
+    getHashDir(dirname);
 
+    let splitSourcePath = resourcePath.split(DS+'App'+DS+'Ext'+DS);
     if(splitSourcePath.length > 1){
-        let src = inject(source, file);
+        src = inject(source, file, resourcePath, addFileLocation);
         return src;
     } else {
         return source;
