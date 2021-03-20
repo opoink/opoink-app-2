@@ -7,57 +7,15 @@ const fs = require('fs');
 const loaderUtils = require('loader-utils');
 const jsdom = require('jsdom');
 const $ = require('jquery')(new jsdom.JSDOM().window);
-
+const StringParser = require('./../string.parser');
 const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(__dirname))));
 const DS = path.sep;
 
-function validURL(str) {
-    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-    return !!pattern.test(str);
-}
-
-function extractSrc(source, resourcePath){
-    let regex = /<img.*?>/ig;
-    let found = source.match(regex);
-    if(found){
-        found.forEach(element => {
-            let r = /src=("|').*?("|')/ig;
-            let find = element.match(r);
-
-            let newElement = '';
-            find.forEach(src => {
-                let _url = src.replace('src="', '').replace('src=\'', '');
-                _url = _url.replace('"', '').replace('\'');
-
-                let isValidUrl = validURL(_url);
-                if(!isValidUrl){
-                    let targetSourceDir = path.dirname(resourcePath)
-                    let target = path.resolve(targetSourceDir + _url);
-                    target = target.split(path.sep).join('/');
-                    if (fs.existsSync(target)) {
-                        newElement = element.replace(src, "src=\""+target+"\"");
-                        source = source.replace(element, newElement);
-                    }  else {
-                        console.log("File not found: " + target);
-                        console.log("In: " + resourcePath);
-                        console.log(element);
-                        process.exit();
-                    }
-                }
-            });
-        });
-        return source;
-    }
-}
+const stringParser = new StringParser();
 
 module.exports = async function(source) {
-    const opoinkWatcher = loaderUtils.getOptions(this);
-    let config = opoinkWatcher.watcher.config;
+    const options = loaderUtils.getOptions(this);
+    let config = options.watcher.config;
 
     if(typeof config['theme'] != 'undefined'){
         let tName = config['theme'];
@@ -67,9 +25,17 @@ module.exports = async function(source) {
 
         let targetFile = themRoot + resourcePath.replace(ROOT, '');
         if (fs.existsSync(targetFile)) {
-            opoinkWatcher.watcher.addFileToWatch(targetFile);
+            options.watcher.addFileToWatch(targetFile);
             source = fs.readFileSync(targetFile,'utf8');
-            source = extractSrc(source, targetFile);
+
+            /**
+             * we need to change the img src or a url()
+             * to b an absolute path because the resourcePath path
+             * is not changed, we only change the content of the
+             * source, but webpack was still watching for the orignal file
+             */
+            source = stringParser.extractImgSrc(source, targetFile);
+            source = stringParser.extractCssUrl(source, targetFile, options, this.emitFile);
         }
     }
     return source;

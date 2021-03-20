@@ -17,7 +17,7 @@ const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(__
 
 class WatchOpoinkThemeFiles {
     config = [];
-    filesToAddInWatch = [];
+    filesToAddInWatch = {};
 
     constructor(options = {}) {
         this.options = options
@@ -88,7 +88,8 @@ class WatchOpoinkThemeFiles {
     }
 
     addFileToWatch(target){
-        this.filesToAddInWatch.push(target);
+        let key = target.split(DS).join("_");
+        this.filesToAddInWatch[key] = target;
     }
 
     // Define `apply` as its prototype method which is supplied with compiler as its argument
@@ -116,13 +117,9 @@ class WatchOpoinkThemeFiles {
                         compilation.fileDependencies.add(file);
                     });
                 }
-                if(this.filesToAddInWatch.length > 0){
-                    this.filesToAddInWatch.forEach((file) => {
-                        compilation.fileDependencies.add(file);
-                    });
-                    console.log(this.filesToAddInWatch);
-                    // this.filesToAddInWatch = [];
-                }
+                Object.keys(this.filesToAddInWatch).forEach((key) => {
+                    compilation.fileDependencies.add(this.filesToAddInWatch[key]);
+                });
                 if (dirs.length > 0) {
                     contextDependencies.forEach((context) => {
                         compilation.contextDependencies.add(context);

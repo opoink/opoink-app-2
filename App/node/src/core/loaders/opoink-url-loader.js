@@ -21,8 +21,8 @@ let changeUrlString = function(source, resourcePath){
 
     if(found){
         found.forEach(url => {
-            let _url = url.replace('url("', '').replace('url(\'', '');
-            _url = _url.replace('")', '').replace('\')');
+            let _url = url.replace('url("', '').replace("url('", '');
+            _url = _url.replace('")', '').replace("')'");
 
             let isValidUrl = validURL(_url);
             if(!isValidUrl){

@@ -42,6 +42,12 @@ var config = (env) => {
         cleanBeforeEveryBuildPatterns: [path.resolve(__dirname, "./../../public/vuedist")]
     }));
 
+    let _outPut = {
+        path: path.resolve(__dirname, "./../../public/vuedist"),
+        filename: isProd ? 'js/[chunkhash].[name].bundle.js' : 'js/[name].bundle.js',
+        chunkFilename: isProd ? 'js/chunks/[chunkhash].[name].js' : 'js/chunks/[name].js'
+    }
+
     return {
         mode: mode,
         entry: './src/app.ts',
@@ -50,11 +56,7 @@ var config = (env) => {
             maxEntrypointSize: 4096000,
             maxAssetSize: 4096000
         },
-        output: {
-            path: path.resolve(__dirname, "./../../public/vuedist"),
-            filename: isProd ? 'js/[chunkhash].[name].bundle.js' : 'js/[name].bundle.js',
-            chunkFilename: isProd ? 'js/chunks/[chunkhash].[name].js' : 'js/chunks/[name].js'
-        },
+        output: _outPut,
         optimization: {
             splitChunks: {
                 cacheGroups: {
@@ -130,7 +132,9 @@ var config = (env) => {
                         {
                             loader: 'opoink-theme-loader',
                             options: {
-                                watcher: opoinkWatcher
+                                watcher: opoinkWatcher,
+                                outputPath: 'assets/images/',
+                                publicPath: '/public/vuedist/assets/images'
                             }
                         }
                     ] 
