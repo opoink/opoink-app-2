@@ -12,7 +12,7 @@ class ComponentAttrId {
      */
      componentCount = 0;
 
-    componentCountPrefix = 'opoink_vue_component_';
+    componentCountPrefix = 'opoink_vue_component';
 
     /**
      * @param {*} content 

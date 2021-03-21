@@ -8,7 +8,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const WatchOpoinkThemeFiles = require('./src/core/plugins/watch.opoink.theme.files')
+const WatchOpoinkThemeFiles = require('./src/core/plugins/watch.opoink.theme.files');
+const ComponentAttrId = require('./src/core/lib/component.attr.id');
+var componentAttrId = new ComponentAttrId();
 
 var config = (env) => {
 
@@ -86,7 +88,7 @@ var config = (env) => {
                 {
                     test: /\.s(a|c)ss$/,
                     use: [
-                        isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+                        MiniCssExtractPlugin.loader,
                         {
                             loader: 'css-loader',
                             options: {
@@ -99,7 +101,10 @@ var config = (env) => {
                             loader: 'postcss-loader'
                         },
                         {
-                            loader: 'opoink-css-loader'
+                            loader: 'opoink-css-loader',
+                            options: {
+                                componentAttrId: componentAttrId
+                            }
                         },
                         {
                             loader: 'sass-loader',
@@ -132,6 +137,7 @@ var config = (env) => {
                             loader: 'opoink-html',
                             options: {
                                 addFileLocation: isProd,
+                                componentAttrId: componentAttrId
                             }
                         },
                         {

@@ -11,20 +11,8 @@ const stringParser = new StringParser();
 module.exports = async function(source) {
     const options = loaderUtils.getOptions(this);
 
-    // let urlPath = '/public/vuedist/assets/images';
-    // let publicPath = '/public/vuedist/assets/images';
-
-    // if(typeof options != 'undefined'){
-    //     if(typeof options['urlPath'] != 'undefined'){
-    //         urlPath = options.urlPath;
-    //     }
-    //     if(typeof options['publicPath'] != 'undefined'){
-    //         publicPath = options.publicPath;
-    //     }
-    // }
-
     const {resourcePath} = this;
     source = stringParser.extractCssUrl(source, resourcePath);
-    stringParser.addCssComponentAttr(source, resourcePath);
+    source = stringParser.addCssComponentAttr(source, resourcePath, options.componentAttrId);
     return source;
 };

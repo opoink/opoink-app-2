@@ -68,24 +68,26 @@ class WatchOpoinkThemeFiles {
         });
     }
 
-    getChangedFiles(compiler) {
-        if (compiler.modifiedFiles) {
-            const changedFiles = Array.from(compiler.modifiedFiles, (file) => `\n  ${file}`).join('');
+    // getChangedFiles(compiler) {
+    //     if (compiler.modifiedFiles) {
+    //         const changedFiles = Array.from(compiler.modifiedFiles, (file) => `\n  ${file}`).join('');
 
-            if(typeof this.config['theme'] != 'undefined'){
-                let d = DS + 'App' + DS + 'theme' + DS + this.config['theme'];
-                let splitTarget = changedFiles.split(d);
-                if(splitTarget.length){
-                    let extDir = ROOT + DS + 'App';
-                    let targetFile = extDir + splitTarget[1];
-                    if (fs.existsSync(targetFile)) {
-                        let content = fs.readFileSync(targetFile,'utf8');
-                        fs.writeFileSync(targetFile, content);
-                    }
-                }
-            }
-        }
-    }
+    //         console.log(changedFiles);
+
+    //         if(typeof this.config['theme'] != 'undefined'){
+    //             let d = DS + 'App' + DS + 'theme' + DS + this.config['theme'];
+    //             let splitTarget = changedFiles.split(d);
+    //             if(splitTarget.length){
+    //                 let extDir = ROOT + DS + 'App';
+    //                 let targetFile = extDir + splitTarget[1];
+    //                 if (fs.existsSync(targetFile)) {
+    //                     let content = fs.readFileSync(targetFile,'utf8');
+    //                     fs.writeFileSync(targetFile, content);
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     addFileToWatch(target){
         let key = target.split(DS).join("_");
@@ -106,7 +108,7 @@ class WatchOpoinkThemeFiles {
             });
 
             compiler.hooks.afterCompile.tap('after-compile', (compilation) => {
-                this.getChangedFiles(compiler);
+                // this.getChangedFiles(compiler);
                 const {
                     fileDependencies,
                     contextDependencies,

@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const ComponentAttrId = require('./lib/component.attr.id');
-const componentAttrId = new ComponentAttrId();
+// const ComponentAttrId = require('./lib/component.attr.id');
+// const componentAttrId = new ComponentAttrId();
 
 const DS = path.sep;
 const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(__dirname))));
@@ -32,7 +32,7 @@ class StringParser {
      * @param {*} resourcePath 
      * @returns 
      */
-    extractImgSrc(source, resourcePath){
+    extractImgSrc(source, resourcePath, options=null, emitFile=null){
         let regex = /<img.*?>/ig;
         let found = source.match(regex);
         if(found){
@@ -51,7 +51,21 @@ class StringParser {
                         let target = path.resolve(targetSourceDir + _url);
                         target = target.split(path.sep).join('/');
                         if (fs.existsSync(target)) {
-                            newElement = element.replace(src, "src=\""+target+"\"");
+
+                            let _outputPath = '';
+                            if(options){
+                                _outputPath = options.outputPath;
+                            }
+    
+                            let fileName = path.basename(target);
+    
+                            _outputPath += fileName;
+                            let content = fs.readFileSync(target);
+                            let assetInfo = { sourceFilename: target }
+                            
+                            emitFile(_outputPath, content, null, assetInfo);
+
+                            newElement = element.replace(src, "src=\"" + target + "\"");
                             source = source.replace(element, newElement);
                         }  else {
                             console.log("File not found: " + target);
@@ -100,7 +114,7 @@ class StringParser {
                             let content = fs.readFileSync(target);
                             let assetInfo = { sourceFilename: target }
                             
-                            emitFile(outputPath, content, null, assetInfo)
+                            emitFile(outputPath, content, null, assetInfo);
                             source = source.replace(url, "url(" + options.publicPath + '/' + fileName + ")");
                         }  else {
                             console.log("File not found: " + target);
@@ -118,10 +132,11 @@ class StringParser {
         return source;
     }
 
-    addCssComponentAttr(source, resourcePath){
+    addCssComponentAttr(source, resourcePath, componentAttrId){
         let splitSourcePath = resourcePath.split(DS+'vue'+DS+'components'+DS);
 
         if(splitSourcePath.length > 1){
+            source = "\n"+source;
             let regex = /[(\r|\n)](.*?){[(\r|\n)]/ig;
             let found = source.match(regex);
             if(found){
@@ -130,13 +145,14 @@ class StringParser {
     
                     let dirname = path.dirname(resourcePath);
                     let cai = componentAttrId.getComponentAttrId(dirname);
-                    newSelector = newSelector.replace(/(\s){/gm, "["+cai.component_attr+"] {");
-                    console.log(newSelector);
+                    let attr = "[" + cai.component_value_prefix + "=\"" + cai.component_value +"\"]";
+                    newSelector = newSelector.replace(/(\s){/gm, attr + " {");
 
-                    /** change the select from souce */
+                    source = source.replace(selector, "\n"+newSelector+"\n");
                 });
             }
         }
+        return source;
     }
 }
 

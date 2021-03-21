@@ -7,9 +7,9 @@ const injection = require('./../../var/components.injection');
 const jsdom = require('jsdom');
 const $ = require('jquery')(new jsdom.JSDOM().window);
 const loaderUtils = require('loader-utils');
-const ComponentAttrId = require('./../lib/component.attr.id');
+// const ComponentAttrId = require('./../lib/component.attr.id');
 
-const componentAttrId = new ComponentAttrId();
+// const componentAttrId = new ComponentAttrId();
 
 const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(__dirname))));
 const DS = path.sep;
@@ -94,27 +94,29 @@ function inject(el, name, resourcePath, addFileLocation){
     }
 }
 
-
-let componentAttr = 'opoink_vue_component_';
-function getHashDir(content){
-    let cai = componentAttrId.getComponentAttrId(content);
-    componentAttr = cai.component_attr;
+var cai = {};
+function getHashDir(content, componentAttrId){
+    cai = componentAttrId.getComponentAttrId(content);
 }
 
 function addAttr(el){
-    el.attr(componentAttr, "");
-    let children = el.children();
-    if(children.length){
-        $.each(children, (key, val) => {
-            addAttr($(val));
-        })
+    let regex = /vue-/ig;
+    let found = el[0].nodeName.match(regex);
+    if(!found){
+        el.attr(cai.component_value_prefix, cai.component_value);
+        let children = el.children();
+        if(children.length){
+            $.each(children, (key, val) => {
+                addAttr($(val));
+            })
+        }
     }
     return el[0].outerHTML;
 }
 
 async function parseElem(source, params){
     const {resourcePath} = params;
-    const options = loaderUtils.getOptions(this);
+    const options = loaderUtils.getOptions(params);
 
     let addFileLocation = false;
     if(typeof options.addFileLocation != "undefined"){
@@ -125,7 +127,7 @@ async function parseElem(source, params){
     let extension = path.extname(resourcePath);
     let file = path.basename(resourcePath, extension);
 
-    getHashDir(dirname);
+    getHashDir(dirname, options.componentAttrId);
 
     let splitSourcePath = resourcePath.split(DS+'App'+DS+'Ext'+DS);
     if(splitSourcePath.length > 1){

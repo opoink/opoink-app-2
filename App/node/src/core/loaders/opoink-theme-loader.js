@@ -23,7 +23,12 @@ module.exports = async function(source) {
 
         let targetFile = themRoot + resourcePath.replace(ROOT, '');
         if (fs.existsSync(targetFile)) {
-            options.watcher.addFileToWatch(targetFile);
+            console.log(`Replace [${this.resourcePath}] -> [${targetFile}]`);
+            this.addDependency(targetFile);
+
+
+            /////////////////////////////////////////////////////////
+            // options.watcher.addFileToWatch(targetFile);
             source = fs.readFileSync(targetFile,'utf8');
 
             /**
@@ -32,7 +37,7 @@ module.exports = async function(source) {
              * is not changed, we only change the content of the
              * source, but webpack was still watching for the orignal file
              */
-            source = stringParser.extractImgSrc(source, targetFile);
+            source = stringParser.extractImgSrc(source, targetFile, options, this.emitFile);
             source = stringParser.extractCssUrl(source, targetFile, options, this.emitFile);
         }
     }
