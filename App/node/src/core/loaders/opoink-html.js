@@ -7,7 +7,9 @@ const injection = require('./../../var/components.injection');
 const jsdom = require('jsdom');
 const $ = require('jquery')(new jsdom.JSDOM().window);
 const loaderUtils = require('loader-utils');
-var crypto = require('crypto');
+const ComponentAttrId = require('./../lib/component.attr.id');
+
+const componentAttrId = new ComponentAttrId();
 
 const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(__dirname))));
 const DS = path.sep;
@@ -93,10 +95,10 @@ function inject(el, name, resourcePath, addFileLocation){
 }
 
 
-let componentAttr = 'opoink_';
+let componentAttr = 'opoink_vue_component_';
 function getHashDir(content){
-    let shasum = crypto.createHash('sha1');
-    componentAttr = "opoink_" + shasum.update(content).digest('hex');
+    let cai = componentAttrId.getComponentAttrId(content);
+    componentAttr = cai.component_attr;
 }
 
 function addAttr(el){

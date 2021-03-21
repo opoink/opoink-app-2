@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+const ComponentAttrId = require('./lib/component.attr.id');
+const componentAttrId = new ComponentAttrId();
+
 const DS = path.sep;
 const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(__dirname))));
 
@@ -113,6 +116,27 @@ class StringParser {
             });
         }
         return source;
+    }
+
+    addCssComponentAttr(source, resourcePath){
+        let splitSourcePath = resourcePath.split(DS+'vue'+DS+'components'+DS);
+
+        if(splitSourcePath.length > 1){
+            let regex = /[(\r|\n)](.*?){[(\r|\n)]/ig;
+            let found = source.match(regex);
+            if(found){
+                found.forEach(selector => { 
+                    let newSelector = selector.replace(/(\r\n|\n|\r)/gm, "");
+    
+                    let dirname = path.dirname(resourcePath);
+                    let cai = componentAttrId.getComponentAttrId(dirname);
+                    newSelector = newSelector.replace(/(\s){/gm, "["+cai.component_attr+"] {");
+                    console.log(newSelector);
+
+                    /** change the select from souce */
+                });
+            }
+        }
     }
 }
 

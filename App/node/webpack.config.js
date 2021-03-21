@@ -99,7 +99,7 @@ var config = (env) => {
                             loader: 'postcss-loader'
                         },
                         {
-                            loader: 'opoink-url-loader'
+                            loader: 'opoink-css-loader'
                         },
                         {
                             loader: 'sass-loader',
