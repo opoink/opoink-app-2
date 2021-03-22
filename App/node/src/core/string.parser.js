@@ -1,13 +1,22 @@
 const fs = require('fs');
 const path = require('path');
 
-// const ComponentAttrId = require('./lib/component.attr.id');
-// const componentAttrId = new ComponentAttrId();
-
 const DS = path.sep;
 const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(__dirname))));
 
 class StringParser {
+
+    watcher = null;
+
+    /**
+     * set the watcher so that we can use it whenever needed
+     * @param {*} watcher 
+     */
+    setWatcher(watcher){
+        if(!this.watcher){
+            this.watcher = watcher;
+        }
+    }
 
     /**
      * chaeck if the string is a valid url or not
@@ -24,6 +33,14 @@ class StringParser {
         return !!pattern.test(str);
     }
 
+    getImageSrc(){
+        return new Promise(resolve => {
+            setTimeout(f => {
+                resolve(true)
+            }, 10000)
+        })
+    }
+
     /**
      * this will extract img element and make the src
      * as an absolute path, in that case the file can be loadable
@@ -32,50 +49,38 @@ class StringParser {
      * @param {*} resourcePath 
      * @returns 
      */
-    extractImgSrc(source, resourcePath, options=null, emitFile=null){
+    async extractImgSrc(source, resourcePath){
         let regex = /<img.*?>/ig;
         let found = source.match(regex);
         if(found){
-            found.forEach(element => {
+            for (const element of found) {
                 let r = /src=("|').*?("|')/ig;
                 let find = element.match(r);
 
                 let newElement = '';
-                find.forEach(src => {
-                    let _url = src.replace('src="', '').replace('src=\'', '');
-                    _url = _url.replace('"', '').replace('\'');
+                if(find){
+                    for (const src of find) {
+                        let _url = src.replace('src="', '').replace('src=\'', '');
+                        _url = _url.replace('"', '').replace('\'');
 
-                    let isValidUrl = this.validURL(_url);
-                    if(!isValidUrl){
-                        let targetSourceDir = path.dirname(resourcePath)
-                        let target = path.resolve(targetSourceDir + _url);
-                        target = target.split(path.sep).join('/');
-                        if (fs.existsSync(target)) {
-
-                            let _outputPath = '';
-                            if(options){
-                                _outputPath = options.outputPath;
+                        let isValidUrl = this.validURL(_url);
+                        if(!isValidUrl){
+                            let targetSourceDir = path.dirname(resourcePath)
+                            let target = path.resolve(targetSourceDir + _url);
+                            target = target.split(path.sep).join('/');
+                            if (fs.existsSync(target)) {
+                                newElement = element.replace(src, "src=\"" + target + "\"");
+                                source = source.replace(element, newElement);
+                            }  else {
+                                console.log("File not found: " + target);
+                                console.log("In: " + resourcePath);
+                                console.log(element);
+                                process.exit();
                             }
-    
-                            let fileName = path.basename(target);
-    
-                            _outputPath += fileName;
-                            let content = fs.readFileSync(target);
-                            let assetInfo = { sourceFilename: target }
-                            
-                            emitFile(_outputPath, content, null, assetInfo);
-
-                            newElement = element.replace(src, "src=\"" + target + "\"");
-                            source = source.replace(element, newElement);
-                        }  else {
-                            console.log("File not found: " + target);
-                            console.log("In: " + resourcePath);
-                            console.log(element);
-                            process.exit();
                         }
                     }
-                });
-            });
+                }
+            }
         }
         return source;
     }
@@ -91,6 +96,43 @@ class StringParser {
         let found = source.match(regex);
     
         if(found){
+            for (const url of found) {
+                let _url = url.replace('url("', '').replace("url('", '');
+                _url = _url.replace('")', '').replace("')", "");
+                let isValidUrl = this.validURL(_url);
+                if(!isValidUrl){
+                    let targetSourceDir = path.dirname(resourcePath);
+                    let target = path.resolve(targetSourceDir + _url);
+                    target = target.split(path.sep).join('/');
+                    
+                    if(typeof emitFile === 'function'){
+                        if (fs.existsSync(target)) {
+                            let outputPath = '';
+                            if(options){
+                                outputPath = options.outputPath;
+                            }
+    
+                            let fileName = path.basename(target);
+    
+                            outputPath += fileName;
+                            let content = fs.readFileSync(target);
+                            let assetInfo = { sourceFilename: target }
+                            
+                            emitFile(outputPath, content, null, assetInfo);
+                            source = source.replace(url, "url(" + options.publicPath + '/' + fileName + ")");
+                        }  else {
+                            console.log("File not found: " + target);
+                            console.log("In: " + resourcePath);
+                            console.log(url);
+                            process.exit();
+                        }
+                    }
+                    else {
+                        source = source.replace(url, "url("+target+")");
+                    }
+                }
+            }
+            /*
             found.forEach(url => { 
                 let _url = url.replace('url("', '').replace("url('", '');
                 _url = _url.replace('")', '').replace("')", "");
@@ -128,6 +170,7 @@ class StringParser {
                     }
                 }
             });
+            */
         }
         return source;
     }

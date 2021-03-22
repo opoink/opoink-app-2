@@ -20,7 +20,8 @@ var config = (env) => {
 
     let opoinkWatcher = new WatchOpoinkThemeFiles({
         files: [],
-        dirs: []
+        dirs: [],
+        publicPath: path.resolve(__dirname, "./../../public/vuedist")
     })
 
     plugins.push(opoinkWatcher);
@@ -41,7 +42,9 @@ var config = (env) => {
     plugins.push(new CleanWebpackPlugin({
         dry: false,
         dangerouslyAllowCleanPatternsOutsideProject: true,
-        cleanBeforeEveryBuildPatterns: [path.resolve(__dirname, "./../../public/vuedist")]
+        cleanBeforeEveryBuildPatterns: [path.resolve(__dirname, "./../../public/vuedist")],
+        cleanStaleWebpackAssets: false,
+        protectWebpackAssets: true
     }));
 
     let _outPut = {
@@ -101,15 +104,15 @@ var config = (env) => {
                             loader: 'postcss-loader'
                         },
                         {
-                            loader: 'opoink-css-loader',
-                            options: {
-                                componentAttrId: componentAttrId
-                            }
-                        },
-                        {
                             loader: 'sass-loader',
                             options: {
                                 sourceMap: isProd
+                            }
+                        },
+                        {
+                            loader: 'opoink-css-loader',
+                            options: {
+                                componentAttrId: componentAttrId
                             }
                         }
                     ]
@@ -141,7 +144,7 @@ var config = (env) => {
                             }
                         },
                         {
-                            loader: 'opoink-theme-loader',
+                            loader: 'opoink-html-theme-loader',
                             options: {
                                 watcher: opoinkWatcher,
                                 outputPath: 'assets/images/',

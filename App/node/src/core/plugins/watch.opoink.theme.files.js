@@ -17,7 +17,8 @@ const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(__
 
 class WatchOpoinkThemeFiles {
     config = [];
-    filesToAddInWatch = {};
+    // filesToAddInWatch = {};
+    // assetsToEmit = {};
 
     constructor(options = {}) {
         this.options = options
@@ -89,14 +90,9 @@ class WatchOpoinkThemeFiles {
     //     }
     // }
 
-    addFileToWatch(target){
-        let key = target.split(DS).join("_");
-        this.filesToAddInWatch[key] = target;
-    }
-
     // Define `apply` as its prototype method which is supplied with compiler as its argument
     apply(compiler) {
-        let { files, dirs } = this.options;
+        let { files, dirs, publicPath } = this.options;
         const { cwd } = this.options;
         files = typeof files === 'string' ? [files] : files;
         dirs = typeof dirs === 'string' ? [dirs] : dirs;
@@ -104,29 +100,25 @@ class WatchOpoinkThemeFiles {
         this.getConfig();
         
         if (compiler.hooks) {
-            compiler.hooks.beforeCompile.tap('before-compile', (compilation) => {
-            });
-
             compiler.hooks.afterCompile.tap('after-compile', (compilation) => {
-                // this.getChangedFiles(compiler);
                 const {
                     fileDependencies,
                     contextDependencies,
                 } = this.getFileAndContextDeps(compilation, files, dirs, cwd);
 
-                if (files.length > 0) {
-                    fileDependencies.forEach((file) => {
-                        compilation.fileDependencies.add(file);
-                    });
-                }
-                Object.keys(this.filesToAddInWatch).forEach((key) => {
-                    compilation.fileDependencies.add(this.filesToAddInWatch[key]);
-                });
-                if (dirs.length > 0) {
-                    contextDependencies.forEach((context) => {
-                        compilation.contextDependencies.add(context);
-                    });
-                }
+                // if (files.length > 0) {
+                //     fileDependencies.forEach((file) => {
+                //         compilation.fileDependencies.add(file);
+                //     });
+                // }
+                // Object.keys(this.filesToAddInWatch).forEach((key) => {
+                //     compilation.fileDependencies.add(this.filesToAddInWatch[key]);
+                // });
+                // if (dirs.length > 0) {
+                //     contextDependencies.forEach((context) => {
+                //         compilation.contextDependencies.add(context);
+                //     });
+                // }
             });
         }
     }

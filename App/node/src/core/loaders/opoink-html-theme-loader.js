@@ -25,19 +25,14 @@ module.exports = async function(source) {
         if (fs.existsSync(targetFile)) {
             console.log(`Replace [${this.resourcePath}] -> [${targetFile}]`);
             this.addDependency(targetFile);
-
-
-            /////////////////////////////////////////////////////////
-            // options.watcher.addFileToWatch(targetFile);
             source = fs.readFileSync(targetFile,'utf8');
-
             /**
              * we need to change the img src or a url()
              * to b an absolute path because the resourcePath path
              * is not changed, we only change the content of the
              * source, but webpack was still watching for the orignal file
              */
-            source = stringParser.extractImgSrc(source, targetFile, options, this.emitFile);
+            source = await stringParser.extractImgSrc(source, targetFile);
             source = stringParser.extractCssUrl(source, targetFile, options, this.emitFile);
         }
     }
