@@ -86,7 +86,10 @@ var config = (env) => {
         },
         module: {
             rules: [
-                { test: /\.ts$/, use: 'ts-loader' },
+                { 
+                    test: /\.ts$/, 
+                    use: ['ts-loader']
+                },
                 { test: /\.js$/, use: 'babel-loader' },
                 {
                     test: /\.s(a|c)ss$/,
@@ -110,9 +113,10 @@ var config = (env) => {
                             }
                         },
                         {
-                            loader: 'opoink-css-loader',
+                            loader: 'opoink-css-theme-loader',
                             options: {
-                                componentAttrId: componentAttrId
+                                componentAttrId: componentAttrId,
+                                watcher: opoinkWatcher
                             }
                         }
                     ]
