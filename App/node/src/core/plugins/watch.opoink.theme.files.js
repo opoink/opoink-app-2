@@ -17,6 +17,7 @@ const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(__
 
 class WatchOpoinkThemeFiles {
     config = [];
+    opoinkModule = null;
     // filesToAddInWatch = {};
     // assetsToEmit = {};
 
@@ -100,6 +101,14 @@ class WatchOpoinkThemeFiles {
         this.getConfig();
         
         if (compiler.hooks) {
+            compiler.hooks.beforeCompile.tapAsync('BeforeCompile', (params, callback) => {
+                if(!this.opoinkModule){
+                    this.opoinkModule = require('./../opoink.module');
+                    this.opoinkModule().then(res => {
+                    });
+                }
+                callback();
+            });
             compiler.hooks.afterCompile.tap('after-compile', (compilation) => {
                 const {
                     fileDependencies,

@@ -24,13 +24,17 @@ class StringParser {
      * @returns 
      */
     validURL(str) {
-        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-          '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-        return !!pattern.test(str);
+        // var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+        //   '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+        //   '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+        //   '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+        //   '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+        //   '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+
+        //var pattern = new RegExp('^((https?):\/\/)?([w|W]{3}\.)+[a-zA-Z0-9\-\.]{3,}\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$')
+        //return !!pattern.test(str);
+        return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(str);
+        
     }
 
     getImageSrc(){
@@ -132,45 +136,6 @@ class StringParser {
                     }
                 }
             }
-            /*
-            found.forEach(url => { 
-                let _url = url.replace('url("', '').replace("url('", '');
-                _url = _url.replace('")', '').replace("')", "");
-    
-                let isValidUrl = this.validURL(_url);
-                if(!isValidUrl){
-                    let targetSourceDir = path.dirname(resourcePath);
-                    let target = path.resolve(targetSourceDir + _url);
-                    target = target.split(path.sep).join('/');
-                    
-                    if(typeof emitFile === 'function'){
-                        if (fs.existsSync(target)) {
-                            let outputPath = '';
-                            if(options){
-                                outputPath = options.outputPath;
-                            }
-    
-                            let fileName = path.basename(target);
-    
-                            outputPath += fileName;
-                            let content = fs.readFileSync(target);
-                            let assetInfo = { sourceFilename: target }
-                            
-                            emitFile(outputPath, content, null, assetInfo);
-                            source = source.replace(url, "url(" + options.publicPath + '/' + fileName + ")");
-                        }  else {
-                            console.log("File not found: " + target);
-                            console.log("In: " + resourcePath);
-                            console.log(url);
-                            process.exit();
-                        }
-                    }
-                    else {
-                        source = source.replace(url, "url("+target+")");
-                    }
-                }
-            });
-            */
         }
         return source;
     }
@@ -179,20 +144,31 @@ class StringParser {
         let splitSourcePath = resourcePath.split(DS+'vue'+DS+'components'+DS);
 
         if(splitSourcePath.length > 1){
-            source = "\n"+source;
-            let regex = /[(\r|\n)](.*?){[(\r|\n)]/ig;
-            let found = source.match(regex);
-            if(found){
-                found.forEach(selector => { 
-                    let newSelector = selector.replace(/(\r\n|\n|\r)/gm, "");
-    
-                    let dirname = path.dirname(resourcePath);
-                    let cai = componentAttrId.getComponentAttrId(dirname);
-                    let attr = "[" + cai.component_value_prefix + "=\"" + cai.component_value +"\"]";
-                    newSelector = newSelector.replace(/(\s){/gm, attr + " {");
+                
 
-                    source = source.replace(selector, "\n"+newSelector+"\n");
-                });
+            let hashDirPath = componentAttrId.getHashDir(resourcePath);
+            if(typeof componentAttrId.components[hashDirPath] == 'undefined'){
+                source = "\n"+source;
+                // let regex = /[(\r|\n)](\.|#)(.*?){[(\r|\n)]/ig;
+                let regex = /[\#\.\w\-\,\s\n\r\t:]+(?=\s*\{)/ig;
+                let found = source.match(regex);
+
+                if(found){
+                    found.forEach(selector => { 
+                        
+                        let newSelector = selector.replace(/(\r\n|\n|\r)/gm, "");
+
+                        if(newSelector && newSelector.trim()){
+                            let dirname = path.dirname(resourcePath);
+                            let cai = componentAttrId.getComponentAttrId(dirname);
+                            let attr = "[" + cai.component_value_prefix + "=\"" + cai.component_value +"\"]";
+                            newSelector = selector.trim() + attr;
+    
+                            // newSelector = newSelector.replace(/(\s){/gm, attr + " {");
+                            source = source.replace(selector, "\n"+newSelector+" ");
+                        }
+                    });
+                }
             }
         }
         return source;

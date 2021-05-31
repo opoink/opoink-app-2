@@ -22,15 +22,12 @@ var config = (env) => {
         files: [],
         dirs: [],
         publicPath: path.resolve(__dirname, "./../../public/vuedist")
-    })
-
-    plugins.push(opoinkWatcher);
+    });
 
     plugins.push(new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery'
+        $: path.resolve(__dirname, "./node_modules/jquery"),
+        jQuery: path.resolve(__dirname, "./node_modules/jquery")
     }));
-    
     plugins.push(new HtmlWebpackPlugin({
         inject: 'body',
         template: './src/index.html',
@@ -46,6 +43,7 @@ var config = (env) => {
         cleanStaleWebpackAssets: false,
         protectWebpackAssets: true
     }));
+    plugins.push(opoinkWatcher);
 
     let _outPut = {
         path: path.resolve(__dirname, "./../../public/vuedist"),
@@ -107,6 +105,13 @@ var config = (env) => {
                             loader: 'postcss-loader'
                         },
                         {
+                            loader: 'opoink-css-modules-loader',
+                            options: {
+                                watcher: opoinkWatcher,
+                                componentAttrId: componentAttrId
+                            }
+                        },
+                        {
                             loader: 'sass-loader',
                             options: {
                                 sourceMap: isProd
@@ -115,7 +120,6 @@ var config = (env) => {
                         {
                             loader: 'opoink-css-theme-loader',
                             options: {
-                                componentAttrId: componentAttrId,
                                 watcher: opoinkWatcher
                             }
                         }
@@ -125,7 +129,7 @@ var config = (env) => {
                 {
                     test: /bootstrap\.min\.css$/,
                     use: [
-                        isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+                        MiniCssExtractPlugin.loader,
                         {
                             loader: 'css-loader',
                             options: {
@@ -171,7 +175,7 @@ var config = (env) => {
                     ]
                 },
                 {
-                    test: /\.(eot|woff|ttf)$/i,
+                    test: /\.(eot|woff|woff2|ttf)$/i,
                     use: [
                         {
                             loader: 'file-loader',

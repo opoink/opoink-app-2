@@ -38,7 +38,7 @@ function inject(el, name, resourcePath, addFileLocation){
                 let ComName = component.component_name;
 
                 if(ComName == name){
-                    let eltag = '<'+com.component_name+'></'+com.component_name+'>';
+                    let eltag = '<vue-'+com.component_name+'></vue-'+com.component_name+'>';
                     let type  = 'append';
                     if(typeof component.inject_type != 'undefined'){
                         type  = component.inject_type;

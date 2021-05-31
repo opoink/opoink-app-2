@@ -15,7 +15,6 @@ module.exports = async function(source) {
     let config = options.watcher.config;
 
     const {resourcePath} = this;
-    let _resourcePath = resourcePath;
     if(typeof config['theme'] != 'undefined'){
         let tName = config['theme'];
         let themRoot = ROOT + DS + 'theme' + DS + tName;
@@ -24,18 +23,7 @@ module.exports = async function(source) {
             console.log(`Replace [${this.resourcePath}] -> [${targetFile}]`);
             this.addDependency(targetFile);
             source = fs.readFileSync(targetFile,'utf8');
-
-            /**
-             * we need to change the url()
-             * to b an absolute path because the resourcePath path
-             * is not changed, we only change the content of the
-             * source, but webpack was still watching for the orignal file
-             */
-            _resourcePath = targetFile;
         }
     }
-
-    source = stringParser.extractCssUrl(source, _resourcePath);
-    source = stringParser.addCssComponentAttr(source, resourcePath, options.componentAttrId);
     return source;
 };
