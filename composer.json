@@ -13,9 +13,7 @@
     },
     "require": {
         "php": ">=7.3.0",
-		"opoink/framework": ">1.2.6",
-        "opoink/template": "dev-main",
-        "opoink/cli": "dev-main"
+		"opoink/framework": ">1.2.6"
     },
     "authors": [
         {
