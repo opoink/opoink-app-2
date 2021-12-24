@@ -56,7 +56,15 @@ class Modal {
                     el: modalElId
                 });
 
-                $(modalElId).modal('show');
+				if(typeof options['modal_options'] != 'undefined'){
+					$(modalElId).modal(options['modal_options']);
+				} else {
+					$(modalElId).modal({
+						backdrop: 'static',
+						keyboard: false
+					});
+				}
+				
                 $(modalElId).on('show.bs.modal', () => {
         
                 });
