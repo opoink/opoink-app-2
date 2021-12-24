@@ -25,9 +25,21 @@ class Modal {
             attr = options['attributes'];
         }
 
+		let mdAddClass = '';
+		if(typeof options['modal_dialog_class'] != 'undefined'){
+			mdAddClass += options['modal_dialog_class'];
+		}
+		let mdAddId = '';
+		if(typeof options['modal_dialog_id'] != 'undefined'){
+			mdAddId += options['modal_dialog_id'];
+		}
+		if(mdAddId){
+			mdAddId = 'id="'+mdAddId+'"';
+		}
+
         $('body').append(`
             <div id="`+modalId+`" `+attr+`>
-                <div class="modal-dialog" role="document">
+                <div `+mdAddId+` class="modal-dialog `+mdAddClass+`" role="document">
                     <div class="modal-content">
                         <`+name+`></`+name+`>
                     </div>
