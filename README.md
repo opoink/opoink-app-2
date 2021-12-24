@@ -91,3 +91,34 @@ vue.routes.ts under your Vendor/Module dir
     routes.forEach(route => {
         VRouter.addRoute(route);
     });
+    
+ 
+Bootsrap Modal Popup
+-------
+    import Modal from './../../../../../../../../node/src/core/lib/bootsrap/modal';
+    import LoginComponent from './../../modals/Login/Login.component';
+
+    class HomePage {
+
+        constructor(
+            public modal:any = new Modal()
+        ){}
+
+        openLoginModal(){
+            this.modal.openModal({
+                component: LoginComponent,
+                modal_dialog_id: 'login-modal',
+                modal_dialog_class: 'modal-dialog-centered',
+                attributes: 'class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true"',
+                modal_options: {
+                    backdrop: 'static',
+                    keyboard: true
+                }
+            });
+            this.modal.onClose = () => {
+                console.log('the modal is closing');
+            }
+        }
+    }
+
+    export default new HomePage();
