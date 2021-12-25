@@ -65,15 +65,26 @@ class Modal {
 					});
 				}
 				
-                $(modalElId).on('show.bs.modal', () => {
-        
-                });
-                $(modalElId).on('hidden.bs.modal', () => {
-                    $(modalElId).remove();
-                    if(typeof this.onClose == 'function'){
-                        this.onClose();
-                    }
-                });
+				try {
+
+					let componentService = options['component']['extendOptions'].data().vue;
+					if(typeof componentService.init == 'function'){
+						componentService.init();
+					}
+					if(typeof this.onClose == 'function'){
+						componentService.onModalClose = this.onClose;
+					}
+
+					$(modalElId).on('show.bs.modal', () => {
+	
+					});
+					$(modalElId).on('hidden.bs.modal', () => {
+						$(modalElId).remove();
+					});
+				}
+				catch(err) {
+					console.log(err);
+				}
 
                 clearInterval(interval);
             }
