@@ -68,6 +68,8 @@ class Modal {
 				try {
 
 					let componentService = options['component']['extendOptions'].data().vue;
+					
+					componentService['modalElId'] = modalElId;
 					if(typeof componentService.init == 'function'){
 						componentService.init();
 					}
