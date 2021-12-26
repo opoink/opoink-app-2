@@ -125,7 +125,6 @@ var config = (env) => {
                         }
                     ]
                 },
-                
                 {
                     test: /bootstrap\.min\.css$/,
                     use: [
@@ -183,6 +182,18 @@ var config = (env) => {
                                 name: '[name].[ext]',
                                 outputPath: 'assets/fonts/icon',
                                 publicPath: '/public/vuedist/assets/fonts/icon'
+                            }
+                        }
+                    ]
+                },
+                {
+                    test: /environment\.ts$/,
+                    use: [
+                        {
+                            loader: 'opoink-file-replace-loader',
+                            options: {
+                                isProd: isProd,
+                                replacement_name: 'environment.prod.ts'
                             }
                         }
                     ]
