@@ -162,8 +162,23 @@ class StringParser {
                             let dirname = path.dirname(resourcePath);
                             let cai = componentAttrId.getComponentAttrId(dirname);
                             let attr = "[" + cai.component_value_prefix + "=\"" + cai.component_value +"\"]";
-                            newSelector = selector.trim() + attr;
-    
+
+							let _selectors = selector.split(',');
+							_selectors.forEach((_selector, _selectorKey) => {
+								_selector = _selector.trim().replace(/(\r\n|\n|\r)/gm, "");
+
+								let _selectorItems = _selector.split(' ');
+								_selectorItems.forEach((siValue, siKey) => {
+									siValue = siValue.split(':');
+									siValue[0] = siValue[0] + attr;
+									siValue = siValue.join(':');
+									_selectorItems[siKey] = siValue;
+								});
+								_selectors[_selectorKey] = _selectorItems.join(' ');
+							});
+							_selectors = _selectors.join(', ');
+                            newSelector = _selectors;
+                            // newSelector = selector.trim() + attr;
                             // newSelector = newSelector.replace(/(\s){/gm, attr + " {");
                             source = source.replace(selector, "\n"+newSelector+" ");
                         }
