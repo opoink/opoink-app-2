@@ -1,6 +1,8 @@
 /*!
 * Copyright 2021 Opoink Framework (http://opoink.com/)
 * Licensed under MIT, see LICENSE.md
+*
+* this is used in watch.opoink.theme.files.js
 */
 const path = require('path');
 const DS = path.sep;
@@ -33,6 +35,20 @@ function getCss(){
             } else {
                 let css = JSON.parse(stdout);
                 resolve(css);
+            }
+        });
+    })
+}
+
+function geFile(phpFile){
+    return new Promise(resolve => {
+        _execPHP.parseFile(path.resolve('./src/php/' + phpFile), 
+        function(error, stdout, stderr){
+            if(error){
+                throw new Error(error);
+            } else {
+                let content = JSON.parse(stdout);
+                resolve(content);
             }
         });
     })
@@ -89,6 +105,7 @@ async function init() {
 
     let vueComponentPath = './src/var/vue.components.ts';
     let vueComponentInjPath = './src/var/components.injection.js';
+    let moduleLangPath = './src/var/languages.json';
 
     if(fs.existsSync(vueComponentPath)){
         // fs.unlinkSync(vueComponentPath);
@@ -103,7 +120,12 @@ async function init() {
     if(VueComs){
         let content = "import Vue from './../../node_modules/vue/dist/vue.min';\n";
         content += "import VRouter from './../core/VueRouter';\n";
+		content += "import LangService from './../core/lib/std/LangService';\n";
         content += "Vue.use(VRouter.VueRouter);\n\n";
+
+		content += "Vue.filter('lang', function (key:string, language:string, values:any = null) {\n";
+		content += "\treturn LangService.getLang(key, language, values);\n";
+		content += "});\n\n";
 
         content += "const router = VRouter.vueRouter;\n\n";
 
@@ -151,6 +173,15 @@ async function init() {
         content += "module.exports = injection;\n";
 
         fs.writeFileSync(vueComponentInjPath, content);
+
+		/** ================================================================== */
+		/** ================================================================== */
+		/** ==================== languages ===================== */
+		/** ================================================================== */
+		/** ================================================================== */
+		let langContent = await geFile('lang.php');
+		langContent = JSON.stringify(langContent);
+		fs.writeFileSync(moduleLangPath, langContent);
     } else {
         console.log('There was no installed module found. Please login to the Opoink system UI and install your module.');
         process.exit();
