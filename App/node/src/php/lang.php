@@ -40,7 +40,7 @@ if(isset($config['modules'])){
 							$fileContents = json_decode($fileContents, true);
 	
 							if(array_key_exists($fName, $Files)){
-								$Files['en'] = array_merge($Files['en'], $fileContents);
+								$Files[$fName] = array_merge($Files[$fName], $fileContents);
 							} else {
 								$Files[$fName] = $fileContents;
 							}
