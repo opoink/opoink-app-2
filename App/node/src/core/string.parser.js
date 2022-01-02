@@ -150,7 +150,7 @@ class StringParser {
             if(typeof componentAttrId.components[hashDirPath] == 'undefined'){
                 source = "\n"+source;
                 // let regex = /[(\r|\n)](\.|#)(.*?){[(\r|\n)]/ig;
-                let regex = /[\#\.\w\-\,\s\n\r\t:]+(?=\s*\{)/ig;
+                let regex = /[\#\.\w\-\,\+\~\>\s\n\r\t:]+(?=\s*\{)/ig;
                 let found = source.match(regex);
 
                 if(found){
@@ -170,7 +170,10 @@ class StringParser {
 								let _selectorItems = _selector.split(' ');
 								_selectorItems.forEach((siValue, siKey) => {
 									siValue = siValue.split(':');
-									siValue[0] = siValue[0] + attr;
+									let cssSymbols = ['~', '+', '>'];
+									if(cssSymbols.indexOf(siValue[0]) == -1){
+										siValue[0] = siValue[0] + attr;
+									}
 									siValue = siValue.join(':');
 									_selectorItems[siKey] = siValue;
 								});
