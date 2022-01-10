@@ -1,4 +1,5 @@
 import VueRouter from './../../node_modules/vue-router/dist/vue-router.min';
+import * as $ from './../../node_modules/jquery';
 
 class VRouter {
 
@@ -62,6 +63,22 @@ class VRouter {
             this.vueRouter.push(path);
         }
     }
+
+	/**
+	 * build url query params
+	 * @param param key value pair
+	 */
+	buildQuery(param:object){
+		let urlParam:any = [];
+		$.each(param, (key, value) => {
+			if(!value){
+				value = '';
+			}
+			urlParam.push(key + '=' + value);
+		});
+		urlParam = urlParam.join('&');
+		return urlParam;
+	}
 }
 
 export default new VRouter();
