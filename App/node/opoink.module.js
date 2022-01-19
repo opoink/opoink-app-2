@@ -8,20 +8,20 @@ const path = require('path');
 const DS = path.sep;
 const ROOT = path.dirname(path.dirname(__dirname));
 const fs = require('fs');
-const execPhp = require('exec-php');
+// const execPhp = require('exec-php');
 const _execPHP = require('./src/php/php.exec.js')();
 
 
 function getConfig() {
     return new Promise(resolve => {
-        execPhp('./src/php/config.php', (error, php, outprint) => {
-            php.config((error, result) => {
-                if(error){
-                    throw new Error('System config not found.');
-                } else {
-                    resolve(result)
-                }
-            });
+		_execPHP.parseFile(path.resolve('./src/php/config.php'), 
+        function(error, stdout, stderr){
+            if(error){
+                throw new Error('System config not found.');
+            } else {
+                let cfg = JSON.parse(stdout);
+                resolve(cfg);
+            }
         });
     });
 }
