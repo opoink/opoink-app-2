@@ -82,5 +82,11 @@ class UserSession extends \Of\Session\Session {
 			$this->_url->redirect('/login');
 		}
 	}
+
+	public function logout(){
+		$this->unsetData('admin_user');
+		$this->destroy();
+		$this->_url->redirect('/login');
+	}
 }
 ?>

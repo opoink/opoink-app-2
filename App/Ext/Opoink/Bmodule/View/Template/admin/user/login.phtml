@@ -19,14 +19,14 @@
 	<div class="login-box-header mt-5">
 		<form v-on:submit="login($event)" action="" method="POST">
 			<div class="mb-3">
-				<label for="admin-login-email" class="form-label">Email address</label>
+				<label for="admin-login-email" class="form-label"><?= $this->_lang->_getLang('Email address'); ?></label>
 				<input type="email" class="form-control" id="admin-login-email" aria-describedby="emailHelp" v-model="formData.email">
 				<template v-if="formError.email">
 					<small class="text-danger" v-for="error in formError.email">{{error}}</small>
 				</template>
 			</div>
 			<div class="mb-3">
-				<label for="admin-login-password" class="form-label">Password</label>
+				<label for="admin-login-password" class="form-label"><?= $this->_lang->_getLang('Password'); ?></label>
 				<input type="password" class="form-control" id="admin-login-password" v-model="formData.password">
 				<template v-if="formError.password">
 					<small class="text-danger" v-for="error in formError.password">{{error}}</small>
@@ -34,14 +34,14 @@
 			</div>
 
 			<div class="mb-5">
-				<a href="<?= $this->getAdminUrl('/forgotpassword') ?>">Forgot your password?</a>
+				<a href="<?= $this->getAdminUrl('/forgotpassword') ?>"><?= $this->_lang->_getLang('Forgot your password?'); ?></a>
 			</div>
 			
 			<div class="mb-3" v-if="loginErrorMessage">
 				<small class="text-danger">{{loginErrorMessage}}</small>
 			</div>
 
-			<button type="submit" class="btn btn-primary w-100">Submit</button>
+			<button type="submit" class="btn btn-primary w-100"><?= $this->_lang->_getLang('Login'); ?></button>
 		</form>
 	</div>
 

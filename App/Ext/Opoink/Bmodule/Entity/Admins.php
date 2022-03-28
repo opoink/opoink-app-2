@@ -1,4 +1,8 @@
 <?php
+/**
+* Copyright 2022 Opoink Framework (http://opoink.com/)
+* Licensed under MIT, see LICENSE.md
+*/
 namespace Opoink\Bmodule\Entity;
 
 class Admins extends \Of\Database\Entity {

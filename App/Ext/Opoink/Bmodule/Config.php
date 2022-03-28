@@ -24,6 +24,7 @@ return array (
     ),
     'admin_login_index_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Login\\Index\\Index',
     'admin_languages_setlang_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Languages\\Setlang\\Index',
+    'admin_logout_index_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Logout\\Index\\Index',
   ),
 )
 ?>
