@@ -10,8 +10,7 @@ const uniq = require('lodash.uniq');
 const isGlob = require('is-glob');
 const glob = require('glob');
 const fs = require('fs');
-const _execPHP = require('./../../php/php.exec')();
-
+const execPhp = require('exec-php');
 const DS = path.sep;
 const ROOT = path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(__dirname)))));
 
@@ -58,15 +57,16 @@ class WatchOpoinkThemeFiles {
 
     getConfig() {
         return new Promise(resolve => {
-			_execPHP.parseFile(path.resolve('./src/php/config.php'), 
-			(error, stdout, stderr) => {
-				if(error){
-					throw new Error('System config not found.');
-				} else {
-					this.config = JSON.parse(stdout);
-					resolve(this.config);
-				}
-			});
+            execPhp('./../../php/config.php', (error, php, outprint) => {
+                php.config((error, result) => {
+                    if(error){
+                        throw new Error('System config not found.');
+                    } else {
+                        this.config = result;
+                        resolve(result)
+                    }
+                });
+            });
         });
     }
 

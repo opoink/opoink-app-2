@@ -1,7 +1,6 @@
 /App/Ext/*/
 /App/Theme/*/
-/App/node/package-lock.json
-/App/node/node_modules
+/App/node/node_modules/*/
 /App/node/src/var/*
 /Var/*/
 /etc/*
