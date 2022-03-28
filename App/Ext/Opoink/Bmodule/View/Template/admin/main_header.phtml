@@ -29,11 +29,11 @@
 						<a class="nav-link dropdown-toggle" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Language
 						</a>
-						<div class="dropdown-menu dropdown-menu-end me-2" aria-labelledby="header-admin-user-dropdown">
-							<a class="dropdown-item" href="<?= $this->getAdminUrl('language') ?>">
+						<div class="dropdown-menu" aria-labelledby="header-admin-user-dropdown">
+							<a class="dropdown-item" href="<?= $this->getAdminUrl('languages/setlang', ['lang' => 'en']) ?>">
 								en
 							</a>
-							<a class="dropdown-item" href="<?= $this->getAdminUrl('language') ?>">
+							<a class="dropdown-item" href="<?= $this->getAdminUrl('languages/setlang', ['lang' => 'tgl']) ?>">
 								tgl
 							</a>
 						</div>

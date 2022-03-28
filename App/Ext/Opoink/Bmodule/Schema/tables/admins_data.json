@@ -48,6 +48,13 @@
                 "is_hashed": false,
                 "primary": false
             }
+        },
+        "lang": {
+            "value": "en",
+            "option": {
+                "is_hashed": false,
+                "primary": false
+            }
         }
     }
 ]

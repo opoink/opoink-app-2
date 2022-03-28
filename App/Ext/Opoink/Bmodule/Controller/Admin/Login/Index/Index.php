@@ -27,12 +27,18 @@ class Index extends \Of\Controller\Controller {
 	 */
 	protected $_session;
 
+	/**
+	 * \Opoink\Bmodule\Lib\Lang
+	 */
+	protected $_lang;
+
 	public function __construct(
 		\Of\Http\Url $Url,
 		\Of\Std\Message $Message,
 		\Opoink\Bmodule\Entity\Admins $AdminsEntity,
 		\Of\Std\Password $Password,
-		\Opoink\Bmodule\Lib\Admin\UserSession $Session
+		\Opoink\Bmodule\Lib\Admin\UserSession $Session,
+		\Opoink\Bmodule\Lib\Lang $Lang
 	){
 
 		$this->_url = $Url;
@@ -40,6 +46,7 @@ class Index extends \Of\Controller\Controller {
 		$this->_adminsEntity = $AdminsEntity;
 		$this->_password = $Password;
 		$this->_session = $Session;
+		$this->_lang = $Lang;
 	}
 
 	public function run(){
@@ -71,6 +78,8 @@ class Index extends \Of\Controller\Controller {
 					$adminUser->save();
 
 					$adminUser->removeData('password');
+
+					$this->_lang->saveLangToSession($adminUser->getData('lang'));
 
 					$this->_session->setData('admin_user', $adminUser->getData());
 

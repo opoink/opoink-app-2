@@ -7,9 +7,12 @@ class Admins extends \Of\Database\Entity {
 		'admins_id',
 		'email',
 		'username',
-		'password',
+		'firstname',
+		'firstname',
+		'lastname',
 		'invalid_login_count',
 		'status',
+		'lang',
 		/** 'created_at', we dont need created_at here */
 		/** 'upaded_at', we dont need upaded_at here */
 	];

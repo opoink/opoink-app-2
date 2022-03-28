@@ -63,10 +63,17 @@
             "after": "invalid_login_count"
         },
         {
+            "name": "lang",
+            "type": "CHAR",
+            "length": "10",
+            "default": "en",
+            "after": "status"
+        },
+        {
             "name": "created_at",
             "type": "TIMESTAMP",
             "CURRENT_TIMESTAMP": "CURRENT_TIMESTAMP",
-            "after": "status"
+            "after": "lang"
         },
         {
             "name": "upaded_at",
