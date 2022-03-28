@@ -21,6 +21,20 @@
                 "primary": false
             }
         },
+        "firstname": {
+            "value": "Chacha",
+            "option": {
+                "is_hashed": false,
+                "primary": false
+            }
+        },
+        "lastname": {
+            "value": "Perez",
+            "option": {
+                "is_hashed": false,
+                "primary": false
+            }
+        },
         "password": {
             "value": "123456789",
             "option": {

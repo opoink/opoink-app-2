@@ -20,9 +20,10 @@
 				</template>
 			</container>
 			<container xml:id="container_wrapper" htmlId="container_wrapper" htmlClass="container_wrapper" weight="1">
-				<template xml:id="main_header" vendor="Opoink" module="Bmodule" template="admin/main_header.phtml"/>
+				<template class="Opoink\Bmodule\Block\Admin\MainHeader" xml:id="main_header" vendor="Opoink" module="Bmodule" template="admin/main_header.phtml"/>
 				<container xml:id="main_body_content" htmlId="main_body_content" htmlClass="main_body_content" weight="1">
 				</container>
+				<template class="Opoink\Bmodule\Block\Admin\MainFooter" xml:id="main_footer" vendor="Opoink" module="Bmodule" template="admin/main_footer.phtml"/>
 			</container>
 		</container>
 	</body>

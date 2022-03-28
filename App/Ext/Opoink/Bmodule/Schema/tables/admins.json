@@ -24,11 +24,27 @@
             "after": "email"
         },
         {
+            "name": "firstname",
+            "type": "VARCHAR",
+            "length": "255",
+            "default": null,
+            "nullable": true,
+            "after": "username"
+        },
+        {
+            "name": "lastname",
+            "type": "VARCHAR",
+            "length": "255",
+            "default": null,
+            "nullable": true,
+            "after": "firstname"
+        },
+        {
             "name": "password",
             "type": "VARCHAR",
             "length": "255",
             "collation": "utf8_general_ci",
-            "after": "username"
+            "after": "lastname"
         },
         {
             "name": "invalid_login_count",
