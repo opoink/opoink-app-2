@@ -9,11 +9,13 @@
 /App/node/node_modules/*/
 /App/node/src/var/*
 /Var/*/
+/Var/.htaccess
 /etc/*
 !/etc/.htaccess
 /public/*
 /public/deploy*
 /public/generation.php
-/vendor
+/vendor/*
+!/vendor/.htaccess
 /composer.phar
 /composer.lock
