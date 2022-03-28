@@ -7,11 +7,18 @@ namespace Opoink\Bmodule\Block\Admin;
 
 class Context extends \Of\Html\Context {
 	
+	/**
+	 * \Opoink\Bmodule\Lib\Lang
+	 */
+	protected $_lang;
+
 	public function __construct(
 		\Of\Http\Url $Url,
-		\Of\Config $Config
+		\Of\Config $Config,
+		\Opoink\Bmodule\Lib\Lang $Lang
 	){
 		parent::__construct($Url, $Config);
+		$this->_lang = $Lang;
 	}
 
 
