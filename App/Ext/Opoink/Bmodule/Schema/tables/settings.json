@@ -1,0 +1,44 @@
+{
+    "primary_key": "settings_id",
+    "fields": [
+        {
+            "name": "settings_id",
+            "type": "BIGINT",
+            "length": 20,
+            "attributes": "auto_increment",
+            "primary": true,
+            "collation": "utf8_general_ci"
+        },
+        {
+            "name": "key",
+            "type": "CHAR",
+            "length": "100",
+            "collation": "utf8_general_ci",
+            "after": "settings_id"
+        },
+        {
+            "name": "value",
+            "type": "VARCHAR",
+            "length": "300",
+            "collation": "utf8_general_ci",
+            "after": "key"
+        },
+        {
+            "name": "created_at",
+            "type": "TIMESTAMP",
+            "CURRENT_TIMESTAMP": "CURRENT_TIMESTAMP",
+            "collation": "utf8_general_ci",
+            "after": "value"
+        },
+        {
+            "name": "upaded_at",
+            "type": "TIMESTAMP",
+            "CURRENT_TIMESTAMP": "CURRENT_TIMESTAMP",
+            "attributes": "on update CURRENT_TIMESTAMP",
+            "collation": "utf8_general_ci",
+            "after": "created_at"
+        }
+    ],
+    "collate": "utf8_general_ci",
+    "engine": "InnoDB"
+}

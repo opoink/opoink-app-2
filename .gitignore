@@ -2,8 +2,8 @@
 /App/Ext/*
 
 #include everything within /App/Ext/Opoink/Bmodule/
-!/App/Ext/Opoink/Bmodule/
-!/App/Ext/Opoink/Bmodule/*
+!/App/Ext/Opoink/
+# !/App/Ext/Opoink/Bmodule/*
 
 /App/Theme/*/
 /App/node/node_modules/*/
