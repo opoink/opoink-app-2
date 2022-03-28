@@ -1,0 +1,20 @@
+{
+    "primary_key": "cms_id",
+    "fields": [
+        {
+            "name": "cms_id",
+            "type": "BIGINT",
+            "length": 20,
+            "attributes": "auto_increment",
+            "collation": "utf8_general_ci",
+            "primary": true
+        },
+        {
+            "name": "code",
+            "type": "VARCHAR",
+            "length": "201",
+            "after": "cms_id"
+        }
+    ],
+    "collate": "utf8_general_ci"
+}

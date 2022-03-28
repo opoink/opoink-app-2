@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<html xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:id="html" attr="lang='en-US'" weight="1">
+
+	<!-- we need to set the weight to a value that is higher than the default layout -->
+	<!-- in this case, the default will be overridden -->
+	<body xml:id="body" attr="class='admin main-login'" weight="2"> 
+		<template xml:id="main_page_loader" vendor="Opoink" module="Bmodule" template="admin/main-page-loader.phtml" cacheable="1" max-age="604800"/>
+		<container xml:id="main_container" htmlId="main_container" htmlClass="main_container" weight="1">
+			<template xml:id="admin_user_login" vendor="Opoink" module="Bmodule" template="admin/user/login.phtml" cacheable="1" />
+		</container>
+	</body>
+</html>

@@ -1,0 +1,108 @@
+{
+    "primary_key": "user_id",
+    "fields": [
+        {
+            "collation": "utf8_general_ci",
+            "name": "user_id",
+            "type": "BIGINT",
+            "length": 20,
+            "attributes": "auto_increment",
+            "primary": true
+        },
+        {
+            "name": "firstname",
+            "type": "VARCHAR",
+            "length": 255,
+            "default": null,
+            "nullable": true,
+            "collation": "utf8_general_ci",
+            "comment": "asdad asd",
+            "after": "user_id",
+            "old_name": "firstname"
+        },
+        {
+            "name": "lastname",
+            "type": "VARCHAR",
+            "length": "255",
+            "default": null,
+            "nullable": true,
+            "collation": "utf8_general_ci",
+            "after": "firstname",
+            "old_name": "lastname"
+        },
+        {
+            "name": "email",
+            "type": "VARCHAR",
+            "length": 255,
+            "default": null,
+            "nullable": true,
+            "collation": "utf8_general_ci",
+            "after": "lastname",
+            "old_name": "email"
+        },
+        {
+            "name": "password",
+            "type": "VARCHAR",
+            "length": 255,
+            "default": null,
+            "nullable": true,
+            "collation": "utf8_general_ci",
+            "after": "email",
+            "old_name": "password"
+        },
+        {
+            "name": "profile_picture",
+            "type": "TEXT",
+            "default": null,
+            "nullable": true,
+            "collation": "utf8_general_ci",
+            "after": "password",
+            "old_name": "profile_picture"
+        },
+        {
+            "name": "social_media_type",
+            "type": "VARCHAR",
+            "length": 255,
+            "default": null,
+            "nullable": true,
+            "collation": "utf8_general_ci",
+            "after": "profile_picture",
+            "old_name": "social_media_type"
+        },
+        {
+            "name": "social_id",
+            "type": "VARCHAR",
+            "length": 255,
+            "default": null,
+            "nullable": true,
+            "collation": "utf8_general_ci",
+            "after": "social_media_type",
+            "old_name": "social_id"
+        },
+        {
+            "name": "create_by",
+            "type": "BIGINT",
+            "length": 20,
+            "default": null,
+            "nullable": true,
+            "collation": "utf8_general_ci",
+            "after": "social_id",
+            "old_name": "create_by"
+        },
+        {
+            "name": "created_at",
+            "type": "TIMESTAMP",
+            "collation": "utf8_general_ci",
+            "after": "create_by",
+            "old_name": "created_at"
+        },
+        {
+            "name": "updated_at",
+            "type": "TIMESTAMP",
+            "attributes": "on update CURRENT_TIMESTAMP",
+            "collation": "utf8_general_ci",
+            "after": "created_at",
+            "old_name": "updated_at"
+        }
+    ]
+}

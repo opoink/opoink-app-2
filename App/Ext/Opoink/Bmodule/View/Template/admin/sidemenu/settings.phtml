@@ -1,0 +1,37 @@
+<?php
+	$activeMenu = $this->linkActive('/settings');
+	$collapsedHtmlClass = 'collapsed';
+	$subColapseHtmlClass = 'collapse';
+	if($activeMenu == 'link-active' || $activeMenu == 'link-part-active'){
+		$collapsedHtmlClass = '';
+		$subColapseHtmlClass = 'collapse show';
+	}
+?>
+
+<div class="menu-item with-sub <?= $collapsedHtmlClass ?> <?= $activeMenu ?>" data-bs-toggle="collapse" data-bs-target="#side_nave_settings_sub_menu" aria-expanded="false" aria-controls="side_nave_settings_sub_menu">
+	<div class="side-menu-icon faicon">
+		<i class="fa-solid fa-gear"></i>
+	</div>
+	<div class="side-menu-label">
+		Setings
+	</div>
+</div>
+
+<div id="side_nave_settings_sub_menu" class="<?= $subColapseHtmlClass ?>">
+	<?php
+		$subActive = $this->linkActive('/settings/allsettings');
+		$subActiveIcon = $subActive == 'link-active' ? 'solid' : 'regular';
+	?>
+	<div  class="menu-item sub-menu <?= $subActive ?>">
+		<div class="side-menu-icon faicon">
+			<a href="<?= $this->getAdminUrlNoDomain('settings/allsettings'); ?>">
+				<i class="fa-<?= $subActive == 'link-active' ? 'solid' : 'regular' ?> fa-circle"></i>
+			</a>
+		</div>
+		<div class="side-menu-label">
+			<a href="<?= $this->getAdminUrlNoDomain('settings/allsettings'); ?>">All Setings</a>
+		</div>
+	</div>
+
+	<?= $this->getChildHtml(); ?>
+</div>

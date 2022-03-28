@@ -1,0 +1,56 @@
+<div id="login-box" class="login-box d-none">
+	<div class="login-box-header d-flex justify-content-center">
+		<div class="login-box-header d-flex align-items-center">
+			<div class="login-box-header-logo">
+				<img src="<?= $this->getImageUrl([
+					'vendor'=>'Opoink',
+					'module'=>'Bmodule',
+					'path' => '/images',
+					'filename' => 'default-logo.png'
+				]) ?>">
+			</div>
+			<div class="side-menu-label menu-header-label fs-3">
+				<span class="ms-3 fw-800">Opoink</span> Admin
+			</div>
+		</div>
+	</div>
+
+
+	<div class="login-box-header mt-5">
+		<form v-on:submit="login($event)" action="" method="POST">
+			<div class="mb-3">
+				<label for="admin-login-email" class="form-label">Email address</label>
+				<input type="email" class="form-control" id="admin-login-email" aria-describedby="emailHelp" v-model="formData.email">
+				<template v-if="formError.email">
+					<small class="text-danger" v-for="error in formError.email">{{error}}</small>
+				</template>
+			</div>
+			<div class="mb-3">
+				<label for="admin-login-password" class="form-label">Password</label>
+				<input type="password" class="form-control" id="admin-login-password" v-model="formData.password">
+				<template v-if="formError.password">
+					<small class="text-danger" v-for="error in formError.password">{{error}}</small>
+				</template>
+			</div>
+
+			<div class="mb-5">
+				<a href="<?= $this->getAdminUrl('/forgotpassword') ?>">Forgot your password?</a>
+			</div>
+			
+			<div class="mb-3" v-if="loginErrorMessage">
+				<small class="text-danger">{{loginErrorMessage}}</small>
+			</div>
+
+			<button type="submit" class="btn btn-primary w-100">Submit</button>
+		</form>
+	</div>
+
+</div>
+
+<script>
+	require([
+		'<?= $this->getPublicUrl('/opoink/bmodule/js/admin/login.min.js') ?>'
+	], function(login){
+
+	});
+</script>

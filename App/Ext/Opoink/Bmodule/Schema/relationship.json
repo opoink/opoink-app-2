@@ -1,0 +1,11 @@
+[
+    {
+        "tablename": "users",
+        "constraint_name": "users_ibfk_1",
+        "on_delete": "ON DELETE SET NULL",
+        "on_updated": "ON UPDATE NO ACTION",
+        "column": "create_by",
+        "reference_tablename": "admins",
+        "reference_column": "admins_id"
+    }
+]

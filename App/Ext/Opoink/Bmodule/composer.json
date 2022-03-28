@@ -1,0 +1,17 @@
+{
+    "name": "opoink/bmodule",
+    "description": "Opoink bmodule is he base module of Opoink Framework",
+    "keywords": ["opoink", "base module", "opoink base module", "module", "opoink module"],
+    "homepage": "https://github.com/opoink/bmodule",
+    "license": "MIT",
+    "type": "library",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Ron Rome Perez",
+            "email": "ron@opoink.com",
+            "homepage": "https://www.opoink.com",
+            "role": "Founder"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<html xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:id="html" attr="lang='en-US'" weight="1">
+	<head xml:id="head" weight="1">
+		<template xml:id="html_head" vendor="Opoink" module="Bmodule" template="admin/html_head.phtml" cacheable="1" max-age="604800"/>
+
+		<css src="css/admin/style" type="scss" media="all" />
+		<css src="css/fontawesome-free-6.0.0-web/css/all" media="all" />
+
+		<template xml:id="jscript" vendor="Opoink" module="Bmodule" template="admin/html_jscript.phtml" cacheable="1" max-age="604800"/>
+	</head>
+	<body xml:id="body" attr="class='admin side-nav-fixed'" weight="1">
+		<template xml:id="main_page_loader" vendor="Opoink" module="Bmodule" template="admin/main-page-loader.phtml" cacheable="1" max-age="604800"/>
+		<container xml:id="main_container" htmlId="main_container" htmlClass="main_container" weight="1">
+			<container xml:id="side_menu" htmlId="side_menu" htmlClass="side_menu" weight="1">
+				<template xml:id="side_menu_header" vendor="Opoink" module="Bmodule" template="admin/side_menu_header.phtml" cacheable="1">
+					<template class="Opoink\Bmodule\Block\Admin\Context" xml:id="side_menu_body_dashboard" vendor="Opoink" module="Bmodule" template="admin/sidemenu/dashboard.phtml" cacheable="1"/>
+					<template class="Opoink\Bmodule\Block\Admin\Context" xml:id="side_menu_body_users" vendor="Opoink" module="Bmodule" template="admin/sidemenu/users.phtml" cacheable="1"/>
+					<template class="Opoink\Bmodule\Block\Admin\Context" xml:id="side_menu_body_admins" vendor="Opoink" module="Bmodule" template="admin/sidemenu/admins.phtml" cacheable="1"/>
+					<template class="Opoink\Bmodule\Block\Admin\Context" xml:id="side_menu_body_settings" vendor="Opoink" module="Bmodule" template="admin/sidemenu/settings.phtml" cacheable="1"/>
+				</template>
+			</container>
+			<container xml:id="container_wrapper" htmlId="container_wrapper" htmlClass="container_wrapper" weight="1">
+				<template xml:id="main_header" vendor="Opoink" module="Bmodule" template="admin/main_header.phtml"/>
+				<container xml:id="main_body_content" htmlId="main_body_content" htmlClass="main_body_content" weight="1">
+				</container>
+			</container>
+		</container>
+	</body>
+</html>

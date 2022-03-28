@@ -1,0 +1,64 @@
+{
+    "primary_key": "admins_id",
+    "fields": [
+        {
+            "name": "admins_id",
+            "type": "BIGINT",
+            "length": 20,
+            "attributes": "auto_increment",
+            "collation": "utf8_general_ci",
+            "primary": true
+        },
+        {
+            "name": "email",
+            "type": "VARCHAR",
+            "length": "255",
+            "collation": "utf8_general_ci",
+            "after": "admins_id"
+        },
+        {
+            "name": "username",
+            "type": "VARCHAR",
+            "length": "255",
+            "collation": "utf8_general_ci",
+            "after": "email"
+        },
+        {
+            "name": "password",
+            "type": "VARCHAR",
+            "length": "255",
+            "collation": "utf8_general_ci",
+            "after": "username"
+        },
+        {
+            "name": "invalid_login_count",
+            "type": "SMALLINT",
+            "length": "3",
+            "default": null,
+            "nullable": true,
+            "collation": "utf8_general_ci",
+            "after": "password"
+        },
+        {
+            "name": "status",
+            "type": "VARCHAR",
+            "length": "50",
+            "default": "active",
+            "after": "invalid_login_count"
+        },
+        {
+            "name": "created_at",
+            "type": "TIMESTAMP",
+            "CURRENT_TIMESTAMP": "CURRENT_TIMESTAMP",
+            "after": "status"
+        },
+        {
+            "name": "upaded_at",
+            "type": "TIMESTAMP",
+            "CURRENT_TIMESTAMP": "CURRENT_TIMESTAMP",
+            "attributes": "on update CURRENT_TIMESTAMP",
+            "after": "created_at"
+        }
+    ],
+    "collate": "utf8_general_ci"
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<html xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:id="html" attr="lang='en-US'" weight="1">
+	<head xml:id="head" weight="1">
+
+	</head>
+	<body xml:id="body" weight="1">
+		<container xml:id="main_body_content" htmlId="main_body_content" htmlClass="main_body_content" weight="1">
+			<template 
+				class="Opoink\Bmodule\Block\Admin\Settingscontent\Buttons" 
+				xml:id="settings_content_top_buttons" 
+				vendor="Opoink" 
+				module="Bmodule" 
+				template="admin/settings/settings_content_top_buttons.phtml" 
+				cacheable="0"
+			/>
+
+
+			<template 
+				class="Opoink\Bmodule\Block\Admin\Context" 
+				xml:id="settings_content" 
+				vendor="Opoink" 
+				module="Bmodule" 
+				template="admin/settings/settings_content.phtml" 
+				cacheable="0"
+			>	
+				<template 
+					class="Opoink\Bmodule\Block\Admin\Settingscontent\Tabs" 
+					xml:id="settings_content_left_tabs" 
+					vendor="Opoink" 
+					module="Bmodule" 
+					template="admin/settings/settings_content_left_tabs.phtml" 
+					cacheable="0"
+				/>
+
+				<template 
+					class="Opoink\Bmodule\Block\Admin\Settingscontent\Tabs" 
+					xml:id="settings_content_left_tab_fields" 
+					vendor="Opoink" 
+					module="Bmodule" 
+					template="admin/settings/settings_content_left_tab_fields.phtml" 
+					cacheable="0"
+				/>
+			</template>
+		</container>
+	</body>
+</html>

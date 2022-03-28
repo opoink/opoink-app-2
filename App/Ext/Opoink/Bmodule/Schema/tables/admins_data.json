@@ -1,0 +1,39 @@
+[
+    {
+        "admins_id": {
+            "value": "1",
+            "option": {
+                "is_hashed": false,
+                "primary": true
+            }
+        },
+        "email": {
+            "value": "admin@opoink.com",
+            "option": {
+                "is_hashed": false,
+                "primary": false
+            }
+        },
+        "username": {
+            "value": "admin",
+            "option": {
+                "is_hashed": false,
+                "primary": false
+            }
+        },
+        "password": {
+            "value": "123456789",
+            "option": {
+                "is_hashed": true,
+                "primary": false
+            }
+        },
+        "status": {
+            "value": "active",
+            "option": {
+                "is_hashed": false,
+                "primary": false
+            }
+        }
+    }
+]
