@@ -1,4 +1,5 @@
-/App/Ext/*/
+/App/Ext/*
+!/App/Ext/Opoink/Bmodule
 /App/Theme/*/
 /App/node/node_modules/*/
 /App/node/src/var/*
