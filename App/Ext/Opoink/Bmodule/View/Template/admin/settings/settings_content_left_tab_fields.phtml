@@ -1,7 +1,28 @@
-settings_content_left_tab_fields
-
-<form id="setting_form_fields" action="" method="POST">
-	<input type="text" name="testing" value="1" />
-	<input type="text" name="testing2" value="2" />
-	<input type="text" name="testing3" value="3" />
-</form>
+<?php
+	$groups = $this->getFields();
+?>
+<?php if($this->currentTab && $this->currentSubTab): ?>
+	<div class="settings-form-fields">
+		<?php foreach ($groups as $group => $fields): ?>
+			<div class="group">
+				<div class="group-name collapsed" data-bs-toggle="collapse" data-bs-target=".form-group-<?= $group ?>-container" aria-expanded="false">
+					<?= $group ?>
+				</div>
+				<div class="collapse form-group-<?= $group ?>-container p-4">
+					<?php $form = $this->_formBuilder->form([
+						'action' => $this->getAdminUrl('/settings/savesettings'),
+						'method' => 'POST',
+						'class' => 'form-group-' . $group
+					]); ?>
+					<?php foreach ($fields as $fieldKey => $field): ?>
+						<?php
+							$field['attributes']['value'] = $this->_settings->getSettings($this->currentTab.'/'.$this->currentSubTab.'/'.$group.'/'.$fieldKey.'/value');
+							$this->_formBuilder->add($form, $field, true);
+						?>
+					<?php endforeach ?>
+					<?= $this->_formBuilder->toHtml($form); ?>
+				</div>
+			</div>
+		<?php endforeach ?>
+	</div>
+<?php endif ?>

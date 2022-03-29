@@ -15,9 +15,10 @@ class Buttons extends \Opoink\Bmodule\Block\Admin\Context {
 	public function __construct(
 		\Of\Http\Url $Url,
 		\Of\Config $Config,
+		\Opoink\Bmodule\Lib\Lang $Lang,
 		\Opoink\Bmodule\Block\Admin\ContentTopBottons $ContentTopBottons
 	){
-		parent::__construct($Url, $Config);
+		parent::__construct($Url, $Config, $Lang);
 		$this->_contentTopBottons = $ContentTopBottons;
 	}
 

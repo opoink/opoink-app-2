@@ -9,5 +9,7 @@
 	"Password": "Password",
 	"Forgot your password?": "Forgot your password?",
 	"Login": "Login",
+	"General": "General",
+	"Site": "Site",
 	"Powered by Opoink Framework {{version}}": "Powered by Opoink Framework {{version}}"
 }
