@@ -17,9 +17,22 @@
 					<?php foreach ($fields as $fieldKey => $field): ?>
 						<?php
 							$field['attributes']['value'] = $this->_settings->getSettings($this->currentTab.'/'.$this->currentSubTab.'/'.$group.'/'.$fieldKey.'/value');
-							$this->_formBuilder->add($form, $field, true);
+							$this->_formBuilder->add($form, $field, false);
 						?>
 					<?php endforeach ?>
+
+					<?php 
+						$this->_formBuilder->add($form, [ 
+							'label' => "Save",
+							"attributes" => [
+								"type" => "button",
+								"name" => "save_settings",
+								"value" => "1",
+								"class" => "btn-primary mt-3"
+							],
+							"position" => "end"
+						], true); 
+					?>
 					<?= $this->_formBuilder->toHtml($form); ?>
 				</div>
 			</div>

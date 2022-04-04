@@ -12,12 +12,24 @@ class FormBuilder {
 	 */
 	protected $_session;
 
+	/**
+	 * \Of\Std\Password
+	 */
+	protected $_password;
+
 
 	/**
 	 * the value of this field is a form field html string 
 	 * it is a bootsrap 5 form element
 	 */
 	protected $fields = [];
+
+	/**
+	 * this variable will holde the form and fields 
+	 * to save in php session
+	 * will also be used in form validation
+	 */
+	protected $sessionFields = [];
 
 	
 	/**
@@ -34,9 +46,14 @@ class FormBuilder {
 	protected $currentFieldCount = 0;
 
 	public function __construct(
-		\Of\Session\Session $Session
+		\Of\Session\Session $Session,
+		\Of\Std\Password $Password
 	){
 		$this->_session = $Session;
+		$this->_password = $Password;
+
+		
+		$this->_session->unsetData('form_fields');
 	}
 
 	public function form($attribute){
@@ -47,19 +64,79 @@ class FormBuilder {
 			'attribute' => $attribute,
 			'fields' => []
 		];
+		$this->sessionFields[$formName] = [
+			'fields' => []
+		];
 		return $formName;
 	}
 
 	public function add($formName, $field, $row=true){
-		if(!isset($field['type'])){
-			$field['type'] = 'text';
-		}
+		if(isset($field['attributes'])){
+			if(!isset($field['attributes']['type'])){
+				$field['attributes']['type'] = 'text';
+			}
+			
+			$type = strtolower($field['attributes']['type']);
 
-		if(strtolower($field['type']) == 'text'){
-			$this->addText($formName, $field, $row);
+			if($type == 'text'){
+				$this->addText($formName, $field, $row);
+			}
+			else if($type == 'button'){
+				$this->addButton($formName, $field, $row);
+			}
 		}
 
 		return $this;
+	}
+
+	/**
+	 * add button to form
+	 */
+	public function addButton($formName, $field, $row) {
+		$id = $this->buildFieldId();
+
+		$attr = 'id="'.$id.'"';
+
+		$htmlClass = 'btn';
+		if(isset($field['attributes']['class'])){
+			$htmlClass .= " " . $field['attributes']['class'];
+			$field['attributes']['class'] = $htmlClass;
+		}
+
+		foreach ($field['attributes'] as $key => $value) {
+			if($key == 'type') {
+				continue;
+			}
+			$attr .= ' ' . $key . '="' . $value . '" ';
+		}
+
+		$btn = '<button '.$attr.'>'.$field['label'].'</button>';
+
+		$position = 'text-end';
+		if(isset($field['label'])){
+			if(strtolower($field['label']) == 'center'){
+				$position = 'text-center';
+			}
+			else if(strtolower($field['label']) == 'start'){
+				$position = 'text-start';
+			}
+		}
+
+		$htmlBtn = '';
+		if(!$row){
+			$htmlBtn .= '<div class="form-group '.$position.'">';
+				$htmlBtn .= $btn;
+			$htmlBtn .= '</div>';
+		}
+		else {
+			$htmlBtn .= '<div class="form-group row">';
+				$htmlBtn .= '<div class="col-sm-9 ofsset-0 offset-sm-3 '.$position.'">';
+					$htmlBtn .= $btn;
+				$htmlBtn .= '</div>';
+			$htmlBtn .= '</div>';
+		}
+
+		$this->fields[$formName]['fields'][$field['attributes']['name']] = $htmlBtn;
 	}
 
 	/**
@@ -70,18 +147,33 @@ class FormBuilder {
 		$input = $this->buildInputField($field, $id);
 		if(!$row){
 			$tpl = '<div class="form-group">
-				<label for="'.$id.'">'.$field['label'].'</label>
+				<label class="mb-1" for="'.$id.'">'.$this->buildLabelText($field).'</label>
 				'.$input.' '.$this->buildComment($field).'
 			</div>';
 		}
 		else {
 			$tpl = '<div class="form-group row">
-				<label for="'.$id.'" class="col-sm-3 col-form-label text-end">'.$field['label'].'</label>
+				<label for="'.$id.'" class="col-sm-3 col-form-label text-start text-sm-end">'.$this->buildLabelText($field).'</label>
 				<div class="col-sm-9">'.$input.' '.$this->buildComment($field).'</div>
 			</div>';
 		}
 
 		$this->fields[$formName]['fields'][$field['attributes']['name']] = $tpl;
+		$this->sessionFields[$formName]['fields'][$field['attributes']['name']] = isset($field["rules"]) ? $field["rules"] : null;
+	}
+
+	/**
+	 * build label text 
+	 * inlcuding the astherisk if the field is required
+	 */
+	protected function buildLabelText($field){
+		$text = $field['label'];
+		if(isset($field["rules"]) && is_array($field["rules"])){
+			if(in_array('required', $field["rules"])){
+				$text .= '<span class="ms-2 text-danger">*</span>';
+			}
+		}
+		return $text;
 	}
 
 	protected function buildFieldId(){
@@ -94,7 +186,13 @@ class FormBuilder {
 	 */
 	protected function buildInputField($field, $id){
 		$field['attributes']['id'] = $id;
-		$input = '<input class="form-control" ';
+
+		$htmlClass = 'form-control';
+		if(isset($field['attributes']['class'])){
+			$htmlClass .= " " . $field['attributes']['class'];
+			unset($field['attributes']['class']);
+		}
+		$input = '<input class="'.$htmlClass.'" ';
 		foreach ($field['attributes'] as $key => $value) {
 			$input .= ' ' . $key . '="' . $value . '" ';
 		}
@@ -109,21 +207,44 @@ class FormBuilder {
 		$comment = '';
 		if(isset($field['comment'])){
 			foreach ($field['comment'] as $key => $value) {
-				$comment .= '<small class="form-text text-muted">'.$value.'</small>';
+				$htmlClass = 'form-text';
+				if(isset($value["class"])){
+					$htmlClass .= " " . $value["class"];
+				}
+				$comment .= '<small class="'.$htmlClass.'">'.$value["text"].'</small>';
 			}
 		}
 		return $comment;
 	}
 
+	/**
+	 * return form html string 
+	 */
 	public function toHtml($formName){
 		$html = '<form id="'.$formName.'" ';
 		foreach ($this->fields[$formName]['attribute'] as $key => $value) {
 			$html .= ' ' . $key . '="' . $value . '" ';
 		}
 		$html .= '>';
+		$html .= '<input type="hidden" name="form_builder_form_name" value="'.$formName.'" />';
+		
+		/**
+		 * this value will going to be he form key
+		 * so this will be used on validatinf the form
+		 */
+		$formKey = $this->_password->generate(15);
+		$this->sessionFields[$formName]['form_key'] = $formKey;
+		$html .= '<input type="text" name="form_key" value="'.$formKey.'" />';
+
 
 		$html .= implode(' ', $this->fields[$formName]['fields']);
 		$html .= '</form>';
+
+		$this->_session->setData('form_fields', $this->sessionFields);
+		
+		echo "<pre>";
+		print_r($this->_session->getData('form_fields'));
+		echo "</pre>";
 
 		return $html;
 	}

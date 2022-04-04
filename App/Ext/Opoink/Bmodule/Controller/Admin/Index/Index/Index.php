@@ -3,7 +3,7 @@ namespace Opoink\Bmodule\Controller\Admin\Index\Index;
 
 class Index extends \Of\Controller\Controller {
 
-	protected $pageTitle = 'Index Index Index';
+	protected $pageTitle = 'Dashboard';
 	protected $_url;
 	protected $_message;
 

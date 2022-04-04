@@ -5,7 +5,7 @@
 */
 namespace Opoink\Bmodule\Lib;
 
-class Settings {
+class Settings extends \Of\Std\DataObject {
 
 	/**
 	 * \Opoink\Bmodule\Entity\Settings
@@ -21,7 +21,7 @@ class Settings {
 	 * this variable will hold the values of the settings of all module
 	 * in this case this class wont be needing to merge all settings again ang again
 	 */
-	protected $settings; 
+	// protected $settings; 
 
 	/**
 	 * in this variable we will store all setting value 
@@ -36,6 +36,8 @@ class Settings {
 	){
 		$this->_settingsEntity = $Settings;
 		$this->_config = $Config;
+
+		parent::__construct([]);
 
 		$this->mergeAllModuleSetting();
 	}
@@ -53,11 +55,11 @@ class Settings {
 	 * and if there was a function who called this class
 	 */
 	public function mergeAllModuleSetting(){
-		if($this->settings){
-			return $this->settings;
+		if($this->data){
+			return $this->data;
 		}
 		else {
-			$this->settings = [];
+			$this->data = [];
 
 			$targetFile = ROOT.DS.'App'.DS.'Ext'.DS;
 			$vendors = $this->_config->getConfig('modules');
@@ -67,11 +69,11 @@ class Settings {
 					$targetFile .= $vendor.DS.$module.DS.'etc'.DS.'admin'.DS.'settings.php';
 					if(file_exists($targetFile) && is_file($targetFile)){
 						$moduleSetings = include($targetFile);
-						$this->settings = array_replace_recursive($this->settings, $moduleSetings);
+						$this->setData(array_replace_recursive($this->data, $moduleSetings));
 					}
 				}
 			}
-			return $this->settings;
+			return $this->data;
 		}
 
 	}
@@ -82,26 +84,31 @@ class Settings {
 	 * @param $isGetInDatabase boolean to if true then the we'll try to get the 
 	 * value from the daabase return the array or string
 	 */
-	public function getSettings($keys, $isGetInDatabase=true){
-		if($isGetInDatabase){
-			if(isset($this->settingValues[$keys])){
-				return $this->settingValues[$keys];
-			}
-			else {
-				$dbSetting = $this->_settingsEntity->getByColumn([
-					'key' => $keys
-				]);
-				if($dbSetting){
-					$this->settingValues[$keys] = $dbSetting->getData('value');
+	public function getSettings($keys = '', $isGetInDatabase=true){
+		if(empty($keys)){
+			return $this->data;
+		}
+		else {
+			if($isGetInDatabase){
+				if(isset($this->settingValues[$keys])){
 					return $this->settingValues[$keys];
 				}
 				else {
-					return opoinkGetArrayValue($keys, $this->settings);
+					$dbSetting = $this->_settingsEntity->getByColumn([
+						'key' => $keys
+					]);
+					if($dbSetting){
+						$this->settingValues[$keys] = $dbSetting->getValue();
+						return $this->settingValues[$keys];
+					}
+					else {
+						return $this->getData($keys);
+					}
 				}
 			}
-		}
-		else {
-			return opoinkGetArrayValue($keys, $this->settings);
+			else {
+				return $this->getData($keys);
+			}
 		}
 	}
 }

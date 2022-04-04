@@ -10,11 +10,7 @@
 
 			<template class="Opoink\Bmodule\Block\Admin\Context" xml:id="settings_content" vendor="Opoink" module="Bmodule" template="admin/settings/settings_content.phtml">
 				<!-- left tabs  -->
-				<template class="Opoink\Bmodule\Block\Admin\Settingscontent\Tabs" xml:id="settings_content_left_tabs" vendor="Opoink" module="Bmodule" template="admin/settings/settings_content_left_tabs.phtml">
-					<template class="Opoink\Bmodule\Block\Admin\Settingscontent\Tabs" xml:id="tab_general" vendor="Opoink" module="Bmodule" template="admin/settings/tabs/tab_general.phtml">
-						<template class="Opoink\Bmodule\Block\Admin\Settingscontent\Tabs" xml:id="tab_general_site" vendor="Opoink" module="Bmodule" template="admin/settings/tabs/tab_general_site.phtml" />
-					</template>
-				</template>
+				<template class="Opoink\Bmodule\Block\Admin\Settingscontent\Tabs" xml:id="settings_content_left_tabs" vendor="Opoink" module="Bmodule" template="admin/settings/settings_content_left_tabs.phtml" />
 
 				<!-- left constents  -->
 				<template class="Opoink\Bmodule\Block\Admin\Settingscontent\Tabs" xml:id="settings_content_left_tab_fields" vendor="Opoink" module="Bmodule" template="admin/settings/settings_content_left_tab_fields.phtml" />
