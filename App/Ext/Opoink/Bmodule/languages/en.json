@@ -11,5 +11,15 @@
 	"Login": "Login",
 	"General": "General",
 	"Site": "Site",
-	"Powered by Opoink Framework {{version}}": "Powered by Opoink Framework {{version}}"
+	"Powered by Opoink Framework {{version}}": "Powered by Opoink Framework {{version}}",
+	"{{field_name}} is required.": "{{field_name}} is required.",
+	"{{email}} is not a valid email address.": "{{email}} is not a valid email address.",
+	"The {{min_length}} must be a minimum of {{length}} characters long.": "The {{min_length}} must be a minimum of {{length}} characters long.",
+	"The {{max_length}} must be a maximum of {{length}} characters long.": "The {{max_length}} must be a maximum of {{length}} characters long.",
+	"The {{alphanum}} must contain alphanumeric characters only.": "The {{alphanum}} must contain alphanumeric characters only.",
+	"The pattern for the {{regex}} field is not set.": "Hindi nakaset ang regex patter para sa {{regex}}.",
+	"The ({{value}}) is not valid to be a value of the {{field_name}}.": "The ({{value}}) is not valid to be a value of the {{field_name}}.",
+	"The {{alpha}} must contain alpha characters only.": "The {{alpha}} must contain alpha characters only.",
+	"The {{int}} must contain numeric characters only.": "The {{int}} must contain numeric characters only.",
+	"The {{decimal}} must contain a whole number or decimal numbers characters only.": "The {{decimal}} must contain a whole number or decimal numbers characters only."
 }

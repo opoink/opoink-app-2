@@ -75,6 +75,10 @@ class FormBuilder {
 			if(!isset($field['attributes']['type'])){
 				$field['attributes']['type'] = 'text';
 			}
+
+			if(isset($field['row_style'])){
+				$row = (bool)$field['row_style'];
+			}
 			
 			$type = strtolower($field['attributes']['type']);
 
@@ -229,12 +233,16 @@ class FormBuilder {
 		$html .= '<input type="hidden" name="form_builder_form_name" value="'.$formName.'" />';
 		
 		/**
-		 * this value will going to be he form key
-		 * so this will be used on validatinf the form
+		 * this value will going to be the form key
+		 * so this will be used on validation of the form
 		 */
-		$formKey = $this->_password->generate(15);
-		$this->sessionFields[$formName]['form_key'] = $formKey;
-		$html .= '<input type="text" name="form_key" value="'.$formKey.'" />';
+		$formKey = $this->_session->getData('form_key');
+		if(!$formKey){
+			$formKey = $this->_password->generate(15);
+			$this->_session->setData('form_key', $formKey);
+		}
+		$this->sessionFields[$formName]['form_key'] = $formKey.'_'.$formName;
+		$html .= '<input type="hidden" name="form_key" value="'.$formKey.'_'.$formName.'" />';
 
 
 		$html .= implode(' ', $this->fields[$formName]['fields']);
@@ -242,9 +250,9 @@ class FormBuilder {
 
 		$this->_session->setData('form_fields', $this->sessionFields);
 		
-		echo "<pre>";
-		print_r($this->_session->getData('form_fields'));
-		echo "</pre>";
+		// echo "<pre>";
+		// print_r($this->_session->getData('form_fields'));
+		// echo "</pre>";
 
 		return $html;
 	}

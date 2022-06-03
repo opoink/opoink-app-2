@@ -27,10 +27,15 @@ class Index extends \Of\Controller\Controller {
 		$isValid = $this->_formValidate->validate($form_builder_form_name, $form_key);
 
 		/**
-		 * validate each field using form validate
+		 * TODO: validate each field using _formValidate validateField method
+		 * loop trough the post variables
 		 */
+		$site_name = $this->_formValidate->validateField('site_name');
+		// $contact_email = $this->_formValidate->validateField('contact_email');
+
+
 		echo "<pre>";
-		print_r($isValid);
+		var_dump($site_name);
 
 		die;
 

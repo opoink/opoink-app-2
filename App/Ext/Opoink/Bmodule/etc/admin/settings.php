@@ -21,7 +21,7 @@ return [
 					
 					'label' => "Site Name",
 					"attributes" => [ /** the value here the the actual attribute of the input field */
-						"type" => "text", /** this is the actual input field type can be text, button, select, multiselect, radio, checkbod and textarea */
+						"type" => "text", /** this is the actual input field type can be text, button, select, multiselect, radio, checkbox and textarea */
 						"name" => "site_name", /** input field name */
 						"placeholder" => "Site Name", /** input field placeholder for text and textarea */
 						"class" => 'testing-class' /** html class will be appended into default class that is from bootstrap */
@@ -33,27 +33,65 @@ return [
 						]
 					],
 					"value" => "Testing", /** this is the default value of the field */
-					"rules" => ["required"] /** field rules during */
+					"rules" => [ /** field rules for validation */
+						[
+							/** 
+							 * required: the field should have atleast 1 character long
+							 * regex: regular expression preg_match will be used to compare
+							 * email: must be a valid email address
+							 * min_length: field should be in minimum cahracter long
+							 * max_length: field should be in maximum cahracter long
+							 * alpha: should conatin alpha chracters only
+							 * int: should be a valid whole number
+							 * decimal: should be a valid decimal number
+							 * alphanum: alpha numeric character only
+							 */
+							"type" => "required", 
+							"message" => '' /** to overwrite the default message  */
+						],
+						[
+							"type" => "decimal", 
+							"message" => '' /** to overwrite the default message  */,
+						],
+						// [
+						// 	"type" => "int", 
+						// 	"message" => '' /** to overwrite the default message  */,
+						// ],
+						// [
+						// 	"type" => "alpha", 
+						// 	"message" => '' /** to overwrite the default message  */,
+						// ],
+						// [
+						// 	"type" => "regex", 
+						// 	"pattern" => "/[^a-z_\-\s0-9]/i",
+						// 	"message" => '' /** to overwrite the default message  */,
+						// ]
+					],
+					"row_style" => true /** define the template will be used */
 				],
-				"site_name_2" => [ 
-					'label' => "Site Name 2",
-					"attributes" => [
-						"type" => "text",
-						"name" => "site_name_2",
-						"placeholder" => "Site Name 2",
-					]
-				]
 			],
-			"site_2" => [
-				"site_name" => [ 
-					/** the value here the the actual attribute of the input field */
-					'label' => "Site 2",
-					"attributes" => [
-						"type" => "text",
-						"name" => "site_2",
-						"placeholder" => "Site 2",
-					]
-				]
+			"E-Mails" => [
+				"contact_email" => [ 
+					'label' => "Contact Us Email",
+					"attributes" => [ /** the value here the the actual attribute of the input field */
+						"type" => "text", /** this is the actual input field type can be text, button, select, multiselect, radio, checkbox and textarea */
+						"name" => "contact_email", /** input field name */
+						"placeholder" => "contactus@opoink.com", /** input field placeholder for text and textarea */
+						"class" => '' /** html class will be appended into default class that is from bootstrap */
+					],
+					"value" => "", /** this is the default value of the field */
+					"rules" => [ /** field rules for validation */
+						[
+							"type" => "required", 
+							"message" => '' /** to overwrite the default message  */
+						],
+						[
+							"type" => "email", 
+							"message" => '' /** to overwrite the default message  */
+						]
+					],
+					"row_style" => false /** define the template will be used */
+				],
 			]
 		]
 	],
