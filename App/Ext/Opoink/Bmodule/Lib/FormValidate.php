@@ -66,9 +66,8 @@ class FormValidate {
 	 * 	int: should be a valid whole number
 	 * 	decimal: should be a valid decimal number
 	 * 	alphanum: alpha numeric character only
-	 * 	TODO: 
-	 * 		same
-	 * 		url
+	 * 	same: case sensitive, comparison of two input values
+	 * 	url: the value should be a valid url link
 	 * @param $postField this is the field name comming from the request
 	 * return the value from the post if valid, return null if not
 	 */
@@ -84,18 +83,22 @@ class FormValidate {
 			$rules = $this->_session->getData('form_fields/'.$formName.'/fields/'.$postField);
 		}
 		if(is_array($rules)){
+			$isRequiredRule = $this->isFieldRequired($rules);
+			if($isRequiredRule){
+				if(strlen($value) <= 0){
+					/**
+					 * we have to return the invalid input if it is required and does not have any value
+					 */
+					return $this->invalidFieldValue($postField, '{{field_name}} is required.', $isRequiredRule, 'field_name');
+				}
+			}
+
 			foreach ($rules as $key => $rule) {
 				if(isset($rule['type'])){
 					$rule['type'] = strtolower($rule['type']);
-
-					if($rule['type'] == 'required'){
-						if(strlen($value) <= 0){
-							$value = $this->invalidFieldValue($postField, '{{field_name}} is required.', $rule, 'field_name');
-							break;
-						}
-					}
-					else if($rule['type'] == 'email'){
-						if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+ 
+					if($rule['type'] == 'email'){
+						if (strlen($value) >= 1 && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
 							$value = $this->invalidFieldValue($postField, '{{email}} is not a valid email address.', $rule, 'email');
 							break;
 						}
@@ -140,27 +143,51 @@ class FormValidate {
 						}
 					}
 					else if($rule['type'] == 'alphanum'){
-						if (!ctype_alnum($value)) {
+						if (strlen($value) >= 1 && !ctype_alnum($value)) {
 							$value = $this->invalidFieldValue($postField, 'The {{alphanum}} must contain alphanumeric characters only.', $rule, 'alphanum');
 							break;
 						}
 					}
 					else if($rule['type'] == 'alpha'){
-						if (preg_match("/[^a-z]/i", $value)) {
+						if (strlen($value) >= 1 && preg_match("/[^a-z]/i", $value)) {
 							$value = $this->invalidFieldValue($postField, 'The {{alpha}} must contain alpha characters only.', $rule, 'alpha');
 							break;
 						}
 					}
 					else if($rule['type'] == 'int'){
-						if (preg_match("/[^0-9]/i", $value)) {
+						if (strlen($value) >= 1 && preg_match("/[^0-9]/i", $value)) {
 							$value = $this->invalidFieldValue($postField, 'The {{int}} must contain numeric characters only.', $rule, 'int');
 							break;
 						}
 					}
 					else if($rule['type'] == 'decimal'){
-						if (preg_match("/[^0-9\.]/i", $value)) {
+						if (strlen($value) >= 1 && preg_match("/[^0-9\.]/i", $value)) {
 							$value = $this->invalidFieldValue($postField, 'The {{decimal}} must contain a whole number or decimal numbers characters only.', $rule, 'decimal');
 							break;
+						}
+					}
+					else if($rule['type'] == 'same'){
+						if(isset($rule['reference_input'])){
+							$ref = $rule['reference_input'];
+							$refInputVal = sha1($this->_request->getPost($ref));
+							$compareInputVal = sha1($value);
+							
+							if(strlen($value) >= 1 && $refInputVal !== $compareInputVal){
+								$langVars = [
+									['key' => 'ref_input_field', 'value' => $this->_dataObject->camelCaseToSpace($ref, 'ucwords')],
+									['key' => 'input_field', 'value' => $this->_dataObject->camelCaseToSpace($postField, 'ucwords')],
+								];
+								$value = $this->invalidFieldValue($postField, 'The {{input_field}} is not the same with {{ref_input_field}}.', $rule, '', $langVars);
+							}
+						}
+						else {
+							$rule['message'] = '';
+							$value = $this->invalidFieldValue($postField, 'The {{input_field}} must have reference input.', $rule, 'input_field');
+						}
+					}
+					else if($rule['type'] == 'url'){
+						if(strlen($value) >= 1 && !filter_var($value, FILTER_VALIDATE_URL)){
+							$value = $this->invalidFieldValue($postField, 'The {{input_field}} is not a valid URL.', $rule, 'input_field');
 						}
 					}
 					else {
@@ -173,8 +200,16 @@ class FormValidate {
 		return $value;
 	}
 
-	protected function invalidFieldValue($postField, $defaultMessage, $rule, $strKey='', $langVars=null){
-		if(!$langVars){
+	/**
+	 * construct the invalid array for the invalid field
+	 * @param string $postField
+	 * @param string $defaultMessage
+	 * @param array $rule
+	 * @param string $strKey
+	 * @param array $langVars
+	 */
+	protected function invalidFieldValue($postField, $defaultMessage, $rule, $strKey='', $langVars=[]){
+		if(!count($langVars)){
 			$langVars = [
 				[
 					'key' => $strKey, 
@@ -191,6 +226,24 @@ class FormValidate {
 			$value['message'] = $rule['message'];
 		}
 		return $value;
+	}
+
+	/**
+	 * check if the given field is required or not
+	 * @param array $rules
+	 * return boolean false if not required || return array instead 
+	 */
+	protected function isFieldRequired($rules=[]){
+		$isRequired = false;
+		foreach ($rules as $key => $rule) {
+			$rule['type'] = strtolower($rule['type']);
+
+			if($rule['type'] == 'required'){
+				$isRequired = $rule;
+				break;
+			}
+		}
+		return $isRequired;
 	}
 }
 ?>

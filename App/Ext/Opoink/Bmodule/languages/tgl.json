@@ -13,7 +13,7 @@
 	"Site": "Site",
 	"Powered by Opoink Framework {{version}}": "Pinapagana ng Opoink Framework {{version}}",
 	"{{field_name}} is required.": "{{field_name}} ay kailangan.",
-	"{{email}} is not a valid email address.": "{{email}} ay nasa hindi wastong pormat.",
+	"{{email}} is not a valid email address.": "Ang {{email}} ay nasa hindi wastong pormat.",
 	"The {{min_length}} must be a minimum of {{length}} characters long.": "Ang {{min_length}} dapat ay hindi bababa sa {{length}} piraso ng mga letra.",
 	"The {{max_length}} must be a maximum of {{length}} characters long.": "Ang {{max_length}} dapat ay hindi tataas sa {{length}} piraso ng mga letra.",
 	"The {{alphanum}} must contain alphanumeric characters only.": "Ang {{alphanum}} dapat ay meron lamang letra at numero na kasasma.",
@@ -21,5 +21,8 @@
 	"The ({{value}}) is not valid to be a value of the {{field_name}}.": "Ang ({{value}}) ay hindi pwedeng gamitin para sa {{field_name}}.",
 	"The {{alpha}} must contain alpha characters only.": "Ang {{alpha}} dapat ay mayroon lang mga letra na kasama.",
 	"The {{int}} must contain numeric characters only.": "Ang {{int}} dapat ay mayroon lang mga numerong kasama.",
-	"The {{decimal}} must contain a whole number or decimal numbers characters only.": "Ang {{decimal}} dapat ay whole number or decimal numbers lamang."
+	"The {{decimal}} must contain a whole number or decimal numbers characters only.": "Ang {{decimal}} dapat ay whole number or decimal numbers lamang.",
+	"The {{input_field}} must have reference input.": "Ang {{input_field}} dapat ay mayroong pagtutularang input.",
+	"The {{input_field}} is not the same with {{ref_input_field}}.": "Ang {{input_field}} ay dapat tumugma sa {{ref_input_field}}.",
+	"The {{input_field}} is not a valid URL.": "Ang {{input_field}} ay nasa hindi wastong pormat."
 }

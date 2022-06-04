@@ -6,7 +6,7 @@
 		<?php foreach ($groups as $group => $fields): ?>
 			<div class="group">
 				<div class="group-name collapsed" data-bs-toggle="collapse" data-bs-target=".form-group-<?= $group ?>-container" aria-expanded="false">
-					<?= $group ?>
+					<?= str_replace('_', ' ', $group) ?>
 				</div>
 				<div class="collapse form-group-<?= $group ?>-container p-4">
 					<?php $form = $this->_formBuilder->form([
