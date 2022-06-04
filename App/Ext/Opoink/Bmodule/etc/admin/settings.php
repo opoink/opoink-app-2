@@ -46,10 +46,10 @@ return [
 						 * same: case sensitive, comparison of two input values
 						 * url: the value should be a valid url link
 						 */
-						// [
-						// 	"type" => "required", 
-						// 	"message" => '' /** to overwrite the default message  */
-						// ],
+						[
+							"type" => "required", 
+							"message" => '' /** to overwrite the default message  */
+						],
 						// [
 						// 	"type" => "regex", 
 						// 	"pattern" => "/[^a-z_\-\s0-9]/i",
@@ -84,27 +84,23 @@ return [
 					],
 					"row_style" => true /** define the template will be used */
 				],
-				"site_name_confirm" => [ 
-					'label' => "Site Name Confirm",
-					"attributes" => [ /** the value here the the actual attribute of the input field */
-						"type" => "text", /** this is the actual input field type can be text, button, select, multiselect, radio, checkbox and textarea */
-						"name" => "site_name_confirm", /** input field name */
-						"placeholder" => "Site Name Confirm", /** input field placeholder for text and textarea */
-					],
-					"value" => "Site Name Confirm", /** this is the default value of the field */
-					"rules" => [ /** field rules for validation */
-						[
-							"type" => "same",
-							"reference_input" => "site_name", /** the input value to compare, required if the type is "same" */
-							"message" => '' /** to overwrite the default message  */
-						],
-						// [
-						// 	"type" => "required", 
-						// 	"message" => '' /** to overwrite the default message  */,
-						// ]
-					],
-					"row_style" => true /** define the template will be used */
-				]
+				// "site_name_confirm" => [ 
+				// 	'label' => "Site Name Confirm",
+				// 	"attributes" => [ /** the value here the the actual attribute of the input field */
+				// 		"type" => "text", /** this is the actual input field type can be text, button, select, multiselect, radio, checkbox and textarea */
+				// 		"name" => "site_name_confirm", /** input field name */
+				// 		"placeholder" => "Site Name Confirm", /** input field placeholder for text and textarea */
+				// 	],
+				// 	"value" => "Site Name Confirm", /** this is the default value of the field */
+				// 	"rules" => [ /** field rules for validation */
+				// 		[
+				// 			"type" => "same",
+				// 			"reference_input" => "site_name", /** the input value to compare, required if the type is "same" */
+				// 			"message" => '' /** to overwrite the default message  */
+				// 		],
+				// 	],
+				// 	"row_style" => true /** define the template will be used */
+				// ]
 			],
 			"e_mails" => [
 				"contact_email" => [ 

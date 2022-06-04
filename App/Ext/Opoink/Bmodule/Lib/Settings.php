@@ -111,5 +111,31 @@ class Settings extends \Of\Std\DataObject {
 			}
 		}
 	}
+
+	public function saveSettings($keys, $value){
+		if(strlen($value) >= 1){
+			$data = $this->_settingsEntity->getByColumn([
+				'key' => $keys
+			]);
+
+			if($data){
+				$data->unsCreatedAt();
+				$data->unsUpadedAt();
+				$data->unsKey();
+
+				$id = $data->setValue($value)->save();
+			}
+			else {
+				$id = $this->_settingsEntity
+				->setValue($value)
+				->setKey($keys)
+				->save();
+			}
+
+			return $this->_settingsEntity->getByColumn([
+				'settings_id' => $id
+			]);
+		}
+	}
 }
 ?>

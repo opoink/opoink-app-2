@@ -88,6 +88,9 @@ class FormBuilder {
 			else if($type == 'button'){
 				$this->addButton($formName, $field, $row);
 			}
+			else if($type == 'hidden'){
+				$this->addHidden($formName, $field, $row);
+			}
 		}
 
 		return $this;
@@ -167,6 +170,22 @@ class FormBuilder {
 	}
 
 	/**
+	 * add hidden input
+	 */
+	public function addHidden($formName, $field, $row=true){
+		$id = $this->buildFieldId();
+		
+		$tpl = '<input ';
+		foreach ($field['attributes'] as $key => $value) {
+			$tpl .= ' ' . $key . '="' . $value . '" ';
+		}
+		$tpl .= ' />';
+
+		$this->fields[$formName]['fields'][$field['attributes']['name']] = $tpl;
+		$this->sessionFields[$formName]['fields'][$field['attributes']['name']] = isset($field["rules"]) ? $field["rules"] : null;
+	}
+
+	/**
 	 * build label text 
 	 * inlcuding the astherisk if the field is required
 	 */
@@ -236,13 +255,14 @@ class FormBuilder {
 		 * this value will going to be the form key
 		 * so this will be used on validation of the form
 		 */
-		$formKey = $this->_session->getData('form_key');
+		$formKey = $this->_session->getData('form_builder_form_key');
 		if(!$formKey){
 			$formKey = $this->_password->generate(15);
-			$this->_session->setData('form_key', $formKey);
+			$this->_session->setData('form_builder_form_key', $formKey);
 		}
-		$this->sessionFields[$formName]['form_key'] = $formKey.'_'.$formName;
-		$html .= '<input type="hidden" name="form_key" value="'.$formKey.'_'.$formName.'" />';
+		$this->sessionFields[$formName]['form_builder_form_key'] = $formKey.'_'.$formName;
+
+		$html .= '<input type="hidden" name="form_builder_form_key" value="'.$formKey.'_'.$formName.'" />';
 
 
 		$html .= implode(' ', $this->fields[$formName]['fields']);

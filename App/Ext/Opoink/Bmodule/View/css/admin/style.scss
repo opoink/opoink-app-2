@@ -378,6 +378,45 @@ a:hover {
 	}
 }
 
+
+.general_notification_container {
+    position: fixed;
+    bottom: -20px;
+    left: 0;
+    z-index: 99999;
+    width: 100%;
+    pointer-events: none;
+
+	.general_notification {
+		list-style: none;
+		padding: 0px 15px 15px 15px;
+
+		.general_notification_message {
+			position: relative;
+			min-height: 50px;
+			pointer-events: auto;
+
+			div {
+				padding-right: 30px;
+			}
+
+			.notificationMessageClose {
+				position: absolute;
+				right: 0;
+				top: 0;
+				height: 100%;
+				width: 40px;
+				background: transparent;
+				border: 0;
+			}
+
+			&:last-child {
+				margin-bottom: 0px;
+			}
+		}
+	}
+}
+
 @import './min_width_576';
 @import './min_width_768';
 @import './min_width_992';

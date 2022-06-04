@@ -10,7 +10,7 @@
 				</div>
 				<div class="collapse form-group-<?= $group ?>-container p-4">
 					<?php $form = $this->_formBuilder->form([
-						'action' => $this->getAdminUrl('/settings/savesettings'),
+						'action' => $this->getAdminUrl('/settings/savesettings', $this->_request->getParam()),
 						'method' => 'POST',
 						'class' => 'form-group-' . $group
 					]); ?>
@@ -22,6 +22,16 @@
 					<?php endforeach ?>
 
 					<?php 
+						$this->_formBuilder->add($form, [ 
+							'label' => "settings_key",
+							"attributes" => [
+								"type" => "hidden",
+								"name" => "settings_key",
+								"value" => $this->currentTab.'/'.$this->currentSubTab.'/'.$group.'/',
+								"class" => ""
+							]
+						]); 
+
 						$this->_formBuilder->add($form, [ 
 							'label' => "Save",
 							"attributes" => [

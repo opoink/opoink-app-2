@@ -21,16 +21,23 @@ class Tabs extends \Opoink\Bmodule\Block\Admin\Context {
 	protected $currentTab = '';
 	protected $currentSubTab = '';
 
+	/**
+	 * \Of\Http\Request
+	 */
+	protected $_request;
+
 	public function __construct(
 		\Of\Http\Url $Url,
 		\Of\Config $Config,
 		\Opoink\Bmodule\Lib\Lang $Lang,
 		\Opoink\Bmodule\Lib\Settings $Settings,
-		\Opoink\Bmodule\Lib\FormBuilder $FormBuilder
+		\Opoink\Bmodule\Lib\FormBuilder $FormBuilder,
+		\Of\Http\Request $Request
 	){
 		parent::__construct($Url, $Config, $Lang);
 		$this->_settings = $Settings;
 		$this->_formBuilder = $FormBuilder;
+		$this->_request = $Request;
 	}
 
 	protected function getFields(){

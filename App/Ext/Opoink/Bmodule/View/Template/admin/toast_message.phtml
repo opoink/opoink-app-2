@@ -1,0 +1,14 @@
+<?php
+	echo $this->_message->toHtml();
+?>
+
+<script>
+	require([
+		'jquery'
+	], function($){
+		$('.general_notification_container .notificationMessageClose').on('click', (e) => {
+			$('.general_notification_container .toast-msg-'+e.delegateTarget.dataset.index).remove();
+			console.log('notificationMessageClose', e.delegateTarget.dataset.index);
+		});
+	});
+</script>
