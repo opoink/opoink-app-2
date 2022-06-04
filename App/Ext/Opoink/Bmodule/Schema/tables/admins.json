@@ -72,13 +72,13 @@
         {
             "name": "created_at",
             "type": "TIMESTAMP",
-            "CURRENT_TIMESTAMP": "CURRENT_TIMESTAMP",
+            "default": "CURRENT_TIMESTAMP",
             "after": "lang"
         },
         {
             "name": "upaded_at",
             "type": "TIMESTAMP",
-            "CURRENT_TIMESTAMP": "CURRENT_TIMESTAMP",
+            "default": "CURRENT_TIMESTAMP",
             "attributes": "on update CURRENT_TIMESTAMP",
             "after": "created_at"
         }

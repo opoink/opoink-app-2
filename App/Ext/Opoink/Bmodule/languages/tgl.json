@@ -30,8 +30,9 @@
 	"Site Name": "Pangalan Ng Site",
 	"Contact Us Email": "Contact Us Email",
 	"Facebook URL": "Facebook URL",
-	"Paypay config": "Paypay config",
+	"Sales": "Sales",
 	"PayPal Email": "PayPal Email",
 	"Paypal": "PayPal",
-	"Payment methods": "Paraan ng pagbabayad"
+	"Payment methods": "Paraan ng pagbabayad",
+	"The {{input_field}} setting field successfully saved.": "The {{input_field}} setting field successfully saved."
 }

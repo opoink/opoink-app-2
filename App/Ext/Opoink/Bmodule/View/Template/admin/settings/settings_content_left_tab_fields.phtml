@@ -19,6 +19,7 @@
 							if(isset($field['label'])){
 								$field['label'] = $this->_lang->_getLang($field['label']);
 							}
+							$field['attributes']['name'] = $fieldKey;
 							$field['attributes']['value'] = $this->_settings->getSettings($this->currentTab.'/'.$this->currentSubTab.'/'.$group.'/'.$fieldKey.'/value');
 							$this->_formBuilder->add($form, $field, true);
 						?>

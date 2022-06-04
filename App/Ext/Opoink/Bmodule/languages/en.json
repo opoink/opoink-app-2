@@ -30,8 +30,9 @@
 	"Site Name": "Site Name",
 	"Contact Us Email": "Contact Us Email",
 	"Facebook URL": "Facebook URL",
-	"Paypay config": "Paypay config",
+	"Sales": "Sales",
 	"PayPal Email": "PayPal Email",
 	"Paypal": "PayPal",
-	"Payment methods": "Payment methods"
+	"Payment methods": "Payment methods",
+	"The {{input_field}} setting field successfully saved.": "The {{input_field}} setting field successfully saved."
 }

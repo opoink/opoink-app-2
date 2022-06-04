@@ -9,17 +9,24 @@ class Index extends \Of\Controller\Controller {
 	protected $_formValidate;
 	protected $_settings;
 
+	/**
+	 * \Of\Std\Lang
+	 */
+	protected $_lang;
+
 	public function __construct(
 		\Of\Http\Url $Url,
 		\Of\Std\Message $Message,
 		\Opoink\Bmodule\Lib\FormValidate $FormValidate,
-		\Opoink\Bmodule\Lib\Settings $Settings
+		\Opoink\Bmodule\Lib\Settings $Settings,
+		\Opoink\Bmodule\Lib\Lang $Lang
 	){
 
 		$this->_url = $Url;
 		$this->_message = $Message;
 		$this->_formValidate = $FormValidate;
 		$this->_settings = $Settings;
+		$this->_lang = $Lang;
 	}
 
 	public function run(){
@@ -54,7 +61,13 @@ class Index extends \Of\Controller\Controller {
 				$settingKeys = $this->getPost('settings_key') . $key . '/value';
 				$save = $this->_settings->saveSettings($settingKeys, $field);
 				if($save){
-					$this->_message->setMessage('testing message', 'success');
+					$message = $this->_lang->_getLang('The {{input_field}} setting field successfully saved.', [
+						[
+							'key' => 'input_field', 
+							'value' => ucwords(str_replace('_', ' ', $key))
+						]
+					]);
+					$this->_message->setMessage($message, 'success');
 				}
 			}
 		}

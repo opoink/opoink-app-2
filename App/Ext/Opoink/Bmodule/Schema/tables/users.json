@@ -17,8 +17,7 @@
             "nullable": true,
             "collation": "utf8_general_ci",
             "comment": "asdad asd",
-            "after": "user_id",
-            "old_name": "firstname"
+            "after": "user_id"
         },
         {
             "name": "lastname",
@@ -27,8 +26,7 @@
             "default": null,
             "nullable": true,
             "collation": "utf8_general_ci",
-            "after": "firstname",
-            "old_name": "lastname"
+            "after": "firstname"
         },
         {
             "name": "email",
@@ -37,8 +35,7 @@
             "default": null,
             "nullable": true,
             "collation": "utf8_general_ci",
-            "after": "lastname",
-            "old_name": "email"
+            "after": "lastname"
         },
         {
             "name": "password",
@@ -47,8 +44,7 @@
             "default": null,
             "nullable": true,
             "collation": "utf8_general_ci",
-            "after": "email",
-            "old_name": "password"
+            "after": "email"
         },
         {
             "name": "profile_picture",
@@ -56,8 +52,7 @@
             "default": null,
             "nullable": true,
             "collation": "utf8_general_ci",
-            "after": "password",
-            "old_name": "profile_picture"
+            "after": "password"
         },
         {
             "name": "social_media_type",
@@ -66,8 +61,7 @@
             "default": null,
             "nullable": true,
             "collation": "utf8_general_ci",
-            "after": "profile_picture",
-            "old_name": "social_media_type"
+            "after": "profile_picture"
         },
         {
             "name": "social_id",
@@ -76,8 +70,7 @@
             "default": null,
             "nullable": true,
             "collation": "utf8_general_ci",
-            "after": "social_media_type",
-            "old_name": "social_id"
+            "after": "social_media_type"
         },
         {
             "name": "create_by",
@@ -86,23 +79,22 @@
             "default": null,
             "nullable": true,
             "collation": "utf8_general_ci",
-            "after": "social_id",
-            "old_name": "create_by"
+            "after": "social_id"
         },
         {
             "name": "created_at",
             "type": "TIMESTAMP",
+            "default": "CURRENT_TIMESTAMP",
             "collation": "utf8_general_ci",
-            "after": "create_by",
-            "old_name": "created_at"
+            "after": "create_by"
         },
         {
             "name": "updated_at",
             "type": "TIMESTAMP",
+            "default": "CURRENT_TIMESTAMP",
             "attributes": "on update CURRENT_TIMESTAMP",
             "collation": "utf8_general_ci",
-            "after": "created_at",
-            "old_name": "updated_at"
+            "after": "created_at"
         }
     ]
 }

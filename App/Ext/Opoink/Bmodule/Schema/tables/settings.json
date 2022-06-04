@@ -26,14 +26,14 @@
         {
             "name": "created_at",
             "type": "TIMESTAMP",
-            "CURRENT_TIMESTAMP": "CURRENT_TIMESTAMP",
+            "default": "CURRENT_TIMESTAMP",
             "collation": "utf8_general_ci",
             "after": "value"
         },
         {
-            "name": "upaded_at",
+            "name": "updated_at",
             "type": "TIMESTAMP",
-            "CURRENT_TIMESTAMP": "CURRENT_TIMESTAMP",
+            "default": "CURRENT_TIMESTAMP",
             "attributes": "on update CURRENT_TIMESTAMP",
             "collation": "utf8_general_ci",
             "after": "created_at"

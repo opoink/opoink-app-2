@@ -27,7 +27,7 @@ return [
 					],
 					"comment" => [
 						[ /** this is an array so that we can add more comments */
-							"text" => 'testing lang muna', /** the field comment text */
+							"text" => 'Site name', /** the field comment text */
 							"class" => 'text-muted', /** will be appended into bootstrap form-text */
 						]
 					],
@@ -145,18 +145,23 @@ return [
 			]
 		]
 	],
-	"payment_methods" => [
-		"paypal" => [
-			"paypay_config" => [
-				"email" => [ 
+	"sales" => [
+		"payment_methods" => [
+			"paypal" => [
+				"paypal_email" => [ 
 					'label' => "PayPal Email",
 					"attributes" => [
 						"type" => "text",
-						"name" => "paypal_email",
-						"placeholder" => "PayPal Email"
+						"placeholder" => "youremail@paypal.com",
+						"autocomplete" => "off"
 					],
-					"value" => "paypal@opoink.com",
-					"rules" => ["required"]
+					"value" => "",
+					"rules" => [
+						[
+							"type" => "email", 
+							"message" => '' /** to overwrite the default message  */
+						]
+					]
 				],
 			]
 		]
