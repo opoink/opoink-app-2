@@ -121,7 +121,7 @@ return [
 							"message" => '' /** to overwrite the default message  */
 						]
 					],
-					"row_style" => false /** define the template will be used */
+					"row_style" => true /** define the template will be used */
 				],
 			],
 			"social_media_links" => [
@@ -149,7 +149,7 @@ return [
 		"paypal" => [
 			"paypay_config" => [
 				"email" => [ 
-					'label' => "PayPayl Email",
+					'label' => "PayPal Email",
 					"attributes" => [
 						"type" => "text",
 						"name" => "paypal_email",

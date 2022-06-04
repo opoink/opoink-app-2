@@ -24,5 +24,14 @@
 	"The {{decimal}} must contain a whole number or decimal numbers characters only.": "The {{decimal}} must contain a whole number or decimal numbers characters only.",
 	"The {{input_field}} must have reference input.": "The {{input_field}} must have reference input.",
 	"The {{input_field}} is not the same with {{ref_input_field}}.": "The {{input_field}} is not the same with {{ref_input_field}}.",
-	"The {{input_field}} is not a valid URL.": "The {{input_field}} is not a valid URL."
+	"The {{input_field}} is not a valid URL.": "The {{input_field}} is not a valid URL.",
+	"E mails": "E mails",
+	"Social media links": "Social media links",
+	"Site Name": "Site Name",
+	"Contact Us Email": "Contact Us Email",
+	"Facebook URL": "Facebook URL",
+	"Paypay config": "Paypay config",
+	"PayPal Email": "PayPal Email",
+	"Paypal": "PayPal",
+	"Payment methods": "Payment methods"
 }

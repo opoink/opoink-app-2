@@ -16,13 +16,13 @@ $paramTab = $this->_controller->getParam('tab');
 	?>
 	<div class="settings-left-tab">
 		<div class="settings-tab-control <?= $collapsed ?>" data-bs-toggle="collapse" data-bs-target="#settings-left-tab-<?= $tab ?>-sub" aria-expanded="<?= $ariaExpanded ?>" aria-controls="settings-left-tab-<?= $tab ?>-sub">
-			<?= $this->_lang->_getLang(ucfirst($tab)) ?>
+			<?= $this->_lang->_getLang(ucfirst(str_replace('_', ' ', $tab))) ?>
 		</div>
 		<ul id="settings-left-tab-<?= $tab ?>-sub" class="settings-left-tab-sub collapse <?= $subTab ?>">
 			<?php foreach ($subs as $sub => $val): ?>
 				<li id="settings-left-tab-<?= $tab ?>-<?= $sub ?>-sub" class="settings-left-tab ">
 					<a href="<?= $this->getAdminUrl('/settings/allsettings', ['tab'=>$tab, 'sub'=>$sub]) ?>" class="settings-tab-control">
-						<?= $this->_lang->_getLang(ucfirst($sub)) ?>
+						<?= $this->_lang->_getLang(ucfirst(str_replace('_', ' ', $sub))) ?>
 					</a>
 				</li>
 			<?php endforeach ?>

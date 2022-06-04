@@ -24,5 +24,14 @@
 	"The {{decimal}} must contain a whole number or decimal numbers characters only.": "Ang {{decimal}} dapat ay whole number or decimal numbers lamang.",
 	"The {{input_field}} must have reference input.": "Ang {{input_field}} dapat ay mayroong pagtutularang input.",
 	"The {{input_field}} is not the same with {{ref_input_field}}.": "Ang {{input_field}} ay dapat tumugma sa {{ref_input_field}}.",
-	"The {{input_field}} is not a valid URL.": "Ang {{input_field}} ay nasa hindi wastong pormat."
+	"The {{input_field}} is not a valid URL.": "Ang {{input_field}} ay nasa hindi wastong pormat.",
+	"E mails": "E mails",
+	"Social media links": "Social media links",
+	"Site Name": "Pangalan Ng Site",
+	"Contact Us Email": "Contact Us Email",
+	"Facebook URL": "Facebook URL",
+	"Paypay config": "Paypay config",
+	"PayPal Email": "PayPal Email",
+	"Paypal": "PayPal",
+	"Payment methods": "Paraan ng pagbabayad"
 }

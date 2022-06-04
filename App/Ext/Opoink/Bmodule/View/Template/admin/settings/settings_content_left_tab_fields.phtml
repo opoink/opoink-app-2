@@ -6,7 +6,7 @@
 		<?php foreach ($groups as $group => $fields): ?>
 			<div class="group">
 				<div class="group-name collapsed" data-bs-toggle="collapse" data-bs-target=".form-group-<?= $group ?>-container" aria-expanded="false">
-					<?= str_replace('_', ' ', $group) ?>
+					<?= $this->_lang->_getLang(ucfirst(str_replace('_', ' ', $group))) ?>
 				</div>
 				<div class="collapse form-group-<?= $group ?>-container p-4">
 					<?php $form = $this->_formBuilder->form([
@@ -16,6 +16,9 @@
 					]); ?>
 					<?php foreach ($fields as $fieldKey => $field): ?>
 						<?php
+							if(isset($field['label'])){
+								$field['label'] = $this->_lang->_getLang($field['label']);
+							}
 							$field['attributes']['value'] = $this->_settings->getSettings($this->currentTab.'/'.$this->currentSubTab.'/'.$group.'/'.$fieldKey.'/value');
 							$this->_formBuilder->add($form, $field, true);
 						?>
