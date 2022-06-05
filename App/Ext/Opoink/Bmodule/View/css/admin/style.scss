@@ -215,6 +215,9 @@ a:hover {
 					background-color: $sideNavMenuActive;
 				}
 			}
+			&.link-active{
+				background-color: $sideNavMenuActive;
+			}
 		}
 
 		.side-menu-icon {
