@@ -13,6 +13,8 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 	 */
 	protected $listingName = '';
 
+	protected $tableClass = 'table table-striped table-dark';
+
 	/**
 	 * \Of\Std\DataObjec
 	 */
@@ -23,14 +25,21 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 	 */
 	protected $collectionModel = null;
 
+	/**
+	 * \Opoink\Bmodule\Block\Admin\ContentTopBotton
+	 */
+	protected $contentTopBottons;
+
 	public function __construct(
 		\Of\Http\Url $Url,
 		\Of\Config $Config,
-		\Opoink\Bmodule\Lib\Lang $Lang
+		\Opoink\Bmodule\Lib\Lang $Lang,
+		\Opoink\Bmodule\Block\Admin\ContentTopBottons $ContentTopBottons
 	){
 		parent::__construct($Url, $Config, $Lang);
 		$this->_dataObject = new \Of\Std\DataObject();
 		$this->getAllListingArray();
+		$this->contentTopBottons = $ContentTopBottons;
 	}
 
 	/**

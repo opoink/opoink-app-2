@@ -27,6 +27,28 @@ class ContentTopBottons {
 	public function buttonsToHtml(){
 		$btns = $this->collectButtons();
 
+		/** sort buttons */
+		$sortedBtnWithPosition = [];
+		$sortedBtnWithNoPosition = [];
+		foreach ($btns as $key => $btn) {
+			if(isset($btn['active']) && $btn['active'] == true){
+				if(isset($btn['position'])){
+					$sortedBtnWithPosition[$btn['position']] = $btn;
+				}
+				else {
+					$sortedBtnWithNoPosition[] = $btn;
+				}
+			}
+		}
+		ksort($sortedBtnWithPosition);
+		$noPositionNumber = array_key_last ( $sortedBtnWithPosition ) + 1;
+		foreach ($sortedBtnWithNoPosition as $key => $value) {
+			$value['posistion'] = $noPositionNumber;
+			$sortedBtnWithPosition[$value['posistion']] = $value;
+			$noPositionNumber++;
+		}
+		$btns = $sortedBtnWithPosition;
+
 		$html = '';
 		foreach ($btns as $key => $btn) {
 			$attr = [];
@@ -69,14 +91,12 @@ class ContentTopBottons {
 						$btns = $actionButtons[$pagename];
 
 						foreach ($btns as $key => $value) {
-							$atnBtns[$value['position']] = $value;
+							$atnBtns[] = $value;
 						}
 					}
 				}
 			}
 		}
-
-		sort($atnBtns);
 
 		return $atnBtns;
 	}

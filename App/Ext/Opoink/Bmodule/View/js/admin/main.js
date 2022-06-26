@@ -45,23 +45,28 @@ define([
 		},
 		actionTopButtons: {
 			init: function(){
-				let el = $('.page-top-bottons #action-save');
-				el.on('click', function(){
-					let dataset = el.data();
-					if(typeof dataset.target_form_id != 'undefined'){
-						let formEl = $('#' + dataset.target_form_id);
-						if(typeof dataset.action != 'undefined'){
-							formEl.action = dataset.action;
-						}
-
-						if(typeof dataset.isajax != 'undefined' && parseInt(dataset.isajax) == 1){
-							let jsonData = main._form._serialize(formEl).toJson();
-							console.log('main main main', jsonData);
-						}
-						else {
-							// formEl.submit();
-						}
+				let el = $('.page-top-bottons button');
+				el.on('click', function(e){
+					let dataset = e.target.dataset;
+					if(dataset.target == 'link'){
+						window.location.href = adminUrl + dataset.action;
 					}
+					// console.log('page-top-bottons page-top-bottons', el);
+					// console.log('page-top-bottons page-top-bottons', e);
+					// if(typeof dataset.target_form_id != 'undefined'){
+					// 	let formEl = $('#' + dataset.target_form_id);
+					// 	if(typeof dataset.action != 'undefined'){
+					// 		formEl.action = dataset.action;
+					// 	}
+
+					// 	if(typeof dataset.isajax != 'undefined' && parseInt(dataset.isajax) == 1){
+					// 		let jsonData = main._form._serialize(formEl).toJson();
+					// 		console.log('main main main', jsonData);
+					// 	}
+					// 	else {
+					// 		// formEl.submit();
+					// 	}
+					// }
 				});
 			}
 		}

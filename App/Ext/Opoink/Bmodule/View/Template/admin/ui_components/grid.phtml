@@ -12,8 +12,11 @@ $this->collectionModel = $di->get($this->collectionModel);
 $columns = $this->_dataObject->getData('columns');
 $data = $this->collectionModel->getList();
 ?>
+<div class="page-top-bottons d-flex justify-content-end">
+	<?= $this->contentTopBottons->buttonsToHtml(); ?>
+</div>
 
-<table class="table table-striped table-dark">
+<table class="<?= $this->tableClass ?>">
 	<thead>
 		<tr>
 			<?php 
@@ -44,3 +47,9 @@ $data = $this->collectionModel->getList();
 		</tbody>
 	<?php endif; ?>
 </table>
+
+<script>
+	require(['main'], function(main){
+		console.log('main main', main);
+	})
+</script>
