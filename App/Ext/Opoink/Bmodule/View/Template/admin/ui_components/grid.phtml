@@ -1,0 +1,46 @@
+<?php
+/**
+ * we cant get the dipendency injector from controller during the construct
+ * so we have the get it in here
+ */
+$di = $this->_controller->getDi();
+
+/**
+ * the model was already fetched in during construct
+ */
+$this->collectionModel = $di->get($this->collectionModel);
+$columns = $this->_dataObject->getData('columns');
+$data = $this->collectionModel->getList();
+?>
+
+<table class="table table-striped table-dark">
+	<thead>
+		<tr>
+			<?php 
+				foreach ($columns as $key => $column) {
+					$label = '';
+					if(isset($column['label'])){
+						$label = $column['label'];
+					}
+					elseif(isset($column['column_name'])){
+						$label = $column['column_name'];
+					}
+					echo '<th scope="col">'.$label.'</th>';
+				} 
+			?>
+		</tr>
+	</thead>
+	<?php if($data): ?>
+		<tbody>
+			<?php
+				foreach ($data as $key => $value) {
+					echo "<tr>";
+						foreach ($columns as $_key => $_column) {
+							echo "<td>".$value->getData($_column['column_name'])."</td>";
+						}
+					echo "</tr>";
+				}
+			?>
+		</tbody>
+	<?php endif; ?>
+</table>
