@@ -39,7 +39,13 @@ $data = $this->collectionModel->getList();
 				foreach ($data as $key => $value) {
 					echo "<tr>";
 						foreach ($columns as $_key => $_column) {
-							echo "<td>".$value->getData($_column['column_name'])."</td>";
+							if(isset($_column['renderer'])){
+								$renderer = $di->get($_column['renderer']);
+								echo "<td>".$renderer->render($value)."</td>";
+							}
+							else {
+								echo "<td>".$value->getData($_column['column_name'])."</td>";
+							}
 						}
 					echo "</tr>";
 				}

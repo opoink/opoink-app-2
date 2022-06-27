@@ -161,7 +161,7 @@ class FormBuilder {
 		else {
 			$tpl = '<div class="form-group row">
 				<label for="'.$id.'" class="col-sm-3 col-form-label text-start text-sm-end">'.$this->buildLabelText($field).'</label>
-				<div class="col-sm-9">'.$input.' '.$this->buildComment($field).'</div>
+				<div class="col-sm-9">'.$input.' '.$this->buildComment($field).'<div class="validatorjs-errors-'.$id.'"></div></div>
 			</div>';
 		}
 
@@ -210,7 +210,7 @@ class FormBuilder {
 	protected function buildInputField($field, $id){
 		$field['attributes']['id'] = $id;
 
-		$htmlClass = 'form-control';
+		$htmlClass = 'builder-form-field form-control';
 		if(isset($field['attributes']['class'])){
 			$htmlClass .= " " . $field['attributes']['class'];
 			unset($field['attributes']['class']);
@@ -218,6 +218,31 @@ class FormBuilder {
 		$input = '<input class="'.$htmlClass.'" ';
 		foreach ($field['attributes'] as $key => $value) {
 			$input .= ' ' . $key . '="' . $value . '" ';
+		}
+
+		if(isset($field['rules'])){
+			$validationJsRule = [];
+			$validationJsRuleMsg = [];
+			foreach ($field['rules'] as $key => $rule) {
+				if(isset($rule['type'])){
+					$validationJsRule[] = $rule['type'];
+
+					if(isset($rule['message'])){
+						$validationJsRuleMsg[$rule['type']] = $rule['message'];
+					}
+				}
+			}
+
+			if(count($validationJsRule)){
+				$validationJsRule = implode('|', $validationJsRule);
+				$input .= ' data-validation_rules="'.$validationJsRule.'" ';
+
+				if(count($validationJsRuleMsg)){
+					$errorMsgs = json_encode($validationJsRuleMsg);
+					$errorMsgs = base64_encode($errorMsgs);
+					$input .= ' data-validation_error_message="'.$errorMsgs.'" ';
+				}
+			}
 		}
 		$input .= ' />';
 		return $input;
@@ -267,6 +292,11 @@ class FormBuilder {
 
 		$html .= implode(' ', $this->fields[$formName]['fields']);
 		$html .= '</form>';
+		$html .= '<script>
+			require(["main"], function(main){
+				main._form.setFormElement("'.$formName.'");
+			});
+		</script>';
 
 		$this->_session->setData('form_fields', $this->sessionFields);
 		

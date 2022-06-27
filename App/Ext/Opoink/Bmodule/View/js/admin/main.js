@@ -1,7 +1,8 @@
 define([
 	'jquery',
-	'request'
-], function($, vInit, req) {
+	'request',
+	'validatorjs'
+], function($, req, validatorjs) {
 
 	let main = {
 		init: function(){
@@ -25,6 +26,58 @@ define([
 		},
 		_form: {
 			formData: null,
+			setFormElement: function(elemId){
+				$('#'+elemId).on('submit', function(e){
+					e.preventDefault();
+
+					let fields = $('#'+elemId + ' .builder-form-field');
+
+					let isAllPassed = true;
+
+
+					fields.each(function( key, field ) {
+						if(typeof field.dataset.validation_rules != 'undefined'){
+							let data = {};
+							data[field.name] = field.value;
+
+							let rules = {};
+							rules[field.name] = field.dataset.validation_rules;
+
+							let messages = {};
+							if(field.dataset.validation_error_message){
+								messages = atob(field.dataset.validation_error_message);
+								messages = JSON.parse(messages);
+							}
+
+							let validation = new validatorjs(data, rules, messages);
+							$('.validatorjs-errors-'+field.id).empty();
+
+							if(validation.fails()){
+								isAllPassed = false;
+
+								console.log('field field field',  validation.errors.errors[field.name]);
+
+								validation.errors.errors[field.name].forEach(error => {
+									$('.validatorjs-errors-'+field.id).append('<small class="text-danger">'+error+'</small>');
+								});
+								// validation.errors.errors[field.name].each(function( error ){
+								// 	'<small class="text-danger">'+error+'</small>';
+								// 	$('.validatorjs-errors-'+field.id).append();
+								// });
+								// console.log('field field field', validation.errors[field.name]);
+								// console.log('field field field', 'validatorjs-errors-'+field.id);
+							}
+							if(validation.passes()){
+								/** do nothing */
+							}
+						}
+					});
+
+					if(isAllPassed){
+						this.submit();
+					}
+				});
+			},
 			_serialize: function(formEl){
 				this.formData = formEl.serialize();
 				return this;
@@ -51,22 +104,13 @@ define([
 					if(dataset.target == 'link'){
 						window.location.href = adminUrl + dataset.action;
 					}
-					// console.log('page-top-bottons page-top-bottons', el);
-					// console.log('page-top-bottons page-top-bottons', e);
-					// if(typeof dataset.target_form_id != 'undefined'){
-					// 	let formEl = $('#' + dataset.target_form_id);
-					// 	if(typeof dataset.action != 'undefined'){
-					// 		formEl.action = dataset.action;
-					// 	}
-
-					// 	if(typeof dataset.isajax != 'undefined' && parseInt(dataset.isajax) == 1){
-					// 		let jsonData = main._form._serialize(formEl).toJson();
-					// 		console.log('main main main', jsonData);
-					// 	}
-					// 	else {
-					// 		// formEl.submit();
-					// 	}
-					// }
+					else if(dataset.target == 'form_submit'){
+						let formEl = $('#' + dataset.target_form_id);
+						if(typeof dataset.action != 'undefined'){
+							formEl.attr('action', adminUrl + dataset.action)
+						}
+						formEl.submit();
+					}
 				});
 			}
 		}
