@@ -8,6 +8,7 @@ define([
 		init: function(){
 			this.sideNavControls.init();
 			this.actionTopButtons.init();
+			this.actionBtns.init();
 		},
 		sideNavControls: {
 			init: function(){
@@ -60,12 +61,6 @@ define([
 								validation.errors.errors[field.name].forEach(error => {
 									$('.validatorjs-errors-'+field.id).append('<small class="text-danger">'+error+'</small>');
 								});
-								// validation.errors.errors[field.name].each(function( error ){
-								// 	'<small class="text-danger">'+error+'</small>';
-								// 	$('.validatorjs-errors-'+field.id).append();
-								// });
-								// console.log('field field field', validation.errors[field.name]);
-								// console.log('field field field', 'validatorjs-errors-'+field.id);
 							}
 							if(validation.passes()){
 								/** do nothing */
@@ -112,6 +107,32 @@ define([
 						formEl.submit();
 					}
 				});
+			}
+		},
+		actionBtns: {
+			init: function(){
+				$('.action-btns').on('click', (e) => {
+					e.preventDefault();
+
+					let dataset = e.currentTarget.dataset;
+
+					try {
+						if(dataset.type == 'action-confirm'){
+							$('#confirmationModal .modal-body').empty();
+							$('#confirmationModal .modal-body').append(dataset.content);
+							$('#confirmationModal #confirmationModalLabel').text(dataset.modal_title);
+							$('#confirmationModal .modal-footer .btn-secondary').text(dataset.modal_secondary);
+							$('#confirmationModal .modal-footer .btn-primary').text(dataset.modal_primary);
+							$('#confirmationModal .modal-footer .btn-primary').unbind().on('click', function(){
+								window.location.href = dataset.action_url;
+								$('#confirmationModal').modal('hide');
+							});
+							$('#confirmationModal').modal('show');
+						}
+					} catch (error) {
+						console.log('action-btns action-btns action-btns error', error);
+					}
+				})
 			}
 		}
 	};
