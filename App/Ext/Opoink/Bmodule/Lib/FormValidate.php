@@ -137,7 +137,7 @@ class FormValidate {
 					}
 					else if($rule['type'] == 'regex'){
 						if(isset($rule['pattern'])){
-							if (preg_match($rule['pattern'], $value)) {
+							if (!preg_match($rule['pattern'], $value)) {
 								$langVars = [
 									['key' => 'value', 'value' => $value],
 									['key' => 'field_name', 'value' => $this->_dataObject->camelCaseToSpace($postField, 'ucwords')],

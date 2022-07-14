@@ -2,6 +2,7 @@
 
 <script>
 	const adminUrl = '<?= $this->getAdminUrl() ?>';
+	const pageName = '<?= strtolower($this->_controller->getPageName()) ?>';
 	requirejs.config({
 		baseUrl: '<?= $this->getPublicUrl() ?>',
 		paths: {
