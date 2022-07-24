@@ -38,6 +38,7 @@ class FormBuilder {
 	 * this is usefull for multiple form in the page
 	 */
 	protected $formCount = 0;
+	protected $_di;
 
 	/**
 	 * this will be the cuurent field count so that we can
@@ -51,7 +52,7 @@ class FormBuilder {
 	){
 		$this->_session = $Session;
 		$this->_password = $Password;
-
+		$this->_di = new \Of\Std\Di();
 		
 		$this->_session->unsetData('form_fields');
 	}
@@ -90,6 +91,9 @@ class FormBuilder {
 			}
 			else if($type == 'hidden'){
 				$this->addHidden($formName, $field, $row);
+			}
+			else if($type == 'select'){
+				$this->addSelect($formName, $field, $row);
 			}
 		}
 
@@ -169,6 +173,51 @@ class FormBuilder {
 		$this->sessionFields[$formName]['fields'][$field['attributes']['name']] = isset($field["rules"]) ? $field["rules"] : null;
 	}
 
+	public function addSelect($formName, $field, $row=true){
+		$id = $this->buildFieldId();
+
+		$field['attributes']['id'] = $id;
+		$htmlClass = 'builder-form-field form-select';
+		if(isset($field['attributes']['class'])){
+			$htmlClass .= " " . $field['attributes']['class'];
+			unset($field['attributes']['class']);
+		}
+
+		$attr = '';
+		foreach ($field['attributes'] as $key => $value) {
+			$attr .= ' ' . $key . '="' . $value . '" ';
+		}
+
+		$input = '<select class="'.$htmlClass.'" '.$attr.' >';
+		if(isset($field['option'])){
+			$options = $this->_di->get($field['option'])->toOptionArray();
+			foreach ($options as $key => $value) {
+				$selected = '';
+				if(isset($field['attributes']['value']) && $value['key'] == $field['attributes']['value']){
+					$selected = 'selected="selected"';
+				}
+				$input .= '<option value="'.$value['key'].'" '.$selected.'>'.$value['value'].'</option>';
+			}
+		}
+		$input .= '</select>';
+
+		if(!$row){
+			$tpl = '<div class="form-group">
+				<label class="mb-1" for="'.$id.'">'.$this->buildLabelText($field).'</label>
+				'.$input.' '.$this->buildComment($field).'
+			</div>';
+		}
+		else {
+			$tpl = '<div class="form-group row">
+				<label for="'.$id.'" class="col-sm-3 col-form-label text-start text-sm-end">'.$this->buildLabelText($field).'</label>
+				<div class="col-sm-9">'.$input.' '.$this->buildComment($field).'<div class="validatorjs-errors-'.$id.'"></div></div>
+			</div>';
+		}
+
+		$this->fields[$formName]['fields'][$field['attributes']['name']] = $tpl;
+		$this->sessionFields[$formName]['fields'][$field['attributes']['name']] = isset($field["rules"]) ? $field["rules"] : null;
+	}
+
 	/**
 	 * add hidden input
 	 */
@@ -220,30 +269,37 @@ class FormBuilder {
 			$input .= ' ' . $key . '="' . $value . '" ';
 		}
 
-		if(isset($field['rules'])){
-			$validationJsRule = [];
-			$validationJsRuleMsg = [];
-			foreach ($field['rules'] as $key => $rule) {
-				if(isset($rule['type'])){
-					$validationJsRule[] = $rule['type'];
+		// if(isset($field['rules'])){
+		// 	$validationJsRule = [];
+		// 	$validationJsRuleMsg = [];
+		// 	foreach ($field['rules'] as $key => $rule) {
+		// 		if(isset($rule['type'])){
+		// 			if($rule['type'] == 'regex'){
+		// 				if(isset($rule['pattern'])){
+		// 					$validationJsRule[] = $rule['type'] . ':' . $rule['pattern'];
+		// 				}
+		// 			}
+		// 			else {
+		// 				$validationJsRule[] = $rule['type'];
+		// 			}
 
-					if(isset($rule['message'])){
-						$validationJsRuleMsg[$rule['type']] = $rule['message'];
-					}
-				}
-			}
+		// 			if(isset($rule['message'])){
+		// 				$validationJsRuleMsg[$rule['type']] = $rule['message'];
+		// 			}
+		// 		}
+		// 	}
 
-			if(count($validationJsRule)){
-				$validationJsRule = implode('|', $validationJsRule);
-				$input .= ' data-validation_rules="'.$validationJsRule.'" ';
+		// 	if(count($validationJsRule)){
+		// 		$validationJsRule = implode('|', $validationJsRule);
+		// 		$input .= ' data-validation_rules="'.$validationJsRule.'" ';
 
-				if(count($validationJsRuleMsg)){
-					$errorMsgs = json_encode($validationJsRuleMsg);
-					$errorMsgs = base64_encode($errorMsgs);
-					$input .= ' data-validation_error_message="'.$errorMsgs.'" ';
-				}
-			}
-		}
+		// 		if(count($validationJsRuleMsg)){
+		// 			$errorMsgs = json_encode($validationJsRuleMsg);
+		// 			$errorMsgs = base64_encode($errorMsgs);
+		// 			$input .= ' data-validation_error_message="'.$errorMsgs.'" ';
+		// 		}
+		// 	}
+		// }
 		$input .= ' />';
 		return $input;
 	}
@@ -268,7 +324,7 @@ class FormBuilder {
 	/**
 	 * return form html string 
 	 */
-	public function toHtml($formName){
+	public function toHtml($formName, $endForm=true){
 		$html = '<form id="'.$formName.'" ';
 		foreach ($this->fields[$formName]['attribute'] as $key => $value) {
 			$html .= ' ' . $key . '="' . $value . '" ';
@@ -291,18 +347,16 @@ class FormBuilder {
 
 
 		$html .= implode(' ', $this->fields[$formName]['fields']);
-		$html .= '</form>';
-		$html .= '<script>
-			require(["main"], function(main){
-				main._form.setFormElement("'.$formName.'");
-			});
-		</script>';
+		if($endForm){
+			$html .= '</form>';
+		}
+		// $html .= '<script>
+		// 	require(["main"], function(main){
+		// 		main._form.setFormElement("'.$formName.'");
+		// 	});
+		// </script>';
 
 		$this->_session->setData('form_fields', $this->sessionFields);
-		
-		// echo "<pre>";
-		// print_r($this->_session->getData('form_fields'));
-		// echo "</pre>";
 
 		return $html;
 	}
