@@ -43,8 +43,8 @@ class ContentTopBottons {
 		ksort($sortedBtnWithPosition);
 		$noPositionNumber = array_key_last ( $sortedBtnWithPosition ) + 1;
 		foreach ($sortedBtnWithNoPosition as $key => $value) {
-			$value['posistion'] = $noPositionNumber;
-			$sortedBtnWithPosition[$value['posistion']] = $value;
+			$value['position'] = $noPositionNumber;
+			$sortedBtnWithPosition[$value['position']] = $value;
 			$noPositionNumber++;
 		}
 		$btns = $sortedBtnWithPosition;

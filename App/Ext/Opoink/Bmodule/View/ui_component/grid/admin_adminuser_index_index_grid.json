@@ -1,0 +1,76 @@
+{
+	"columns": [
+		{
+			"column_name": "admins_id",
+			"label": "ID",
+			"position": 10,
+			"filter": {
+				"type": "range"
+			},
+			"renderer": null
+		},
+		{
+			"column_name": "email",
+			"label": "E-Mail",
+			"position": 20,
+			"filter": {
+				"type": "text"
+			},
+			"renderer": null
+		},
+		{
+			"column_name": "username",
+			"label": "Username",
+			"position": 30,
+			"filter": {
+				"type": "text"
+			},
+			"renderer": null
+		},
+		{
+			"column_name": "firstname",
+			"label": "Firstname",
+			"position": 40,
+			"filter": {
+				"type": "text"
+			},
+			"renderer": null
+		},
+		{
+			"column_name": "lastname",
+			"label": "Lastname",
+			"position": 50,
+			"filter": {
+				"type": "text"
+			},
+			"renderer": null
+		},
+		{
+			"column_name": "status",
+			"label": "Status",
+			"position": 60,
+			"filter": {
+				"type": "text"
+			},
+			"renderer": null
+		},
+		{
+			"column_name": "lang",
+			"label": "Language",
+			"position": 70,
+			"filter": {
+				"type": "text"
+			},
+			"renderer": null
+		},
+		{
+			"column_name": "action",
+			"label": "Action",
+			"renderer": "Opoink\\Bmodule\\Block\\Admin\\UiComponents\\Renderer\\AdminAdminuserIndexIndexGridAction"
+		}
+	],
+	"model": {
+		"priority": 100,
+		"class":"Opoink\\Bmodule\\Model\\UiComponent\\Grid\\AdminAdminuserIndexIndexGrid"
+	}
+}

@@ -84,19 +84,19 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 		$sortedColumn = [];
 		$sortedColumnNoPosition = [];
 		foreach ($columns as $key => $column) {
-			if(!isset($column['posistion'])){
+			if(!isset($column['position'])){
 				$sortedColumnNoPosition[] = $column;
 			}
 			else {
-				$sortedColumn[$column['posistion']] = $column;
+				$sortedColumn[$column['position']] = $column;
 			}
 		}
 		ksort($sortedColumn);
 
 		$noPositionNumber = array_key_last ( $sortedColumn ) + 1;
 		foreach ($sortedColumnNoPosition as $key => $column) {
-			$column['posistion'] = $noPositionNumber;
-			$sortedColumn[$column['posistion']] = $column;
+			$column['position'] = $noPositionNumber;
+			$sortedColumn[$column['position']] = $column;
 			$noPositionNumber++;
 		}
 

@@ -4,5 +4,15 @@
 
 	</head>
 	<body xml:id="body" weight="1">
+
+		<container xml:id="main_body_content" htmlId="main_body_content" htmlClass="main_body_content" weight="1">
+			<template 
+				class="Opoink\Bmodule\Block\Admin\UiComponents\AdminAdminuserIndexIndexGrid" 
+				xml:id="admin_adminuser_index_index_grid" 
+				vendor="Opoink" 
+				module="Bmodule" 
+				template="admin/ui_components/grid.phtml"
+			/>
+		</container>
 	</body>
 </html>
