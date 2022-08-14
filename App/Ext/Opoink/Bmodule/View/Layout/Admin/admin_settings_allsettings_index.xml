@@ -5,7 +5,7 @@
 	</head>
 	<body xml:id="body" weight="1">
 		<container xml:id="main_body_content" htmlId="main_body_content" htmlClass="main_body_content" weight="1">
-			<!-- <template class="Opoink\Bmodule\Block\Admin\Settingscontent\Buttons" xml:id="settings_content_top_buttons" vendor="Opoink" module="Bmodule" template="admin/settings/settings_content_top_buttons.phtml" /> -->
+			<template xml:id="settings_info" vendor="Opoink" module="Bmodule" template="admin/settings/info.phtml" />
 
 
 			<template class="Opoink\Bmodule\Block\Admin\Context" xml:id="settings_content" vendor="Opoink" module="Bmodule" template="admin/settings/settings_content.phtml">

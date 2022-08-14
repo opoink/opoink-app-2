@@ -19,14 +19,21 @@
 							if(isset($field['label'])){
 								$field['label'] = $this->_lang->_getLang($field['label']);
 							}
+
+							$settingPath = $this->currentTab.'/'.$this->currentSubTab.'/'.$group.'/'.$fieldKey.'/value';
+
 							$field['attributes']['name'] = $fieldKey;
-							$field['attributes']['value'] = $this->_settings->getSettings($this->currentTab.'/'.$this->currentSubTab.'/'.$group.'/'.$fieldKey.'/value');
+							$field['attributes']['value'] = $this->_settings->getSettings($settingPath);
 
 							if(!isset($field['comment'])){
 								$field['comment'] = [];
 							}
 							$field['comment'][] = [
 								"text" => 'Leave empty, to use the system default value',
+								"class" => 'text-muted d-block m-0',
+							];
+							$field['comment'][] = [
+								"text" => 'To get value: $this->_settings->getSettings('.$settingPath.')',
 								"class" => 'text-muted d-block m-0',
 							];
 							$this->_formBuilder->add($form, $field, true);

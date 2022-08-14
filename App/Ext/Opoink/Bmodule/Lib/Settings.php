@@ -113,11 +113,11 @@ class Settings extends \Of\Std\DataObject {
 	}
 
 	public function saveSettings($keys, $value){
-		if(strlen($value) >= 1){
-			$data = $this->_settingsEntity->getByColumn([
-				'key' => $keys
-			]);
+		$data = $this->_settingsEntity->getByColumn([
+			'key' => $keys
+		]);
 
+		if(strlen($value) >= 1){
 			if($data){
 				$data->unsCreatedAt();
 				$data->unsUpadedAt();
@@ -135,6 +135,11 @@ class Settings extends \Of\Std\DataObject {
 			return $this->_settingsEntity->getByColumn([
 				'settings_id' => $id
 			]);
+		}
+		else {
+			if($data){
+				$data->_delete();
+			}
 		}
 	}
 }

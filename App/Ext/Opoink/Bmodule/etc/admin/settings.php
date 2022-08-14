@@ -152,7 +152,8 @@ return [
 						"type" => "textarea",
 						"name" => "status",
 					],
-					"value" => "",
+					"value" => file_get_contents(__DIR__ . '/settings_default_values/general.users.frontend_users.status.json'),
+					// "value" => __DIR__ . '/settings_default_values/general.users.frontend_users.status.json',
 					"row_style" => true,
 					"comment" => [
 						[
