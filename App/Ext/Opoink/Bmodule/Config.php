@@ -26,6 +26,7 @@ return array (
     'admin_languages_setlang_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Languages\\Setlang\\Index',
     'admin_logout_index_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Logout\\Index\\Index',
     'admin_settings_savesettings_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Settings\\Savesettings\\Index',
+    'admin_adminuser_add_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Adminuser\\Add\\Index',
   ),
 )
 ?>

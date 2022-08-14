@@ -86,6 +86,15 @@ class FormBuilder {
 			if($type == 'text'){
 				$this->addText($formName, $field, $row);
 			}
+			else if($type == 'email'){
+				$this->addText($formName, $field, $row);
+			}
+			else if($type == 'password'){
+				$this->addText($formName, $field, $row);
+			}
+			else if($type == 'number'){
+				$this->addText($formName, $field, $row);
+			}
 			else if($type == 'button'){
 				$this->addButton($formName, $field, $row);
 			}
@@ -94,6 +103,9 @@ class FormBuilder {
 			}
 			else if($type == 'select'){
 				$this->addSelect($formName, $field, $row);
+			}
+			else if($type == 'textarea'){
+				$this->addTextArea($formName, $field, $row);
 			}
 		}
 
@@ -156,6 +168,44 @@ class FormBuilder {
 	public function addText($formName, $field, $row=true){
 		$id = $this->buildFieldId();
 		$input = $this->buildInputField($field, $id);
+		if(!$row){
+			$tpl = '<div class="form-group">
+				<label class="mb-1" for="'.$id.'">'.$this->buildLabelText($field).'</label>
+				'.$input.' '.$this->buildComment($field).'
+			</div>';
+		}
+		else {
+			$tpl = '<div class="form-group row">
+				<label for="'.$id.'" class="col-sm-3 col-form-label text-start text-sm-end">'.$this->buildLabelText($field).'</label>
+				<div class="col-sm-9">'.$input.' '.$this->buildComment($field).'<div class="validatorjs-errors-'.$id.'"></div></div>
+			</div>';
+		}
+
+		$this->fields[$formName]['fields'][$field['attributes']['name']] = $tpl;
+		$this->sessionFields[$formName]['fields'][$field['attributes']['name']] = isset($field["rules"]) ? $field["rules"] : null;
+	}
+
+	public function addTextArea($formName, $field, $row=true){
+		$id = $this->buildFieldId();
+		$field['attributes']['id'] = $id;
+
+		$htmlClass = 'builder-form-field form-control';
+		if(isset($field['attributes']['class'])){
+			$htmlClass .= " " . $field['attributes']['class'];
+			unset($field['attributes']['class']);
+		}
+
+		if(isset($field['attributes']['type'])){
+			unset($field['attributes']['type']);
+		}
+
+		$attr = '';
+		foreach ($field['attributes'] as $key => $value) {
+			$attr .= ' ' . $key . '="' . $value . '" ';
+		}
+
+		$input = '<textarea class="'.$htmlClass.'" '.$attr.'>'.$field['attributes']['value'].'</textarea>';
+
 		if(!$row){
 			$tpl = '<div class="form-group">
 				<label class="mb-1" for="'.$id.'">'.$this->buildLabelText($field).'</label>

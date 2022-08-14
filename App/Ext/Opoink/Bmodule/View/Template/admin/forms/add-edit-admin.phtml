@@ -1,0 +1,143 @@
+<div class="page-top-bottons d-flex justify-content-end">
+	<?= $this->contentTopBottons->buttonsToHtml(); ?>
+</div>
+
+<?php 
+	$form = $this->_formBuilder->form([
+		'action' => '',
+		'method' => 'POST',
+		'class' => 'form-group'
+	]); 
+
+	$this->_formBuilder->add($form, [ 
+		'label' => "Email",
+		"attributes" => [
+			"type" => "email",
+			"name" => "email",
+			"value" => '',
+			"class" => ""
+		],
+		"rules" => [
+			[
+				"type" => "required", 
+				"message" => 'Please input a valid Email Address'
+			],
+			[
+				"type" => "email",
+				"message" => 'Please input a valid Email Address'
+			]
+		],
+		"comment" => [
+			["class" => "d-block", "text" => "A valid email of the admin user."]
+		]
+	]);
+
+	$this->_formBuilder->add($form, [ 
+		'label' => "Username",
+		"attributes" => [
+			"type" => "text",
+			"name" => "username",
+			"value" => '',
+			"class" => ""
+		],
+		"rules" => [
+			[
+				"type" => "required", 
+				"message" => 'Username is required'
+			]
+		]
+	]);
+
+	$this->_formBuilder->add($form, [ 
+		'label' => "First Name",
+		"attributes" => [
+			"type" => "text",
+			"name" => "firstname",
+			"value" => '',
+			"class" => ""
+		],
+		"rules" => [
+			[
+				"type" => "required", 
+				"message" => 'First name is required'
+			]
+		]
+	]);
+
+	$this->_formBuilder->add($form, [ 
+		'label' => "Last Name",
+		"attributes" => [
+			"type" => "text",
+			"name" => "lastname",
+			"value" => '',
+			"class" => ""
+		],
+		"rules" => [
+			[
+				"type" => "required", 
+				"message" => 'Last name is required'
+			]
+		]
+	]);
+
+	$this->_formBuilder->add($form, [ 
+		'label' => "Password",
+		"attributes" => [
+			"type" => "text",
+			"name" => "password",
+			"value" => '',
+			"class" => ""
+		],
+		"rules" => [
+			[
+				"type" => "min_length", 
+				"length" => 8,
+				"message" => 'Password must be at least 8 characters long'
+			]
+		]
+	]);
+
+	$this->_formBuilder->add($form, [ 
+		'label' => "Status",
+		"attributes" => [
+			"type" => "select",
+			"name" => "status",
+			"value" => '',
+			"class" => ""
+		],
+		"option" => "Opoink\\Bmodule\\Block\\Admin\\UiComponents\\DataProvider\\AdminUserStatus",
+		"rules" => [
+			[
+				"type" => "min_length", 
+				"length" => 8,
+				"message" => 'Password must be at least 8 characters long'
+			]
+		]
+	]);
+
+	
+
+	// $this->_formBuilder->add($form, [ 
+	// 	'label' => "Branch ID",
+	// 	"attributes" => [
+	// 		"type" => "hidden",
+	// 		"name" => "branch_id",
+	// 		"value" => $branch->getBranchId(),
+	// 		"class" => ""
+	// 	]
+	// ]);
+?>
+
+
+<div class="row">
+	<div class="col-sm-12 col-md-3 mb-3">
+		<div class="settings-left-tab">
+			<div class="settings-tab-control collapsed">
+				Admin User
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12 col-md-6 mb-3">
+		<?= $this->_formBuilder->toHtml($form); ?>
+	</div>
+</div>

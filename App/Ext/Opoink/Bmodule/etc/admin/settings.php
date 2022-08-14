@@ -28,7 +28,7 @@ return [
 					"comment" => [
 						[ /** this is an array so that we can add more comments */
 							"text" => 'Site name', /** the field comment text */
-							"class" => 'text-muted', /** will be appended into bootstrap form-text */
+							"class" => 'text-muted d-block', /** will be appended into bootstrap form-text */
 						]
 					],
 					"value" => "Opoink", /** this is the default value of the field */
@@ -141,6 +141,25 @@ return [
 						]
 					],
 					"row_style" => true /** define the template will be used */
+				]
+			]
+		],
+		'users' => [
+			'frontend_users' => [
+				'status' => [
+					'label' => "Status",
+					"attributes" => [
+						"type" => "textarea",
+						"name" => "status",
+					],
+					"value" => "",
+					"row_style" => true,
+					"comment" => [
+						[
+							"text" => 'JSON Formated Data',
+							"class" => 'text-muted d-block',
+						]
+					],
 				]
 			]
 		]

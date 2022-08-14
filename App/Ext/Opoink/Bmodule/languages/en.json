@@ -34,5 +34,7 @@
 	"PayPal Email": "PayPal Email",
 	"Paypal": "PayPal",
 	"Payment methods": "Payment methods",
-	"The {{input_field}} setting field successfully saved.": "The {{input_field}} setting field successfully saved."
+	"The {{input_field}} setting field successfully saved.": "The {{input_field}} setting field successfully saved.",
+	"Frontend users": "Frontend Users",
+	"Status": "Status"
 }
