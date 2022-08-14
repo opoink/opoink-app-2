@@ -43,7 +43,7 @@
             }
         },
         "status": {
-            "value": "active",
+            "value": "enabled",
             "option": {
                 "is_hashed": false,
                 "primary": false
