@@ -162,6 +162,24 @@ return [
 						]
 					],
 				]
+			],
+			'admin_users' => [
+				'status' => [
+					'label' => "Status",
+					"attributes" => [
+						"type" => "textarea",
+						"name" => "status",
+					],
+					"value" => file_get_contents(__DIR__ . '/settings_default_values/general.users.admin_users.status.json'),
+					// "value" => __DIR__ . '/settings_default_values/general.users.frontend_users.status.json',
+					"row_style" => true,
+					"comment" => [
+						[
+							"text" => 'JSON Formated Data',
+							"class" => 'text-muted d-block',
+						]
+					],
+				]
 			]
 		]
 	],

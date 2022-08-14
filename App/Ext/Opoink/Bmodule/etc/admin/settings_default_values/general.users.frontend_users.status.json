@@ -1,6 +1,12 @@
-[
-	{
-		"key": "asd",
-		"value": "asdasdasd"
+{
+	"user_status" : {
+		"active": "active",
+		"in-active": "in-active",
+		"deleted": "deleted",
+		"banned": "banned"
+	},
+	"email_confirmation": {
+		"confirmed": "confirmed",
+		"not-confirmed": "not-confirmed"
 	}
-]
+}

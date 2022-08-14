@@ -36,5 +36,6 @@
 	"Payment methods": "Payment methods",
 	"The {{input_field}} setting field successfully saved.": "The {{input_field}} setting field successfully saved.",
 	"Frontend users": "Frontend Users",
-	"Status": "Status"
+	"Status": "Status",
+	"Admin users": "Admin users"
 }

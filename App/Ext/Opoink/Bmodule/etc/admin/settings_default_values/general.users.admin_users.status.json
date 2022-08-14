@@ -1,0 +1,8 @@
+{
+	"user_status" : {
+		"enabled": "enabled",
+		"disabled": "disabled",
+		"deleted": "deleted",
+		"banned": "banned"
+	}
+}
