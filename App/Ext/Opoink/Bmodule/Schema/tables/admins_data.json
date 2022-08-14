@@ -22,14 +22,14 @@
             }
         },
         "firstname": {
-            "value": "Chacha",
+            "value": "Juan",
             "option": {
                 "is_hashed": false,
                 "primary": false
             }
         },
         "lastname": {
-            "value": "Perez",
+            "value": "Dela Cruz",
             "option": {
                 "is_hashed": false,
                 "primary": false
