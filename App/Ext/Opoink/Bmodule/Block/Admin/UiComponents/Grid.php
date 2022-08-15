@@ -30,16 +30,24 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 	 */
 	protected $contentTopBottons;
 
+	/**
+	 * \Of\File\Writer
+	 */
+	protected $fileWriter;
+
 	public function __construct(
 		\Of\Http\Url $Url,
 		\Of\Config $Config,
 		\Opoink\Bmodule\Lib\Lang $Lang,
-		\Opoink\Bmodule\Block\Admin\ContentTopBottons $ContentTopBottons
+		\Opoink\Bmodule\Block\Admin\ContentTopBottons $ContentTopBottons,
+		\Of\File\Writer $FileWriter
 	){
 		parent::__construct($Url, $Config, $Lang);
 		$this->_dataObject = new \Of\Std\DataObject();
-		$this->getAllListingArray();
 		$this->contentTopBottons = $ContentTopBottons;
+		$this->fileWriter = $FileWriter;
+
+		$this->getAllListingArray();
 	}
 
 	/**
@@ -52,21 +60,45 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 	 */
 	protected function getAllListingArray(){
 		if(!empty($this->listingName)){
-			$vendors = $this->_config->getConfig('modules');
-			$extDir = ROOT.DS.'App'.DS.'Ext'.DS;
-
-			foreach ($vendors as $vendor => $modules) {
-				foreach ($modules as $module) {
-					$targetFile = $extDir . $vendor.DS.$module.DS.'View'.DS.'ui_component'.DS.'grid'.DS.$this->listingName.'.json';
-					if(file_exists($targetFile) && is_file($targetFile)){
-						$data = file_get_contents($targetFile);
-						$data = json_decode($data, true);
-
-						if(json_last_error() === JSON_ERROR_NONE){
-							$this->_dataObject->setData(array_merge_recursive($this->_dataObject->getData(), $data));
+			
+			$cacheDataFile = ROOT.DS.'Var'.DS.'bmodule'.DS.'admin_grid'.DS.$this->listingName.'.json';
+			if(file_exists($cacheDataFile)){
+				/**
+				 * if there is a cache file we will use it to conserve server load
+				 */
+				$data = file_get_contents($cacheDataFile);
+				$data = json_decode($data, true);
+				$this->_dataObject->setData($data);
+			}
+			else {
+				$vendors = $this->_config->getConfig('modules');
+				$extDir = ROOT.DS.'App'.DS.'Ext'.DS;
+	
+				foreach ($vendors as $vendor => $modules) {
+					foreach ($modules as $module) {
+						$targetFile = $extDir . $vendor.DS.$module.DS.'View'.DS.'ui_component'.DS.'grid'.DS.$this->listingName.'.json';
+						if(file_exists($targetFile) && is_file($targetFile)){
+							$data = file_get_contents($targetFile);
+							$data = json_decode($data, true);
+	
+							if(json_last_error() === JSON_ERROR_NONE){
+								$this->_dataObject->setData(array_merge_recursive($this->_dataObject->getData(), $data));
+							}
 						}
 					}
 				}
+
+				/**
+				 * save cache file here
+				 */
+				$data = $this->_dataObject->getData();
+				$data = json_encode($data);
+
+				$this->fileWriter->setDirPath(dirname($cacheDataFile))
+				->setData($data)
+				->setFilename($this->listingName)
+				->setFileextension('json')
+				->write();
 			}
 
 			$this->setColumnPosition();

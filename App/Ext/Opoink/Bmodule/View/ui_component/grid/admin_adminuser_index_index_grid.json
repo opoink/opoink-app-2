@@ -72,5 +72,7 @@
 	"model": {
 		"priority": 100,
 		"class":"Opoink\\Bmodule\\Model\\UiComponent\\Grid\\AdminAdminuserIndexIndexGrid"
-	}
+	},
+	"main_table": "admins",
+	"limit": [20,50,100,200,500]
 }

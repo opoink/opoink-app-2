@@ -10,7 +10,13 @@ $di = $this->_controller->getDi();
  */
 $this->collectionModel = $di->get($this->collectionModel);
 $columns = $this->_dataObject->getData('columns');
-$data = $this->collectionModel->getList();
+
+$this->collectionModel->setGridData($this->_dataObject);
+$this->collectionModel->initSelect();
+
+$listData = $this->collectionModel->getList();
+
+$data = $listData['data'];
 ?>
 <div class="page-top-bottons d-flex justify-content-end">
 	<?= $this->contentTopBottons->buttonsToHtml(); ?>

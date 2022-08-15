@@ -1,0 +1,1 @@
+- admin_grid_init_select_after: \Opoink\Bmodule\Model\UiComponent\Grid
