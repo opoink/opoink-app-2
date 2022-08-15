@@ -1,9 +1,9 @@
 <?php
-namespace Opoink\Bmodule\Controller\Admin\Settings\Allsettings;
+namespace Opoink\Bmodule\Controller\Admin\Adminuser\Edit;
 
 class Index extends \Of\Controller\Controller {
 
-	protected $pageTitle = 'Settings';
+	protected $pageTitle = 'Adminuser Edit Index';
 	protected $_url;
 	protected $_message;
 

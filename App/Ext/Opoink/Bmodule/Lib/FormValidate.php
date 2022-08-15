@@ -113,26 +113,31 @@ class FormValidate {
 						}
 					}
 					else if($rule['type'] == 'min_length' || $rule['type'] == 'max_length'){
-						$length = 1;
-						if(isset($rule['length'])){
-							$length = (int)$rule['length'];
+						if(!$isRequiredRule && empty($value)){
+							/** do nothing */
 						}
-						if(!$length){
+						else {
 							$length = 1;
-						}
-						$langVars = [
-							['key' => '', 'value' => $this->_dataObject->camelCaseToSpace($postField, 'ucwords')],
-							['key' => 'length', 'value' => $length],
-						];
-						if($rule['type'] == 'min_length' && strlen($value) < $length){
-							$langVars[0]['key'] = 'min_length';
-							$value = $this->invalidFieldValue($postField, 'The {{min_length}} must be a minimum of {{length}} characters long.', $rule, '', $langVars);
-							break;
-						}
-						else if($rule['type'] == 'max_length' && strlen($value) > $length){
-							$langVars[0]['key'] = 'max_length';
-							$value = $this->invalidFieldValue($postField, 'The {{max_length}} must be a maximum of {{length}} characters long.', $rule, '', $langVars);
-							break;
+							if(isset($rule['length'])){
+								$length = (int)$rule['length'];
+							}
+							if(!$length){
+								$length = 1;
+							}
+							$langVars = [
+								['key' => '', 'value' => $this->_dataObject->camelCaseToSpace($postField, 'ucwords')],
+								['key' => 'length', 'value' => $length],
+							];
+							if($rule['type'] == 'min_length' && strlen($value) < $length){
+								$langVars[0]['key'] = 'min_length';
+								$value = $this->invalidFieldValue($postField, 'The {{min_length}} must be a minimum of {{length}} characters long.', $rule, '', $langVars);
+								break;
+							}
+							else if($rule['type'] == 'max_length' && strlen($value) > $length){
+								$langVars[0]['key'] = 'max_length';
+								$value = $this->invalidFieldValue($postField, 'The {{max_length}} must be a maximum of {{length}} characters long.', $rule, '', $langVars);
+								break;
+							}
 						}
 					}
 					else if($rule['type'] == 'regex'){

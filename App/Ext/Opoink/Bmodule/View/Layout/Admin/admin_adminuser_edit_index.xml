@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<html xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:id="html" attr="lang='en-US'" weight="1">
+	<head xml:id="head" weight="1">
+
+	</head>
+	<body xml:id="body" weight="1">
+
+		<container xml:id="main_body_content" htmlId="main_body_content" htmlClass="main_body_content" weight="1">
+			<template  
+				class="Opoink\Bmodule\Block\Admin\UiComponents\Forms\AddEditAdmin"
+				xml:id="admin_adminuser_add_index_form" 
+				vendor="Opoink" 
+				module="Bmodule" 
+				template="admin/forms/add-edit-admin.phtml"
+			/>
+		</container>
+	</body>
+</html>

@@ -27,6 +27,8 @@ return array (
     'admin_logout_index_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Logout\\Index\\Index',
     'admin_settings_savesettings_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Settings\\Savesettings\\Index',
     'admin_adminuser_add_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Adminuser\\Add\\Index',
+    'admin_adminuser_save_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Adminuser\\Save\\Index',
+    'admin_adminuser_edit_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Adminuser\\Edit\\Index',
   ),
 )
 ?>

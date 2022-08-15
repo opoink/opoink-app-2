@@ -37,5 +37,8 @@
 	"The {{input_field}} setting field successfully saved.": "The {{input_field}} setting field successfully saved.",
 	"Frontend users": "Frontend Users",
 	"Status": "Status",
-	"Admin users": "Admin users"
+	"Admin users": "Admin users",
+	"Invalid request": "Invalid request",
+	"The {{field}} {{value}} already exists, please choose another one.": "The {{field}} {{value}} already exists, please choose another one.",
+	"Admin {{username}} successfully saved.": "Admin {{username}} successfully saved."
 }

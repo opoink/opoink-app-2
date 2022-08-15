@@ -55,5 +55,31 @@ return [
 			'position' => 1
 		]
 	],
+	'admin_adminuser_edit_index' => [
+		[
+			'label' => 'Save New Admin',
+			'html_attr' => [
+				"type" => "button",
+				"id" => "add-new-admin",
+				"class" => "btn btn-primary ms-2",
+				"data-action" => 'adminuser/save',
+				"data-target" => 'form_submit',
+				"data-target_form_id" => "form_1"
+			],
+			'active' => true,
+			'position' => 2
+		],
+		[
+			'label' => 'Back',
+			'html_attr' => [
+				"type" => "button",
+				"class" => "btn btn-outline-secondary ms-2",
+				"data-action" => 'adminuser',
+				"data-target" => 'link',
+			],
+			'active' => true,
+			'position' => 1
+		]
+	],
 ]
 ?>

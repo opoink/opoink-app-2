@@ -14,6 +14,7 @@ class Admins extends \Of\Database\Entity {
 		'firstname',
 		'firstname',
 		'lastname',
+		'password',
 		'invalid_login_count',
 		'status',
 		'lang',

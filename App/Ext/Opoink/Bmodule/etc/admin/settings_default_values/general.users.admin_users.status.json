@@ -1,8 +1,20 @@
 {
-	"user_status" : {
-		"enabled": "enabled",
-		"disabled": "disabled",
-		"deleted": "deleted",
-		"banned": "banned"
-	}
+	"user_status" : [
+		{
+			"key": "banned",
+			"value": "Banned"
+		},
+		{
+			"key": "deleted",
+			"value": "Deleted"
+		},
+		{
+			"key": "disabled",
+			"value": "Disabled"
+		},
+		{
+			"key": "enabled",
+			"value": "Enabled"
+		}
+	]
 }

@@ -1,4 +1,8 @@
 <?php
+/**
+* Copyright 2022 Opoink Framework (http://opoink.com/)
+* Licensed under MIT, see LICENSE.md
+*/
 namespace Opoink\Bmodule\Controller\Admin\Index\Index;
 
 class Index extends \Of\Controller\Controller {

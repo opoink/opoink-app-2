@@ -291,8 +291,10 @@ class FormBuilder {
 	protected function buildLabelText($field){
 		$text = $field['label'];
 		if(isset($field["rules"]) && is_array($field["rules"])){
-			if(in_array('required', $field["rules"])){
-				$text .= '<span class="ms-2 text-danger">*</span>';
+			foreach ($field["rules"] as $key => $value) {
+				if(isset($value['type']) && $value['type'] == 'required'){
+					$text .= '<span class="ms-2 text-danger">*</span>';
+				}
 			}
 		}
 		return $text;

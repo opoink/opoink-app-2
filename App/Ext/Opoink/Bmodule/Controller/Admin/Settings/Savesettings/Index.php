@@ -14,12 +14,18 @@ class Index extends \Of\Controller\Controller {
 	 */
 	protected $_lang;
 
+	/**
+	 * \Of\Session\Session
+	 */
+	protected $_session;
+
 	public function __construct(
 		\Of\Http\Url $Url,
 		\Of\Std\Message $Message,
 		\Opoink\Bmodule\Lib\FormValidate $FormValidate,
 		\Opoink\Bmodule\Lib\Settings $Settings,
-		\Opoink\Bmodule\Lib\Lang $Lang
+		\Opoink\Bmodule\Lib\Lang $Lang,
+		\Opoink\Bmodule\Lib\Admin\UserSession $Session
 	){
 
 		$this->_url = $Url;
@@ -27,9 +33,11 @@ class Index extends \Of\Controller\Controller {
 		$this->_formValidate = $FormValidate;
 		$this->_settings = $Settings;
 		$this->_lang = $Lang;
+		$this->_session = $Session;
 	}
 
 	public function run(){
+		$this->_session->requireLoggedIn();
 		
 		$postFields = $this->getPost();
 		$form_key = $this->getPost('form_key');

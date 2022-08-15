@@ -3,6 +3,8 @@
 </div>
 
 <?php 
+	$data = $this->getAdmin();
+
 	$form = $this->_formBuilder->form([
 		'action' => '',
 		'method' => 'POST',
@@ -14,7 +16,7 @@
 		"attributes" => [
 			"type" => "email",
 			"name" => "email",
-			"value" => '',
+			"value" => !empty($data->getEmail()) ? $data->getEmail() : '',
 			"class" => ""
 		],
 		"rules" => [
@@ -37,7 +39,7 @@
 		"attributes" => [
 			"type" => "text",
 			"name" => "username",
-			"value" => '',
+			"value" => !empty($data->getUsername()) ? $data->getUsername() : '',
 			"class" => ""
 		],
 		"rules" => [
@@ -53,7 +55,7 @@
 		"attributes" => [
 			"type" => "text",
 			"name" => "firstname",
-			"value" => '',
+			"value" => !empty($data->getFirstname()) ? $data->getFirstname() : '',
 			"class" => ""
 		],
 		"rules" => [
@@ -69,7 +71,7 @@
 		"attributes" => [
 			"type" => "text",
 			"name" => "lastname",
-			"value" => '',
+			"value" => !empty($data->getLastname()) ? $data->getLastname() : '',
 			"class" => ""
 		],
 		"rules" => [
@@ -83,7 +85,7 @@
 	$this->_formBuilder->add($form, [ 
 		'label' => "Password",
 		"attributes" => [
-			"type" => "text",
+			"type" => "password",
 			"name" => "password",
 			"value" => '',
 			"class" => ""
@@ -102,30 +104,22 @@
 		"attributes" => [
 			"type" => "select",
 			"name" => "status",
-			"value" => '',
+			"value" => !empty($data->getStatus()) ? $data->getStatus() : '',
 			"class" => ""
 		],
-		"option" => "Opoink\\Bmodule\\Block\\Admin\\UiComponents\\DataProvider\\AdminUserStatus",
-		"rules" => [
-			[
-				"type" => "min_length", 
-				"length" => 8,
-				"message" => 'Password must be at least 8 characters long'
-			]
-		]
+		"option" => "Opoink\\Bmodule\\Block\\Admin\\UiComponents\\DataProvider\\AdminUserStatus"
 	]);
-
 	
 
-	// $this->_formBuilder->add($form, [ 
-	// 	'label' => "Branch ID",
-	// 	"attributes" => [
-	// 		"type" => "hidden",
-	// 		"name" => "branch_id",
-	// 		"value" => $branch->getBranchId(),
-	// 		"class" => ""
-	// 	]
-	// ]);
+	$this->_formBuilder->add($form, [ 
+		'label' => "admins_id",
+		"attributes" => [
+			"type" => "text",
+			"name" => "admins_id",
+			"value" => !empty($data->getAdminsId()) ? $data->getAdminsId() : '',
+			"class" => ""
+		]
+	]);
 ?>
 
 
