@@ -19,8 +19,8 @@
 // @include loop(0, 100, 5, ".pl-", "", "padding-left", "px", "!important");
 // @include loop(0, 100, 5, ".pb-", "", "padding-bottom", "px", "!important");
 
-// @include loop(1, 600, 5, ".w-", "-px", "width", "px", "!important");
-// @include loop(1, 600, 5, ".h-", "-px", "height", "px", "!important");
+@include loop(1, 200, 5, ".w-", "-px", "width", "px", "!important");
+@include loop(1, 200, 5, ".h-", "-px", "height", "px", "!important");
 
 // @include loop(0, 100, 5, ".w-", "-per", "width", "%", "!important");
 // @include loop(0, 100, 5, ".h-", "-per", "height", "%", "!important");

@@ -134,6 +134,13 @@ define([
 					}
 				})
 			}
+		},
+		pagination: {
+			init: function(){
+				$('.pagination .page-item a').on('click', function(e){
+					console.log('pagination pagination', req.getUrlParam('filters/page'));
+				});
+			}
 		}
 	};
 

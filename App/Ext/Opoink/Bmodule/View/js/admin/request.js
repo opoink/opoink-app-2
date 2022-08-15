@@ -10,6 +10,83 @@ define([
 
 	class Request {
 
+		UrlQueryParam = {};
+
+		constructor(){
+			this.UrlQueryParam = this.getJsonFromUrl();
+		}
+
+		getJsonFromUrl(url) {
+			if(!url) { 
+				url = location.href;
+			}
+
+			var question = url.indexOf("?");
+			var hash = url.indexOf("#");
+			if(hash==-1 && question==-1) return {};
+			if(hash==-1) hash = url.length;
+			var query = question==-1 || hash==question+1 ? url.substring(hash) : url.substring(question+1,hash);
+
+			var result = {};
+			query.split("&").forEach(function(part) {
+				if(!part) { return };
+
+				part = part.split("+").join(" "); // replace every + with space, regexp-free version
+				var eq = part.indexOf("=");
+				var key = eq>-1 ? part.substr(0,eq) : part;
+				var val = eq>-1 ? decodeURIComponent(part.substr(eq+1)) : "";
+				var from = key.indexOf("[");
+				if(from==-1) {
+					result[decodeURIComponent(key)] = val;
+				}
+				else {
+					var keys = key.split('[');
+
+					var tmpRes = result;
+					keys.forEach((_key, i) => {
+						var end = key.indexOf("]",_key);
+						if(end) {
+							_key = _key.split(']').join('');
+						}
+						
+						var index = decodeURIComponent(_key) + '';
+						if(typeof tmpRes[index] == 'undefined'){
+							if((keys.length - 1) == i){
+								tmpRes[index] = val;
+							}
+							else {
+								tmpRes[index] = {};
+							}
+						}
+						tmpRes = tmpRes[index];
+					});
+				}
+			});
+			return result;
+		}
+
+		getUrlParam(sParam='') {
+			if(!sParam){
+				return this.UrlQueryParam;
+			}
+			else {
+				let tmpParam = this.UrlQueryParam;
+				sParam = sParam.split('/');
+				sParam.forEach((path, i) => {
+					if(typeof tmpParam[path] != 'undefined'){
+						tmpParam = tmpParam[path];
+					}
+					else {
+						tmpParam = null;
+						return tmpParam;
+					}
+				});
+				console.log('sParam sParam', tmpParam);
+
+				return tmpParam;
+			}
+		}
+
 		ajax(options={}){
 			let xhr = new XMLHttpRequest();
 			xhr.open(options['method'], options['url']); 
