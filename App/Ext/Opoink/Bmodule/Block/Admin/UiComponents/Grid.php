@@ -9,7 +9,9 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 
 	/**
 	 * this is the listing name, serves as the filename as well
-	 * if should be located at Vendor/Module/View/ui_component/grid/<listingName>.json file
+	 * it should be located at Vendor/Module/View/ui_component/grid/<listingName>.json file
+	 * all module with the same listingName will be merged together as one
+	 * and will be save into cache dir
 	 */
 	protected $listingName = '';
 
@@ -19,11 +21,6 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 	 * \Of\Std\DataObjec
 	 */
 	protected $_dataObject = null; 
-
-	/**
-	 * 
-	 */
-	protected $collectionModel = null;
 
 	/**
 	 * \Opoink\Bmodule\Block\Admin\ContentTopBotton
@@ -46,8 +43,10 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 		$this->_dataObject = new \Of\Std\DataObject();
 		$this->contentTopBottons = $ContentTopBottons;
 		$this->fileWriter = $FileWriter;
+	}
 
-		$this->getAllListingArray();
+	public function setListingName($listingName){
+		$this->listingName = $listingName;
 	}
 
 	/**
@@ -58,10 +57,10 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 	 * to renew the cached it is need to purge the cached file in
 	 * var/bmod/ui_component/grid dir
 	 */
-	protected function getAllListingArray(){
+	public function collectAllListingArray(){
 		if(!empty($this->listingName)){
 			
-			$cacheDataFile = ROOT.DS.'Var'.DS.'bmodule'.DS.'admin_grid'.DS.$this->listingName.'.json';
+			$cacheDataFile = ROOT.DS.'Var'.DS.'modules'.DS.'admin_grid'.DS.$this->listingName.'.json';
 			if(file_exists($cacheDataFile)){
 				/**
 				 * if there is a cache file we will use it to conserve server load
@@ -102,8 +101,11 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 			}
 
 			$this->setColumnPosition();
-			$this->collectionModel = $this->getModel();
 		}
+	}
+
+	public function getListingInfo(){
+		return $this->_dataObject;
 	}
 
 	/**
@@ -139,7 +141,7 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 	 * retrieve the model to be used from the merged JSON file
 	 * the model will be the highest in priority
 	 */
-	protected function getModel(){
+	public function getModel(){
 
 		$priorities = $this->_dataObject->getData('model/priority');
 
@@ -159,7 +161,7 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 				return $objectClasses[$objectClasseKey];
 			}
 			else {
-				throw new \Exception("Model is required please add model for your grid e.g. {\"priority\": 100,\"class\":\"Vendor\\Module\\Your\\Grid\\Model\\Class\"}", 1);
+				throw new \Exception("Model priority is required please add model for your grid e.g. {\"priority\": 100,\"class\":\"Vendor\\Module\\Your\\Grid\\Model\\Class\"}", 1);
 			}
 		}
 		else {

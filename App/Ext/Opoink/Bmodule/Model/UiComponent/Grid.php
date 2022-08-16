@@ -24,7 +24,7 @@ class Grid extends \Of\Database\Entity {
 	 * this limit will be used in case of the limit is not 
 	 * in the set accepted limitations
 	 */
-	protected $defaultLimit = 20;
+	const DEFAULT_LIMIT = 1;
 
 	public function __construct(
 		\Of\Database\Connection $Connection,
@@ -40,10 +40,18 @@ class Grid extends \Of\Database\Entity {
 		return $this;
 	}
 
-	public function initSelect(){
+	public function initSelect($colNames=null){
 		$mt = $this->getTableName($this->gridData->getMainTable());
 		$this->gridSelect = $this->getSelect();
-		$this->gridSelect->select()->from($mt);
+
+		$newColNames = [];
+		foreach ($colNames as $key => $value) {
+			$newColNames[$mt.'.'.$value] = $value;
+		}
+
+		$this->gridSelect->select($newColNames)->from([
+			$mt => $mt
+		]);
 
 		$this->_eventManager->runEvent('admin_grid_init_select_after', [
 			"select" => $this->gridSelect
@@ -65,11 +73,11 @@ class Grid extends \Of\Database\Entity {
 				$limits = $this->defaultLimits;
 			}
 			if(!in_array($limit, $limits)){
-				$limit = $this->defaultLimit;
+				$limit = self::DEFAULT_LIMIT;
 			}
 		}
 		else {
-			$limit = $this->defaultLimit;
+			$limit = self::DEFAULT_LIMIT;
 		}
 
         $pagination = $this->getPagination();
@@ -83,12 +91,12 @@ class Grid extends \Of\Database\Entity {
         ->limit($limit);
 
         $data = $this->fetchAll($this->gridSelect, false);
-		foreach ($data as $key => $value) {
-			$DataObject = new \Of\Std\DataObject();
-			$DataObject->setData($value);
+		// foreach ($data as $key => $value) {
+		// 	$DataObject = new \Of\Std\DataObject();
+		// 	$DataObject->setData($value);
 
-			$data[$key] = $DataObject;
-		}
+		// 	$data[$key] = $DataObject;
+		// }
 
         $o = [
             'total_count' => $count,

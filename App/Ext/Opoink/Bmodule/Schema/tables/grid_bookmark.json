@@ -1,0 +1,38 @@
+{
+    "primary_key": "grid_bookmark_id",
+    "fields": [
+        {
+            "name": "grid_bookmark_id",
+            "type": "BIGINT",
+            "length": 20,
+            "attributes": "auto_increment",
+            "primary": true,
+            "collation": "utf8_general_ci"
+        },
+        {
+            "name": "admins_id",
+            "type": "BIGINT",
+            "length": "20",
+            "default": null,
+            "nullable": true,
+            "collation": "utf8_general_ci",
+            "after": "grid_bookmark_id"
+        },
+        {
+            "name": "listing_name",
+            "type": "VARCHAR",
+            "length": "255",
+            "collation": "utf8_general_ci",
+            "after": "admins_id"
+        },
+        {
+            "name": "filters",
+            "type": "LONGTEXT",
+            "default": null,
+            "nullable": true,
+            "after": "listing_name"
+        }
+    ],
+    "collate": "utf8_general_ci",
+    "engine": "InnoDB"
+}

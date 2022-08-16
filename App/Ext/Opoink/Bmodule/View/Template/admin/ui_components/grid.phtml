@@ -4,80 +4,45 @@
  * so we have the get it in here
  */
 $di = $this->_controller->getDi();
-
-/**
- * the model was already fetched in during construct
- */
-$this->collectionModel = $di->get($this->collectionModel);
-$columns = $this->_dataObject->getData('columns');
-
-$this->collectionModel->setGridData($this->_dataObject);
-$this->collectionModel->initSelect();
-
-$listData = $this->collectionModel->getList();
-
-$data = $listData['data'];
 ?>
 <div class="page-top-bottons d-flex justify-content-end">
 	<?= $this->contentTopBottons->buttonsToHtml(); ?>
 </div>
 
-<table class="<?= $this->tableClass ?>">
-	<thead>
-		<tr>
-			<?php 
-				foreach ($columns as $key => $column) {
-					$label = '';
-					if(isset($column['label'])){
-						$label = $column['label'];
-					}
-					elseif(isset($column['column_name'])){
-						$label = $column['column_name'];
-					}
-					echo '<th scope="col">'.$label.'</th>';
-				} 
-			?>
-		</tr>
-	</thead>
-	<?php if($data): ?>
-		<tbody>
-			<?php
-				foreach ($data as $key => $value) {
-					echo "<tr>";
-						foreach ($columns as $_key => $_column) {
-							if(isset($_column['renderer'])){
-								$renderer = $di->get($_column['renderer']);
-								echo "<td>".$renderer->render($value)."</td>";
-							}
-							else {
-								echo "<td>".$value->getData($_column['column_name'])."</td>";
-							}
-						}
-					echo "</tr>";
-				}
-			?>
+<div id="admin-grid-table" class="d-none">
+	<table class="<?= $this->tableClass ?>">
+		<thead v-if="columns">
+			<tr>
+				<th scope="col" v-for="column in columns">{{column.label}}</th>
+			</tr>
+		</thead>
+		<tbody v-if="list_data && columns">
+			<tr v-for="field in list_data.data">
+				<td v-for="column in columns" v-html="field[column.column_name]"></td>
+			</tr>
 		</tbody>
-	<?php endif; ?>
-</table>
+	</table>
 
-<div class="pagination-container">
-	<nav aria-label="Page navigation example">
-		<ul class="pagination d-flex align-items-center justify-content-end">
-			<li class="page-item disabled">
-				<a class="page-link" href="#" tabindex="-1">Previous</a>
-			</li>
-			<li class="page-item ms-3 me-2">Page <input class="text-center w-50-px" type="text" value="1"></li>
-			<li class="page-item me-3">of 5</li>
-			<li class="page-item">
-				<a class="page-link" href="#">Next</a>
-			</li>
-		</ul>
-	</nav>
+	<div class="pagination-container" v-if="list_data && columns">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination d-flex align-items-center justify-content-end">
+				<li class="page-item" v-if="list_data.current_page > 1">
+					<a class="page-link" href="javascript:void(0)" v-on:click="goToPrevPage()">Previous</a>
+				</li>
+				<li class="page-item ms-3 me-2">Page <input class="text-center w-50-px" type="text" value="1" v-model="filters.filters.page" v-on:change="goToPage()"></li>
+				<li class="page-item me-3">of {{list_data.total_page}}</li>
+				<li class="page-item" v-if="list_data.total_page > list_data.current_page">
+					<a class="page-link" href="javascript:void(0)" v-on:click="goToNextPage()">Next</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
 </div>
 
 <script>
-	require(['main'], function(main){
-		main.pagination.init();
-		console.log('main main', main);
-	})
+	require([
+		'opoink/bmodule/js/admin/ui.components.grid.min'
+	], function(grid){
+		grid._data.setListingName('<?= $this->listingName ?>').getListing();
+	});
 </script>

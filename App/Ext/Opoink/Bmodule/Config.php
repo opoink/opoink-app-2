@@ -29,6 +29,7 @@ return array (
     'admin_adminuser_add_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Adminuser\\Add\\Index',
     'admin_adminuser_save_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Adminuser\\Save\\Index',
     'admin_adminuser_edit_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Adminuser\\Edit\\Index',
+    'admin_uicomponents_grid_listing' => '\\Opoink\\Bmodule\\Controller\\Admin\\Uicomponents\\Grid\\Listing',
   ),
 )
 ?>

@@ -7,7 +7,8 @@
 			"filter": {
 				"type": "range"
 			},
-			"renderer": null
+			"renderer": null,
+			"db_table_column": true
 		},
 		{
 			"column_name": "email",
@@ -16,7 +17,8 @@
 			"filter": {
 				"type": "text"
 			},
-			"renderer": null
+			"renderer": null,
+			"db_table_column": true
 		},
 		{
 			"column_name": "username",
@@ -25,7 +27,8 @@
 			"filter": {
 				"type": "text"
 			},
-			"renderer": null
+			"renderer": null,
+			"db_table_column": true
 		},
 		{
 			"column_name": "firstname",
@@ -34,7 +37,8 @@
 			"filter": {
 				"type": "text"
 			},
-			"renderer": null
+			"renderer": null,
+			"db_table_column": true
 		},
 		{
 			"column_name": "lastname",
@@ -43,7 +47,8 @@
 			"filter": {
 				"type": "text"
 			},
-			"renderer": null
+			"renderer": null,
+			"db_table_column": true
 		},
 		{
 			"column_name": "status",
@@ -52,7 +57,8 @@
 			"filter": {
 				"type": "text"
 			},
-			"renderer": null
+			"renderer": null,
+			"db_table_column": true
 		},
 		{
 			"column_name": "lang",
@@ -61,12 +67,14 @@
 			"filter": {
 				"type": "text"
 			},
-			"renderer": null
+			"renderer": null,
+			"db_table_column": true
 		},
 		{
 			"column_name": "action",
 			"label": "Action",
-			"renderer": "Opoink\\Bmodule\\Block\\Admin\\UiComponents\\Renderer\\AdminAdminuserIndexIndexGridAction"
+			"renderer": "Opoink\\Bmodule\\Block\\Admin\\UiComponents\\Renderer\\AdminAdminuserIndexIndexGridAction",
+			"db_table_column": false
 		}
 	],
 	"model": {
@@ -74,5 +82,5 @@
 		"class":"Opoink\\Bmodule\\Model\\UiComponent\\Grid\\AdminAdminuserIndexIndexGrid"
 	},
 	"main_table": "admins",
-	"limit": [20,50,100,200,500]
+	"limit": [1,20,50,100,200,500]
 }

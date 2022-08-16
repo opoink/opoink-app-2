@@ -81,7 +81,6 @@ define([
 						return tmpParam;
 					}
 				});
-				console.log('sParam sParam', tmpParam);
 
 				return tmpParam;
 			}
