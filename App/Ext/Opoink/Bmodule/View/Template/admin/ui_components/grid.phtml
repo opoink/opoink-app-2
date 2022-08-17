@@ -10,6 +10,11 @@ $di = $this->_controller->getDi();
 </div>
 
 <div id="admin-grid-table" class="d-none">
+	<div class="admin-grid-top-buttons">
+		asd
+	</div>
+
+
 	<div class="pagination-container d-flex align-items-center justify-content-end mb-3" v-if="list_data && columns">
 		<div class="d-flex align-items-center">
 			<div for="pagination-limits" class="pe-0 d-block w-fit-content me-2">Per Page</div>
@@ -38,7 +43,13 @@ $di = $this->_controller->getDi();
 	<table class="<?= $this->tableClass ?>">
 		<thead class="table-dark" v-if="columns">
 			<tr>
-				<th scope="col" v-for="column in columns">{{column.label}}</th>
+				<th scope="col" v-for="column in columns" v-on:click="setOrderBy(column)">
+					{{column.label}}
+					<div class="float-end" v-if="column.column_name == filters.filters.sort_order.order_by">
+						<i class="fa-solid fa-arrow-down-long" v-if="filters.filters.sort_order.direction == 'asc'"></i>
+						<i class="fa-solid fa-arrow-up-long" v-if="filters.filters.sort_order.direction == 'desc'"></i>
+					</div>
+				</th>
 			</tr>
 		</thead>
 		<tbody v-if="list_data && columns">

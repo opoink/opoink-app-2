@@ -80,6 +80,9 @@ class Grid extends \Of\Database\Entity {
 			$limit = self::DEFAULT_LIMIT;
 		}
 
+		$this->setOrderBy();
+
+
         $pagination = $this->getPagination();
         $pagination->set($page, $count, $limit);
 
@@ -107,6 +110,29 @@ class Grid extends \Of\Database\Entity {
         ];
 		
         return $o;
+	}
+
+	public function setOrderBy(){
+		$order_by = $this->_request->getParam('filters/sort_order/order_by');
+		if($order_by){
+			$direction = $this->_request->getParam('filters/sort_order/direction');
+			if($direction){
+				$direction = strtolower($direction);
+				if($direction == 'asc'){
+					$direction = 'ASC';
+				}
+				elseif($direction == 'desc'){
+					$direction = 'DESC';
+				}
+				else {
+					$direction = 'ASC';
+				}
+			}
+			else {
+				$direction = 'ASC';
+			}
+			$this->gridSelect->orderBy($order_by, $direction);
+		}
 	}
 }
 ?>

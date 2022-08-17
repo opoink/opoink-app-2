@@ -48,6 +48,7 @@ class Listing extends \Of\Controller\Controller {
 	
 			$columns = $this->gridBlock->getListingInfo()->getColumns();
 			$limits = $this->gridBlock->getListingInfo()->getLimit();
+			$topButtons = $this->gridBlock->getListingInfo()->getTopButtons();
 			
 			$colNames = [];
 			foreach ($columns as $key => $value) {
@@ -97,7 +98,8 @@ class Listing extends \Of\Controller\Controller {
 				'columns' => $columns,
 				'list_data' => $listData,
 				'filters' => $filters,
-				'limits' => $limits
+				'limits' => $limits,
+				'top_buttons' => $topButtons
 			];
 	
 			$this->toJson($result);

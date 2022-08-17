@@ -30,6 +30,8 @@ define([
 							this.limits = result.limits;
 						}
 						$('#main-page-loader').addClass('d-none');
+					}).catch(error => {
+						$('#main-page-loader').addClass('d-none');
 					});
 				},
 				goToPrevPage: () => {
@@ -57,6 +59,31 @@ define([
 					this.filters.filters.page = 1;
 					this.filters.filters.limit = parseInt(this.filters.filters.limit);
 					this.goToPage();
+				},
+				setOrderBy: (column) => {
+					if(column.sortable){
+						this.filters.filters.page = 1;
+						if(typeof this.filters.filters.sort_order == 'undefined'){
+							this.filters.filters.sort_order = {};
+						}
+	
+						this.filters.filters.sort_order['order_by'] = column.column_name;
+	
+						if(typeof this.filters.filters.sort_order.direction == 'undefined'){
+							this.filters.filters.sort_order['direction'] = 'asc';
+						}
+						else {
+							if(this.filters.filters.sort_order['direction'] == 'asc'){
+								this.filters.filters.sort_order['direction'] = 'desc';
+							}
+							else {
+								this.filters.filters.sort_order['direction'] = 'asc';
+							}
+						}
+						
+						this.goToPage();
+					}
+					console.log('setOrderBy setOrderBy', column);
 				}
 			}
 		},
