@@ -47,6 +47,7 @@ class Listing extends \Of\Controller\Controller {
 			$this->gridBlock->collectAllListingArray();
 	
 			$columns = $this->gridBlock->getListingInfo()->getColumns();
+			$limits = $this->gridBlock->getListingInfo()->getLimit();
 			
 			$colNames = [];
 			foreach ($columns as $key => $value) {
@@ -62,6 +63,7 @@ class Listing extends \Of\Controller\Controller {
 			$bookmark = $this->gridBookmark->getAdminBookmark($listingName, $columns, $filters);
 
 			$filters = $bookmark->getFilters();
+
 			unset($filters['columns']);
 			$_GET['filters'] = $filters['filters'];
 
@@ -94,7 +96,8 @@ class Listing extends \Of\Controller\Controller {
 			$result = [
 				'columns' => $columns,
 				'list_data' => $listData,
-				'filters' => $filters
+				'filters' => $filters,
+				'limits' => $limits
 			];
 	
 			$this->toJson($result);

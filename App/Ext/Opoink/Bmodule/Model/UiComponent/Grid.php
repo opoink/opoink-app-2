@@ -24,7 +24,7 @@ class Grid extends \Of\Database\Entity {
 	 * this limit will be used in case of the limit is not 
 	 * in the set accepted limitations
 	 */
-	const DEFAULT_LIMIT = 1;
+	const DEFAULT_LIMIT = 20;
 
 	public function __construct(
 		\Of\Database\Connection $Connection,

@@ -11,6 +11,7 @@ define([
 				columns: null,
 				list_data: null,
 				filters: {},
+				limits: null,
 				setListingName: (listingName) => {
 					this.listingName = listingName;
 					return this;
@@ -19,16 +20,16 @@ define([
 					return this.listingName;
 				},
 				getListing: () => {
+					$('#main-page-loader').removeClass('d-none');
 					req.doRequest(adminUrl + 'uicomponents/grid/listing?listing_name='+this.getListingName(), JSON.stringify(this.filters), 'POST')
 					.then(result => {
 						if(typeof result.columns != 'undefined'){
 							this.columns = result.columns;
 							this.list_data = result.list_data;
 							this.filters = result.filters;
+							this.limits = result.limits;
 						}
-						console.log('columns columns columns', this.columns);
-						console.log('list_data list_data list_data', this.list_data);
-						console.log('filters filters filters', this.filters);
+						$('#main-page-loader').addClass('d-none');
 					});
 				},
 				goToPrevPage: () => {
@@ -51,6 +52,11 @@ define([
 					else {
 						this.filters.filters.page = this.list_data.current_page;
 					}
+				},
+				changeLimitPerPage: () => {
+					this.filters.filters.page = 1;
+					this.filters.filters.limit = parseInt(this.filters.filters.limit);
+					this.goToPage();
 				}
 			}
 		},

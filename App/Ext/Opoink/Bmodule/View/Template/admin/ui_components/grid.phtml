@@ -10,8 +10,33 @@ $di = $this->_controller->getDi();
 </div>
 
 <div id="admin-grid-table" class="d-none">
+	<div class="pagination-container d-flex align-items-center justify-content-end mb-3" v-if="list_data && columns">
+		<div class="d-flex align-items-center">
+			<div for="pagination-limits" class="pe-0 d-block w-fit-content me-2">Per Page</div>
+			<select class="builder-form-field form-select w-fit-content" type="select" name="status" value="" v-model="filters.filters.limit" v-on:change="changeLimitPerPage()">
+				<option v-for="limit in limits" v-bind:value="limit" >{{limit}}</option>
+			</select>
+		</div>
+		<div class="ms-2">
+			<ul class="pagination d-flex align-items-center justify-content-end mb-0">
+				<li class="page-item" v-if="list_data.current_page > 1">
+					<a class="page-link" href="javascript:void(0)" v-on:click="goToPrevPage()">
+						<i class="fa-solid fa-angles-left"></i>
+					</a>
+				</li>
+				<li class="page-item ms-2 me-2">Page <input class="text-center w-65-px" type="text" value="1" v-model="filters.filters.page" v-on:change="goToPage()"></li>
+				<li class="page-item me-2">of {{list_data.total_page}}</li>
+				<li class="page-item" v-if="list_data.total_page > list_data.current_page">
+					<a class="page-link" href="javascript:void(0)" v-on:click="goToNextPage()">
+						<i class="fa-solid fa-angles-right"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
 	<table class="<?= $this->tableClass ?>">
-		<thead v-if="columns">
+		<thead class="table-dark" v-if="columns">
 			<tr>
 				<th scope="col" v-for="column in columns">{{column.label}}</th>
 			</tr>
@@ -23,19 +48,29 @@ $di = $this->_controller->getDi();
 		</tbody>
 	</table>
 
-	<div class="pagination-container" v-if="list_data && columns">
-		<nav aria-label="Page navigation example">
-			<ul class="pagination d-flex align-items-center justify-content-end">
+	<div class="pagination-container d-flex align-items-center justify-content-end" v-if="list_data && columns">
+		<div class="d-flex align-items-center">
+			<div for="pagination-limits" class="pe-0 d-block w-fit-content me-2">Per Page</div>
+			<select class="builder-form-field form-select w-fit-content" type="select" name="status" value="" v-model="filters.filters.limit" v-on:change="changeLimitPerPage()">
+				<option v-for="limit in limits" v-bind:value="limit" >{{limit}}</option>
+			</select>
+		</div>
+		<div class="ms-2">
+			<ul class="pagination d-flex align-items-center justify-content-end mb-0">
 				<li class="page-item" v-if="list_data.current_page > 1">
-					<a class="page-link" href="javascript:void(0)" v-on:click="goToPrevPage()">Previous</a>
+					<a class="page-link" href="javascript:void(0)" v-on:click="goToPrevPage()">
+						<i class="fa-solid fa-angles-left"></i>
+					</a>
 				</li>
-				<li class="page-item ms-3 me-2">Page <input class="text-center w-50-px" type="text" value="1" v-model="filters.filters.page" v-on:change="goToPage()"></li>
-				<li class="page-item me-3">of {{list_data.total_page}}</li>
+				<li class="page-item ms-2 me-2">Page <input class="text-center w-65-px" type="text" value="1" v-model="filters.filters.page" v-on:change="goToPage()"></li>
+				<li class="page-item me-2">of {{list_data.total_page}}</li>
 				<li class="page-item" v-if="list_data.total_page > list_data.current_page">
-					<a class="page-link" href="javascript:void(0)" v-on:click="goToNextPage()">Next</a>
+					<a class="page-link" href="javascript:void(0)" v-on:click="goToNextPage()">
+						<i class="fa-solid fa-angles-right"></i>
+					</a>
 				</li>
 			</ul>
-		</nav>
+		</div>
 	</div>
 </div>
 

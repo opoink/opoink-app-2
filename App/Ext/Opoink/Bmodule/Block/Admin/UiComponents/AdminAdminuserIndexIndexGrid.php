@@ -5,8 +5,6 @@ class AdminAdminuserIndexIndexGrid extends \Opoink\Bmodule\Block\Admin\UiCompone
 
 
 	protected $listingName = 'admin_adminuser_index_index_grid';
-	protected $tableClass = 'table table-striped table-dark';
-	// protected $tableClass = 'table table-striped table-light';
 }
 
 ?>

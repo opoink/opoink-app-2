@@ -29,8 +29,12 @@
 
 @include loop(1, 900, 100, ".fw-", "", "font-weight", "", "!important");
 
+.w-fit-content {
+	width:fit-content;
+}
+
 body {
-	min-width: 36px;
+	min-width: 992px;
 }
 
 a {

@@ -15,7 +15,7 @@ class Grid extends \Opoink\Bmodule\Block\Admin\Context {
 	 */
 	protected $listingName = '';
 
-	protected $tableClass = 'table table-striped table-dark';
+	protected $tableClass = 'table table-striped table-hover';
 
 	/**
 	 * \Of\Std\DataObjec
