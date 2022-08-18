@@ -3,8 +3,6 @@ namespace Opoink\Bmodule\Model\UiComponent;
 
 class Grid extends \Of\Database\Entity {
 
-	protected $_eventManager;
-
 	/**
 	 * \Of\Std\DataObject 
 	 */
@@ -28,11 +26,9 @@ class Grid extends \Of\Database\Entity {
 
 	public function __construct(
 		\Of\Database\Connection $Connection,
-		\Of\Http\Request $Request,
-		\Of\Std\EventManager $EventManager
+		\Of\Http\Request $Request
 	){
 		parent::__construct($Connection, $Request);
-		$this->_eventManager = $EventManager;
 	}
 
 	public function setGridData(\Of\Std\DataObject $gridData){
@@ -40,6 +36,9 @@ class Grid extends \Of\Database\Entity {
 		return $this;
 	}
 
+	/**
+	 * @param $colNames table column names
+	 */
 	public function initSelect($colNames=null){
 		$mt = $this->getTableName($this->gridData->getMainTable());
 		$this->gridSelect = $this->getSelect();
@@ -53,9 +52,61 @@ class Grid extends \Of\Database\Entity {
 			$mt => $mt
 		]);
 
-		$this->_eventManager->runEvent('admin_grid_init_select_after', [
-			"select" => $this->gridSelect
-		]);
+		$this->applyFilters($mt);
+		return $this;
+	}
+
+	/**
+	 * with this method will do the sql query for the filter 
+	 * of the requested search field params
+	 * 
+	 * the filters/search_fields is requested via post request from admin ui grid page
+	 * and it is being saved into the database inorder to bookmark the search.
+	 * 
+	 * @param $mt main table
+	 */
+	public function applyFilters($mt){
+		$search_fields = $this->_request->getParam('filters/search_fields');
+		if(count($search_fields)){
+			foreach ($search_fields as $key => $search_field) {
+				if(isset($search_field['field']) && isset($search_field['search_string']) && !empty($search_field['search_string'])){
+					if($key == 0){
+						$this->gridSelect->where($mt.'.'.$search_field['field']);
+					}
+					else {
+						$this->gridSelect->orWhere($mt.'.'.$search_field['field']);
+					}
+
+					if($search_field['type'] == 'text'){
+						$this->gridSelect->like('%'.$search_field['search_string'].'%');
+					}
+					elseif($search_field['type'] == 'range'){
+						
+						$from = isset($search_field['from']) ? (int)$search_field['from'] : 0;
+						$to = isset($search_field['to']) ? (int)$search_field['to'] : 0;
+						if($from > 0 && $to <= 0){
+							$this->gridSelect->gtoe($from);
+						}
+						elseif($from > 0 && $to > 0){
+							if($to < $from){
+								$to = $from;
+							}
+							$this->gridSelect->between($from, $to);
+						}
+						elseif($from <= 0 && $to > 0){
+							$this->gridSelect->ltoe($to);
+						}
+						else {
+							/**
+							 * do nothing
+							 * $this->gridSelect->where || $this->gridSelect->orWhere will be ignored
+							 * if we do nothing here
+							 */
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public function getList(){
@@ -94,12 +145,6 @@ class Grid extends \Of\Database\Entity {
         ->limit($limit);
 
         $data = $this->fetchAll($this->gridSelect, false);
-		// foreach ($data as $key => $value) {
-		// 	$DataObject = new \Of\Std\DataObject();
-		// 	$DataObject->setData($value);
-
-		// 	$data[$key] = $DataObject;
-		// }
 
         $o = [
             'total_count' => $count,
