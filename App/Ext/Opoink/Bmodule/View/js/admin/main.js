@@ -108,32 +108,6 @@ define([
 					}
 				});
 			}
-		},
-		actionBtns: {
-			init: function(){
-				$('.action-btns').on('click', (e) => {
-					e.preventDefault();
-
-					let dataset = e.currentTarget.dataset;
-
-					try {
-						if(dataset.type == 'action-confirm'){
-							$('#confirmationModal .modal-body').empty();
-							$('#confirmationModal .modal-body').append(dataset.content);
-							$('#confirmationModal #confirmationModalLabel').text(dataset.modal_title);
-							$('#confirmationModal .modal-footer .btn-secondary').text(dataset.modal_secondary);
-							$('#confirmationModal .modal-footer .btn-primary').text(dataset.modal_primary);
-							$('#confirmationModal .modal-footer .btn-primary').unbind().on('click', function(){
-								window.location.href = dataset.action_url;
-								$('#confirmationModal').modal('hide');
-							});
-							$('#confirmationModal').modal('show');
-						}
-					} catch (error) {
-						console.log('action-btns action-btns action-btns error', error);
-					}
-				})
-			}
 		}
 	};
 

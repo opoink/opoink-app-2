@@ -19,6 +19,30 @@ define([
 				getListingName: () => {
 					return this.listingName;
 				},
+				actionBtns: () => {
+					$('.action-btns').on('click', (e) => {
+						e.preventDefault();
+
+						let dataset = e.currentTarget.dataset;
+
+						try {
+							if(dataset.type == 'action-confirm'){
+								$('#confirmationModal .modal-body').empty();
+								$('#confirmationModal .modal-body').append(dataset.content);
+								$('#confirmationModal #confirmationModalLabel').text(dataset.modal_title);
+								$('#confirmationModal .modal-footer .btn-secondary').text(dataset.modal_secondary);
+								$('#confirmationModal .modal-footer .btn-primary').text(dataset.modal_primary);
+								$('#confirmationModal .modal-footer .btn-primary').unbind().on('click', function(){
+									window.location.href = dataset.action_url;
+									$('#confirmationModal').modal('hide');
+								});
+								$('#confirmationModal').modal('show');
+							}
+						} catch (error) {
+							console.log('action-btns action-btns action-btns error', error);
+						}
+					});
+				},
 				getListing: () => {
 					$('#main-page-loader').removeClass('d-none');
 					req.doRequest(adminUrl + 'uicomponents/grid/listing?listing_name='+this.getListingName(), JSON.stringify(this.filters), 'POST')
@@ -29,6 +53,10 @@ define([
 							this.list_data = result.list_data;
 							this.filters = result.filters;
 							this.limits = result.limits;
+
+							setTimeout(() => {
+								this.actionBtns();
+							}, 100);
 						}
 						$('#main-page-loader').addClass('d-none');
 					}).catch(error => {
@@ -84,7 +112,6 @@ define([
 						
 						this.goToPage();
 					}
-					console.log('setOrderBy setOrderBy', column);
 				},
 				resetFieldValues: () => {
 					var inputs = $('#admin-grid-filters-modal input');
@@ -96,7 +123,6 @@ define([
 					$.each(inputs, (key, val) => {
 						$(val).val('');
 					});
-					console.log(inputs);
 				},
 				showFiltersModal: () => {
 					$('#admin-grid-filters-modal').modal('show');
@@ -109,7 +135,7 @@ define([
 					setTimeout(() => {
 						$.each(this.filters.filters.search_fields, (key, val) => {
 							this.tmpSearchFields[val['field']] = val;
-							if(val.type == 'text'){
+							if(val.type == 'text' || val.type == 'select'){
 								$('#admin-grid-filter-' + val['field']).val(val['search_string']);
 							}
 							else if(val.type == 'range') {
@@ -127,7 +153,7 @@ define([
 				},
 				tmpSearchFields: {},
 				updateFilter(type, column, event, fromOrTo){
-						if(type == 'text'){
+						if(type == 'text' || type == 'select'){
 							if(event.target.value){
 								this.tmpSearchFields[column.column_name] = {
 									field: column.column_name,
@@ -181,13 +207,36 @@ define([
 					}, 100);
 				},
 				removeFilter(search_field){
+					var toRemoveKeys = [];
 					$.each(this.filters.filters.search_fields, (key, val) => {
 						if(search_field.field == val.field){
-							this.filters.filters.search_fields.splice(key, 1);
+							toRemoveKeys.push(key);
 						}
 					});
+
+					$.each(toRemoveKeys, (key, val) => {
+						this.filters.filters.search_fields.splice(val, 1);
+					});
+
 					this.filters.filters.page = 1;
-					this.getListing();
+					setTimeout(() => {
+						this.getListing();
+					}, 100);
+				},
+				getOptionLabelBySearchField: (search_field) => {
+					var optionLabel = "";
+					$.each(this.columns, (key, val) => {
+						if(val.column_name == search_field.field && typeof val.filter != 'undefined'){
+							if(typeof val.filter.option != 'undefined'){
+								$.each(val.filter.option, (key2, val2) => {
+									if(val2.key == search_field.search_string){
+										optionLabel = val2.value;
+									}
+								});
+							}
+						}
+					});
+					return optionLabel;
 				}
 			}
 		},
@@ -195,8 +244,5 @@ define([
 			$('#admin-grid-table').removeClass('d-none');
 		}
 	}).$mount('#admin-grid-table');
-
-	console.log('grid grid', grid);
-
 	return grid;
 });

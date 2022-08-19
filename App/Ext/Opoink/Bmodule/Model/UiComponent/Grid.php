@@ -76,7 +76,7 @@ class Grid extends \Of\Database\Entity {
 					$this->gridSelect->orWhere($mt.'.'.$search_field['field']);
 				}
 
-				if($search_field['type'] == 'text'){
+				if($search_field['type'] == 'text' || $search_field['type'] == 'select'){
 					$this->gridSelect->like('%'.$search_field['search_string'].'%');
 				}
 				elseif($search_field['type'] == 'range'){
@@ -121,7 +121,7 @@ class Grid extends \Of\Database\Entity {
 				continue;
 			}
 
-			if($value['type'] == 'text'){
+			if($value['type'] == 'text' || $value['type'] == 'select'){
 				if( isset($value['search_string']) && !empty($value['search_string']) ){
 					$newSearchFields[] = $value;
 				}

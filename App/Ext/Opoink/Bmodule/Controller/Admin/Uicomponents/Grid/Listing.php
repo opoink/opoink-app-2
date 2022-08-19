@@ -76,21 +76,26 @@ class Listing extends \Of\Controller\Controller {
 
 			$listData = $collectionModel->getList();
 
-			foreach ($columns as $ckey => $cvalue) {
+			
+
+			foreach ($columns as $ckey => &$cvalue) {
 				if(isset($cvalue['renderer']) && !empty($cvalue['renderer'])){
 					$renderer = $this->_di->get($cvalue['renderer']);
 					foreach ($listData['data'] as $key => &$value) {
 						$value = $renderer->render($value, $cvalue['column_name']);
 					}
+					unset($cvalue['renderer']);
 				}
-			}
-
-			foreach ($columns as $key => &$value) {
-				if(array_key_exists('renderer', $value)){
-					unset($value['renderer']);
+				if(isset($cvalue['filter'])){
+					if(isset($cvalue['filter']['type']) && $cvalue['filter']['type'] == 'select'){
+						if(isset($cvalue['filter']['option'])){
+							$option = $this->_di->get($cvalue['filter']['option'])->toOptionArray();
+							$cvalue['filter']['option'] = $option;
+						}
+					}
 				}
 				if(array_key_exists('db_table_column', $value)){
-					unset($value['db_table_column']);
+					unset($cvalue['db_table_column']);
 				}
 			}
 

@@ -21,7 +21,8 @@ $di = $this->_controller->getDi();
 						From <span v-if="search_field.from">{{search_field.from}}</span><span v-else>0</span>
 						To <span v-if="search_field.to">{{search_field.to}}</span><span v-else>*</span>
 					</span>
-					<span class="c-pointer" v-on:click="removeFilter(search_field)"><i class="far fa-times-circle"></i></span>
+					<span v-if="search_field.type == 'select'"><span class="text-muted" >{{search_field.label}}:</span> {{getOptionLabelBySearchField(search_field)}}</span>
+					<a href="javascript:void(0)" v-on:click="removeFilter(search_field)"><i class="far fa-times-circle"></i></a>
 				</small>
 			</div>
 		</div>	
@@ -130,6 +131,13 @@ $di = $this->_controller->getDi();
 										<label v-bind:for="'admin-grid-filter-'+column.column_name+'-to'">{{column.label}} To</label>
 										<input type="text" class="form-control" v-bind:id="'admin-grid-filter-'+column.column_name+'-to'" v-on:keyup="updateFilter(column.filter.type, column, $event, 'to')" />
 									</div>
+								</div>
+								<div class="form-group mb-3" v-if="column.filter.type == 'select'">
+									<label v-bind:for="'admin-grid-filter-'+column.column_name">{{column.label}}</label>
+									<select class="form-select" v-bind:id="'admin-grid-filter-'+column.column_name" v-on:change="updateFilter(column.filter.type, column, $event, '')">
+										<option value="">Select {{column.label}}</option>
+										<option v-for="option in column.filter.option" v-bind:value="option.key">{{option.value}}</option>
+									</select>
 								</div>
 							</v-template>
 						</v-template>

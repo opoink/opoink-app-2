@@ -60,7 +60,8 @@
 			"label": "Status",
 			"position": 60,
 			"filter": {
-				"type": "text"
+				"type": "select",
+				"option": "Opoink\\Bmodule\\Block\\Admin\\UiComponents\\DataProvider\\AdminUserStatus"
 			},
 			"renderer": null,
 			"db_table_column": true,
