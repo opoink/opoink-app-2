@@ -66,47 +66,75 @@ class Grid extends \Of\Database\Entity {
 	 * @param $mt main table
 	 */
 	public function applyFilters($mt){
-		$search_fields = $this->_request->getParam('filters/search_fields');
+		$search_fields = $this->rebuildSearchField();
 		if(count($search_fields)){
 			foreach ($search_fields as $key => $search_field) {
-				if(isset($search_field['field']) && isset($search_field['search_string']) && !empty($search_field['search_string'])){
-					if($key == 0){
-						$this->gridSelect->where($mt.'.'.$search_field['field']);
+				if($key == 0){
+					$this->gridSelect->where($mt.'.'.$search_field['field']);
+				}
+				else {
+					$this->gridSelect->orWhere($mt.'.'.$search_field['field']);
+				}
+
+				if($search_field['type'] == 'text'){
+					$this->gridSelect->like('%'.$search_field['search_string'].'%');
+				}
+				elseif($search_field['type'] == 'range'){
+					$from = isset($search_field['from']) ? (int)$search_field['from'] : 0;
+					$to = isset($search_field['to']) ? (int)$search_field['to'] : 0;
+
+					if($from > 0 && $to <= 0){
+						$this->gridSelect->gtoe($from);
+					}
+					elseif($from > 0 && $to > 0){
+						if($to < $from){
+							$to = $from;
+						}
+						$this->gridSelect->between($from, $to);
+					}
+					elseif($from <= 0 && $to > 0){
+						$this->gridSelect->ltoe($to);
 					}
 					else {
-						$this->gridSelect->orWhere($mt.'.'.$search_field['field']);
-					}
-
-					if($search_field['type'] == 'text'){
-						$this->gridSelect->like('%'.$search_field['search_string'].'%');
-					}
-					elseif($search_field['type'] == 'range'){
-						
-						$from = isset($search_field['from']) ? (int)$search_field['from'] : 0;
-						$to = isset($search_field['to']) ? (int)$search_field['to'] : 0;
-						if($from > 0 && $to <= 0){
-							$this->gridSelect->gtoe($from);
-						}
-						elseif($from > 0 && $to > 0){
-							if($to < $from){
-								$to = $from;
-							}
-							$this->gridSelect->between($from, $to);
-						}
-						elseif($from <= 0 && $to > 0){
-							$this->gridSelect->ltoe($to);
-						}
-						else {
-							/**
-							 * do nothing
-							 * $this->gridSelect->where || $this->gridSelect->orWhere will be ignored
-							 * if we do nothing here
-							 */
-						}
+						/**
+						 * do nothing
+						 * $this->gridSelect->where || $this->gridSelect->orWhere will be ignored
+						 * if we do nothing here
+						 */
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * this will all invalid search field e.g search_string is empty
+	 * or range from and to isi empty etc.
+	 */
+	public function rebuildSearchField(){
+		$search_fields = $this->_request->getParam('filters/search_fields');
+
+		$newSearchFields = [];
+		foreach ($search_fields as $key => $value) {
+			/** the field index is required */
+			if( !isset($value['field']) || empty($value['field']) ){ 
+				continue;
+			}
+
+			if($value['type'] == 'text'){
+				if( isset($value['search_string']) && !empty($value['search_string']) ){
+					$newSearchFields[] = $value;
+				}
+			}
+			elseif($value['type'] == 'range'){
+				$from = isset($value['from']) ? (int)$value['from'] : 0;
+				$to = isset($value['to']) ? (int)$value['to'] : 0;
+				if(!empty($from) || !empty($to)){
+					$newSearchFields[] = $value;
+				}
+			}
+		}
+		return $newSearchFields;
 	}
 
 	public function getList(){
