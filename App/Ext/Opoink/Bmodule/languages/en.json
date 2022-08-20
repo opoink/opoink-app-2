@@ -40,5 +40,16 @@
 	"Admin users": "Admin users",
 	"Invalid request": "Invalid request",
 	"The {{field}} {{value}} already exists, please choose another one.": "The {{field}} {{value}} already exists, please choose another one.",
-	"Admin {{username}} successfully saved.": "Admin {{username}} successfully saved."
+	"Admin {{username}} successfully saved.": "Admin {{username}} successfully saved.",
+	"Data is being generated. Please wait for a while to complete the file.": "Data is being generated. Please wait for a while to complete the file.",
+	"The system is generating an active export for this listing.": "The system is generating an active export for this listing.",
+	"Cannot save the new export job for this listing, please try again.": "Cannot save the new export job for this listing, please try again.",
+	"Active Filters": "Active Filters",
+	"From": "From",
+	"To": "To",
+	"Filters": "Filters",
+	"Export CSV": "Export CSV",
+	"Per Page": "Per Page",
+	"Page": "Page",
+	"of": "of"
 }

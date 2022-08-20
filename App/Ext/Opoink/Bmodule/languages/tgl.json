@@ -40,5 +40,16 @@
 	"Admin users": "Admin users",
 	"Invalid request": "Invalid request",
 	"The {{field}} {{value}} already exists, please choose another one.": "The {{field}} {{value}} already exists, please choose another one.",
-	"Admin {{username}} successfully saved.": "Admin {{username}} successfully saved."
+	"Admin {{username}} successfully saved.": "Admin {{username}} successfully saved.",
+	"Data is being generated. Please wait for a while to complete the file.": "Maanong mag hintay. Binubuo pa lamang and datos na iyong inexport.",
+	"The system is generating an active export for this listing.": "Meron pa na binubuong datos para sa pag export ng listahang ito",
+	"Cannot save the new export job for this listing, please try again.": "Hindi na-save and pag export ng listahan, maanong subukang muli.",
+	"Active Filters": "Active Filters",
+	"From": "Mula",
+	"To": "Hang-gang",
+	"Filters": "Filters",
+	"Export CSV": "Export CSV",
+	"Per Page": "Kada Pahina",
+	"Page": "Pahina",
+	"of": "ng"
 }

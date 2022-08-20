@@ -12,14 +12,14 @@ $di = $this->_controller->getDi();
 <div id="admin-grid-table" class="d-none">
 	<div class="row">
 		<div class="col-6">
-			Active Filters: 
+			<?= $this->_lang->_getLang('Active Filters') ?>: 
 			<div class="clearfix" v-if="filters.filters && filters.filters.search_fields.length">
 				<small class="float-start mb-0 me-3" v-for="search_field of filters.filters.search_fields">
 					<span v-if="search_field.type == 'text'"><span class="text-muted" >{{search_field.label}}:</span> {{search_field.search_string}}</span>
 					<span v-if="search_field.type == 'range'">
 						<span class="text-muted">{{search_field.label}}:</span> 
-						From <span v-if="search_field.from">{{search_field.from}}</span><span v-else>0</span>
-						To <span v-if="search_field.to">{{search_field.to}}</span><span v-else>*</span>
+						<?= $this->_lang->_getLang('From') ?> <span v-if="search_field.from">{{search_field.from}}</span><span v-else>0</span>
+						<?= $this->_lang->_getLang('To') ?> <span v-if="search_field.to">{{search_field.to}}</span><span v-else>*</span>
 					</span>
 					<span v-if="search_field.type == 'select'"><span class="text-muted" >{{search_field.label}}:</span> {{getOptionLabelBySearchField(search_field)}}</span>
 					<a href="javascript:void(0)" v-on:click="removeFilter(search_field)"><i class="far fa-times-circle"></i></a>
@@ -30,11 +30,11 @@ $di = $this->_controller->getDi();
 			<v-template v-if="top_buttons">
 				<div class="admin-grid-top-buttons text-end mb-3">
 					<button v-if="top_buttons.filters" type="button" class="btn btn-outline-primary" v-on:click="showFiltersModal()">
-						<i class="fa-solid fa-filter"></i> Filters
+						<i class="fa-solid fa-filter"></i> <?= $this->_lang->_getLang('Filters') ?>
 					</button>
 					<v-template v-if="top_buttons.export">
 						<a href="<?= $this->getAdminUrl('grid/export/csvfile', ['listing_name' => $this->listingName]) ?>" type="button" class="btn btn-outline-secondary">
-							<i class="fa-solid fa-file-export"></i> Export CSV
+							<i class="fa-solid fa-file-export"></i> <?= $this->_lang->_getLang('Export CSV') ?>
 						</a>
 					</v-template>
 				</div>
@@ -42,7 +42,7 @@ $di = $this->_controller->getDi();
 
 			<div class="pagination-container d-flex align-items-center justify-content-end mb-3" v-if="filters.filters">
 				<div class="d-flex align-items-center">
-					<div for="pagination-limits" class="pe-0 d-block w-fit-content me-2">Per Page</div>
+					<div for="pagination-limits" class="pe-0 d-block w-fit-content me-2"><?= $this->_lang->_getLang('Per Page') ?></div>
 					<select class="builder-form-field form-select w-fit-content" type="select" name="status" value="" v-model="filters.filters.limit" v-on:change="changeLimitPerPage()">
 						<option v-for="limit in limits" v-bind:value="limit" >{{limit}}</option>
 					</select>
@@ -54,8 +54,8 @@ $di = $this->_controller->getDi();
 								<i class="fa-solid fa-angles-left"></i>
 							</a>
 						</li>
-						<li class="page-item ms-2 me-2">Page <input class="text-center w-65-px" type="text" value="1" v-model="filters.filters.page" v-on:change="goToPage()"></li>
-						<li class="page-item me-2">of {{list_data.total_page}}</li>
+						<li class="page-item ms-2 me-2"><?= $this->_lang->_getLang('Page') ?> <input class="text-center w-65-px" type="text" value="1" v-model="filters.filters.page" v-on:change="goToPage()"></li>
+						<li class="page-item me-2"><?= $this->_lang->_getLang('of') ?> {{list_data.total_page}}</li>
 						<li class="page-item" v-if="list_data.total_page > list_data.current_page">
 							<a class="page-link" href="javascript:void(0)" v-on:click="goToNextPage()">
 								<i class="fa-solid fa-angles-right"></i>
@@ -88,7 +88,7 @@ $di = $this->_controller->getDi();
 
 	<div class="pagination-container d-flex align-items-center justify-content-end" v-if="filters.filters">
 		<div class="d-flex align-items-center">
-			<div for="pagination-limits" class="pe-0 d-block w-fit-content me-2">Per Page</div>
+			<div for="pagination-limits" class="pe-0 d-block w-fit-content me-2"><?= $this->_lang->_getLang('Per Page') ?></div>
 			<select class="builder-form-field form-select w-fit-content" type="select" name="status" value="" v-model="filters.filters.limit" v-on:change="changeLimitPerPage()">
 				<option v-for="limit in limits" v-bind:value="limit" >{{limit}}</option>
 			</select>
@@ -100,8 +100,8 @@ $di = $this->_controller->getDi();
 						<i class="fa-solid fa-angles-left"></i>
 					</a>
 				</li>
-				<li class="page-item ms-2 me-2">Page <input class="text-center w-65-px" type="text" value="1" v-model="filters.filters.page" v-on:change="goToPage()"></li>
-				<li class="page-item me-2">of {{list_data.total_page}}</li>
+				<li class="page-item ms-2 me-2"><?= $this->_lang->_getLang('Page') ?> <input class="text-center w-65-px" type="text" value="1" v-model="filters.filters.page" v-on:change="goToPage()"></li>
+				<li class="page-item me-2"><?= $this->_lang->_getLang('of') ?> {{list_data.total_page}}</li>
 				<li class="page-item" v-if="list_data.total_page > list_data.current_page">
 					<a class="page-link" href="javascript:void(0)" v-on:click="goToNextPage()">
 						<i class="fa-solid fa-angles-right"></i>

@@ -1,0 +1,55 @@
+{
+    "primary_key": "grid_listing_export_id",
+    "fields": [
+        {
+            "name": "grid_listing_export_id",
+            "type": "BIGINT",
+            "length": 20,
+            "attributes": "auto_increment",
+            "primary": true,
+            "collation": "utf8_general_ci"
+        },
+        {
+            "name": "listing_name",
+            "type": "VARCHAR",
+            "length": "255",
+            "after": "grid_listing_export_id"
+        },
+        {
+            "name": "last_id",
+            "type": "BIGINT",
+            "length": "20",
+            "comment": "the last id exported",
+            "after": "listing_name"
+        },
+        {
+            "name": "status",
+            "type": "VARCHAR",
+            "length": "100",
+            "after": "last_id"
+        },
+        {
+            "name": "generated_file",
+            "type": "TEXT",
+            "comment": "the absolute path for CSV file to add the collected data",
+            "after": "status"
+        },
+        {
+            "name": "total_count",
+            "type": "BIGINT",
+            "length": "20",
+            "default": "0",
+            "comment": "total count of data being exported",
+            "after": "generated_file"
+        },
+        {
+            "name": "current_count",
+            "type": "BIGINT",
+            "length": "20",
+            "default": "0",
+            "after": "total_count"
+        }
+    ],
+    "collate": "utf8_general_ci",
+    "engine": "InnoDB"
+}
