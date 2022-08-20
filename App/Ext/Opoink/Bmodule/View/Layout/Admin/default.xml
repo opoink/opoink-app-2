@@ -8,7 +8,8 @@
 
 		<template xml:id="jscript" vendor="Opoink" module="Bmodule" template="admin/html_jscript.phtml" cacheable="1" max-age="604800"/>
 	</head>
-	<body xml:id="body" attr="class='admin side-nav-fixed'" weight="1">
+	<!-- <body xml:id="body" attr="class='admin side-nav-fixed'" weight="1"> -->
+	<body xml:id="body" attr="class='admin'" weight="1">
 		<template xml:id="main_page_loader" vendor="Opoink" module="Bmodule" template="admin/main-page-loader.phtml" cacheable="1" max-age="604800"/>
 		<container xml:id="main_container" htmlId="main_container" htmlClass="main_container" weight="1">
 			<container xml:id="side_menu" htmlId="side_menu" htmlClass="side_menu" weight="1">

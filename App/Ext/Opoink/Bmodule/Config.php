@@ -30,6 +30,7 @@ return array (
     'admin_adminuser_save_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Adminuser\\Save\\Index',
     'admin_adminuser_edit_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Adminuser\\Edit\\Index',
     'admin_uicomponents_grid_listing' => '\\Opoink\\Bmodule\\Controller\\Admin\\Uicomponents\\Grid\\Listing',
+    'admin_grid_export_csvfile' => '\\Opoink\\Bmodule\\Controller\\Admin\\Grid\\Export\\Csvfile',
   ),
 )
 ?>

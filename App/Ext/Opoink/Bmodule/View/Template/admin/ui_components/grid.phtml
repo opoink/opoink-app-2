@@ -27,11 +27,18 @@ $di = $this->_controller->getDi();
 			</div>
 		</div>	
 		<div class="col-6">
-			<div class="admin-grid-top-buttons text-end mb-3" v-if="columns">
-				<button type="button" class="btn btn-outline-primary" v-on:click="showFiltersModal()">
-					<i class="fa-solid fa-filter"></i> Filters
-				</button>
-			</div>
+			<v-template v-if="top_buttons">
+				<div class="admin-grid-top-buttons text-end mb-3">
+					<button v-if="top_buttons.filters" type="button" class="btn btn-outline-primary" v-on:click="showFiltersModal()">
+						<i class="fa-solid fa-filter"></i> Filters
+					</button>
+					<v-template v-if="top_buttons.export">
+						<a href="<?= $this->getAdminUrl('grid/export/csvfile', ['listing_name' => $this->listingName]) ?>" type="button" class="btn btn-outline-secondary">
+							<i class="fa-solid fa-file-export"></i> Export CSV
+						</a>
+					</v-template>
+				</div>
+			</v-template>
 
 			<div class="pagination-container d-flex align-items-center justify-content-end mb-3" v-if="filters.filters">
 				<div class="d-flex align-items-center">

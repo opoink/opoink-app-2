@@ -12,6 +12,7 @@ define([
 				list_data: null,
 				filters: {},
 				limits: null,
+				top_buttons: null,
 				setListingName: (listingName) => {
 					this.listingName = listingName;
 					return this;
@@ -53,6 +54,7 @@ define([
 							this.list_data = result.list_data;
 							this.filters = result.filters;
 							this.limits = result.limits;
+							this.top_buttons = result.top_buttons;
 
 							setTimeout(() => {
 								this.actionBtns();

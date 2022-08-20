@@ -76,8 +76,6 @@ class Listing extends \Of\Controller\Controller {
 
 			$listData = $collectionModel->getList();
 
-			
-
 			foreach ($columns as $ckey => &$cvalue) {
 				if(isset($cvalue['renderer']) && !empty($cvalue['renderer'])){
 					$renderer = $this->_di->get($cvalue['renderer']);
@@ -106,7 +104,6 @@ class Listing extends \Of\Controller\Controller {
 				'limits' => $limits,
 				'top_buttons' => $topButtons
 			];
-	
 			$this->toJson($result);
 		}
 		else {
