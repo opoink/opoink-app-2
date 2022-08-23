@@ -10,10 +10,17 @@
             "collation": "utf8_general_ci"
         },
         {
+            "name": "admins_id",
+            "type": "BIGINT",
+            "length": "20",
+            "collation": "utf8_general_ci",
+            "after": "grid_listing_export_id"
+        },
+        {
             "name": "listing_name",
             "type": "VARCHAR",
             "length": "255",
-            "after": "grid_listing_export_id"
+            "after": "admins_id"
         },
         {
             "name": "last_id",
@@ -48,6 +55,29 @@
             "length": "20",
             "default": "0",
             "after": "total_count"
+        },
+        {
+            "name": "filters",
+            "type": "LONGTEXT",
+            "after": "current_count"
+        },
+        {
+            "name": "export_id_from",
+            "type": "BIGINT",
+            "length": "20",
+            "default": null,
+            "nullable": true,
+            "comment": "start of export data",
+            "after": "filters"
+        },
+        {
+            "name": "export_id_to",
+            "type": "BIGINT",
+            "length": "20",
+            "default": null,
+            "nullable": true,
+            "comment": "export end id",
+            "after": "export_id_from"
         }
     ],
     "collate": "utf8_general_ci",

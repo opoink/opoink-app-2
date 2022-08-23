@@ -1,0 +1,80 @@
+<?php
+	/**
+	 * Copyright 2022 Opoink Framework (http://opoink.com/)
+	 * Licensed under MIT, see LICENSE.md
+	 */
+
+	defined('DS') ? null : define("DS", DIRECTORY_SEPARATOR);
+	defined('ROOT') ? null : define("ROOT", dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))));
+
+	// Composer autoloading
+	include ROOT . '/vendor/autoload.php';
+
+	// Global functions
+	include ROOT . '/vendor/opoink/framework/Functions/Functions.php';
+
+	$di = new \Of\Std\Di();
+	$config = $di->get('\Of\Config');
+	
+	$cronJobsTargetFile = ROOT.DS.'Var'.DS.'modules'.DS.'cronjobs.json';
+
+	if(!file_exists($cronJobsTargetFile)){
+		$modules = $config->getConfig('modules');
+
+		$extDir = ROOT.DS.'App'.DS.'Ext';
+
+		$cronJobs = [];
+		foreach ($modules as $vendorName => $moduleNames) {
+			foreach ($moduleNames as $moduleName) {
+				$moduleDir = $extDir.DS.$vendorName.DS.$moduleName;
+
+				$modConfigFile = $moduleDir.DS.'Config.php';
+				if(file_exists($modConfigFile) && is_file($modConfigFile)){
+					$modConfig = include($modConfigFile);
+					if(isset($modConfig['cron_jobs'])){
+						foreach ($modConfig['cron_jobs'] as $cron_job) {
+							$cronJobs[] = $cron_job;
+						}
+					}
+				}
+				// echo $moduleDir . PHP_EOL;
+			}
+		}
+		if(count($cronJobs) > 0){
+			$data = json_encode($cronJobs);
+
+			$fileWriter = $di->get('\Of\File\Writer');
+			$fileWriter->setDirPath(dirname($cronJobsTargetFile))
+			->setData($data)
+			->setFilename('cronjobs')
+			->setFileextension('json')
+			->write();
+		}
+	}
+
+	/**
+	 * for some reason there might not any cron jobs in the module, then we need to check it again here
+	 */
+	if(file_exists($cronJobsTargetFile)){
+		$cronJobs = file_get_contents($cronJobsTargetFile);
+		$cronJobs = json_decode($cronJobs, true);
+
+		if(json_last_error() == JSON_ERROR_NONE){
+			foreach ($cronJobs as $key => $cronJob) {
+				try {
+					$job = $di->get($cronJob['cron_model']);
+					if(method_exists($job, $cronJob['method'])){
+						$method = $cronJob['method'];
+						$job->$method();
+					}
+				} catch (\Exception $e) {
+					/**
+					 * TODO: add the error too logs
+					 */
+					var_dump('test');
+					die;
+				}
+			}
+		}
+	}
+?>

@@ -9,10 +9,16 @@ class GridListingExport extends \Of\Database\Entity {
 
 	const COLUMNS = [
 		'grid_listing_export_id',
+		'admins_id',
 		'listing_name',
 		'last_id',
 		'status',
 		'generated_file',
+		'total_count',
+		'current_count',
+		'filters',
+		'export_id_from',
+		'export_id_to'
 	];
 
 	protected $tablename = "grid_listing_export";
@@ -27,5 +33,17 @@ class GridListingExport extends \Of\Database\Entity {
 		parent::__construct($Connection, $Request);
 	}
 
+	public function getExports(){
+		$mainTable = $this->getTableName();
+		$select = $this->getSelect();
+		$select->select()->from($mainTable)
+		->where('status')->eq(\Opoink\Bmodule\Controller\Admin\Grid\Export\Csvfile::STATUS_PENDING)
+		->orWhere('status')->eq(\Opoink\Bmodule\Controller\Admin\Grid\Export\Csvfile::STATUS_ACTIVE)
+		->limit(50);
+
+		$data = $this->fetchAll($select, false);
+
+		return $data;
+	}
 }
 ?>

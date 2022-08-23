@@ -23,6 +23,7 @@ class Grid extends \Of\Database\Entity {
 	 * in the set accepted limitations
 	 */
 	const DEFAULT_LIMIT = 20;
+	const EXPORT_DEFAULT_LIMIT = 10000;
 
 	public function __construct(
 		\Of\Database\Connection $Connection,
@@ -109,36 +110,46 @@ class Grid extends \Of\Database\Entity {
 
 	/**
 	 * this will all invalid search field e.g search_string is empty
-	 * or range from and to isi empty etc.
+	 * or range from and to is empty etc.
 	 */
 	public function rebuildSearchField(){
 		$search_fields = $this->_request->getParam('filters/search_fields');
 
 		$newSearchFields = [];
-		foreach ($search_fields as $key => $value) {
-			/** the field index is required */
-			if( !isset($value['field']) || empty($value['field']) ){ 
-				continue;
-			}
-
-			if($value['type'] == 'text' || $value['type'] == 'select'){
-				if( isset($value['search_string']) && !empty($value['search_string']) ){
-					$newSearchFields[] = $value;
+		if($search_fields){
+			foreach ($search_fields as $key => $value) {
+				/** the field index is required */
+				if( !isset($value['field']) || empty($value['field']) ){ 
+					continue;
 				}
-			}
-			elseif($value['type'] == 'range'){
-				$from = isset($value['from']) ? (int)$value['from'] : 0;
-				$to = isset($value['to']) ? (int)$value['to'] : 0;
-				if(!empty($from) || !empty($to)){
-					$newSearchFields[] = $value;
+	
+				if($value['type'] == 'text' || $value['type'] == 'select'){
+					if( isset($value['search_string']) && !empty($value['search_string']) ){
+						$newSearchFields[] = $value;
+					}
+				}
+				elseif($value['type'] == 'range'){
+					$from = isset($value['from']) ? (int)$value['from'] : 0;
+					$to = isset($value['to']) ? (int)$value['to'] : 0;
+					if(!empty($from) || !empty($to)){
+						$newSearchFields[] = $value;
+					}
 				}
 			}
 		}
 		return $newSearchFields;
 	}
 
+	public function getTotalCount(){
+		return (int)$this->count($this->gridSelect, null, 'count');
+	}
+
+	/**
+	 * this property id triggered during the data listing in admin page
+	 * and during export
+	 */
 	public function getList(){
-		$count = (int)$this->count($this->gridSelect, null, 'count');
+		$count = (int)$this->getTotalCount();
 
 		$page = (int)$this->_request->getParam('filters/page');
 		if(!$page){
@@ -147,12 +158,14 @@ class Grid extends \Of\Database\Entity {
 
 		$limit = (int)$this->_request->getParam('filters/limit');
 		if($limit){
-			$limits = $this->gridData->getLimit();
-			if(!$limits){
-				$limits = $this->defaultLimits;
-			}
-			if(!in_array($limit, $limits)){
-				$limit = self::DEFAULT_LIMIT;
+			if($limit != self::EXPORT_DEFAULT_LIMIT){
+				$limits = $this->gridData->getLimit();
+				if(!$limits){
+					$limits = $this->defaultLimits;
+				}
+				if(!in_array($limit, $limits)){
+					$limit = self::DEFAULT_LIMIT;
+				}
 			}
 		}
 		else {
@@ -206,6 +219,49 @@ class Grid extends \Of\Database\Entity {
 			}
 			$this->gridSelect->orderBy($order_by, $direction);
 		}
+	}
+
+	/**
+	 * this method is triggered during the generation 
+	 * of export data via cron 
+	 */
+	// public function getExportData($lastId){
+
+	// 	$primaryKey = $this->getPrimaryKey();
+
+	// 	$data = [];
+	// 	if($primaryKey){
+	// 		// $mt = $this->getTableName($this->gridData->getMainTable());
+
+	// 		// $lastId = (int)$lastId;
+
+	// 		// $this->gridSelect->where($mt.'.'.$primaryKey)->gt($lastId);
+	// 		// $this->gridSelect->dumpQuery();
+
+	// 		// $this->gridSelect->orderBy($mt.'.'.$primaryKey, 'ASC');
+	// 		// $this->gridSelect->limit(self::EXPORT_DEFAULT_LIMIT);
+
+	// 		$this->gridSelect->dumpQuery();
+	// 		var_dump($primaryKey);
+	// 		die;
+	// 		$data = $this->fetchAll($this->gridSelect, false);
+	// 	}
+	// 	return $data;
+	// }
+
+	public function getPrimaryKey(){
+		$columns = $this->gridData->getData('columns');
+
+		$primary_key = null;
+		if(is_array($columns)){
+			foreach ($columns as $key => $column) {
+				if(isset($column['primary_key'])){
+					$primary_key = $column['column_name'];
+				}
+			}
+		}
+
+		return $primary_key;
 	}
 }
 ?>

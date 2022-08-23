@@ -1,6 +1,4 @@
 <?php
-date_default_timezone_set("Asia/Manila");
-
 chdir(dirname(__DIR__));
 
 defined('DS') ? null : define("DS", DIRECTORY_SEPARATOR);
