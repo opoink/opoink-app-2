@@ -78,6 +78,19 @@
             "nullable": true,
             "comment": "export end id",
             "after": "export_id_from"
+        },
+        {
+            "name": "created_at",
+            "type": "TIMESTAMP",
+            "default": "CURRENT_TIMESTAMP",
+            "after": "export_id_to"
+        },
+        {
+            "name": "upaded_at",
+            "type": "TIMESTAMP",
+            "default": "CURRENT_TIMESTAMP",
+            "attributes": "on update CURRENT_TIMESTAMP",
+            "after": "created_at"
         }
     ],
     "collate": "utf8_general_ci",

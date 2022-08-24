@@ -40,7 +40,7 @@ define([
 								$('#confirmationModal').modal('show');
 							}
 						} catch (error) {
-							console.log('action-btns action-btns action-btns error', error);
+
 						}
 					});
 				},
@@ -48,7 +48,6 @@ define([
 					$('#main-page-loader').removeClass('d-none');
 					req.doRequest(adminUrl + 'uicomponents/grid/listing?listing_name='+this.getListingName(), JSON.stringify(this.filters), 'POST')
 					.then(result => {
-						console.log('getListing getListing', result);
 						if(typeof result.columns != 'undefined'){
 							this.columns = result.columns;
 							this.list_data = result.list_data;
@@ -122,7 +121,7 @@ define([
 					});
 
 					var select = $('#admin-grid-filters-modal select');
-					$.each(inputs, (key, val) => {
+					$.each(select, (key, val) => {
 						$(val).val('');
 					});
 				},
@@ -153,47 +152,58 @@ define([
 
 
 				},
+				exportedCsvFiles: null,
+				showDownloadCSVFilesModal: () => {
+					$('#admin-grid-exported-csv-files-modal').modal('show');
+					req.doRequest(adminUrl + 'grid/export/csvfiles?listing_name='+this.getListingName(), '', 'GET')
+					.then(result => {
+						this.exportedCsvFiles = result;
+						console.log('exportedCsvFiles exportedCsvFiles', this.exportedCsvFiles);
+					}).catch(error => {
+
+					});
+				},
 				tmpSearchFields: {},
 				updateFilter(type, column, event, fromOrTo){
-						if(type == 'text' || type == 'select'){
-							if(event.target.value){
-								this.tmpSearchFields[column.column_name] = {
-									field: column.column_name,
-									search_string: event.target.value,
-									type: type,
-									label: column.label
-								};
-							}
-							else {
-								if(typeof this.tmpSearchFields[column.column_name] != 'undefined') {
-									delete this.tmpSearchFields[column.column_name];
-								}
-							}
+					if(type == 'text' || type == 'select'){
+						if(event.target.value){
+							this.tmpSearchFields[column.column_name] = {
+								field: column.column_name,
+								search_string: event.target.value,
+								type: type,
+								label: column.label
+							};
 						}
-						else if(type == 'range'){
-							if(typeof this.tmpSearchFields[column.column_name] == 'undefined'){
-								this.tmpSearchFields[column.column_name] = {
-									field: column.column_name,
-									search_string: null,
-									type: type,
-									label: column.label
-								};
-							}
-							if(event.target.value){
-								this.tmpSearchFields[column.column_name][fromOrTo] = event.target.value;}
-							else {
-								if(typeof this.tmpSearchFields[column.column_name][fromOrTo] != 'undefined') {
-									delete this.tmpSearchFields[column.column_name][fromOrTo];
-								}
-							}
-
-							if(
-								typeof this.tmpSearchFields[column.column_name]['from'] == 'undefined' && 
-								typeof this.tmpSearchFields[column.column_name]['to'] == 'undefined'
-							) {
+						else {
+							if(typeof this.tmpSearchFields[column.column_name] != 'undefined') {
 								delete this.tmpSearchFields[column.column_name];
 							}
 						}
+					}
+					else if(type == 'range'){
+						if(typeof this.tmpSearchFields[column.column_name] == 'undefined'){
+							this.tmpSearchFields[column.column_name] = {
+								field: column.column_name,
+								search_string: null,
+								type: type,
+								label: column.label
+							};
+						}
+						if(event.target.value){
+							this.tmpSearchFields[column.column_name][fromOrTo] = event.target.value;}
+						else {
+							if(typeof this.tmpSearchFields[column.column_name][fromOrTo] != 'undefined') {
+								delete this.tmpSearchFields[column.column_name][fromOrTo];
+							}
+						}
+
+						if(
+							typeof this.tmpSearchFields[column.column_name]['from'] == 'undefined' && 
+							typeof this.tmpSearchFields[column.column_name]['to'] == 'undefined'
+						) {
+							delete this.tmpSearchFields[column.column_name];
+						}
+					}
 				},
 				applyFilter(){
 					this.filters.filters.search_fields = [];
@@ -239,6 +249,14 @@ define([
 						}
 					});
 					return optionLabel;
+				},
+				getExportedFileDownloadLink: (exportedFile) => {
+					if(exportedFile.status == 'done'){
+						return adminUrl + 'grid/export/download?export_id='+exportedFile.grid_listing_export_id;
+					}
+					else {
+						return 'javascript:void(0)';
+					}
 				}
 			}
 		},

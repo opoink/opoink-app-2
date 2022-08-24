@@ -45,5 +45,24 @@ class GridListingExport extends \Of\Database\Entity {
 
 		return $data;
 	}
+
+	public function getExportsByAdminUserId($AdminsId, $listingName){
+		$mainTable = $this->getTableName();
+		$select = $this->getSelect();
+
+		$select->select([
+			'grid_listing_export_id',
+			'status',
+			'generated_file',
+			'total_count',
+			'current_count',
+			'created_at',
+			'upaded_at',
+		])->from($mainTable)
+		->where('admins_id')->eq($AdminsId)
+		->where('listing_name')->eq($listingName);
+
+		return $this->getFinalResponse($select);
+	}
 }
 ?>

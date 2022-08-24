@@ -51,5 +51,10 @@
 	"Export CSV": "Export CSV",
 	"Per Page": "Kada Pahina",
 	"Page": "Pahina",
-	"of": "ng"
+	"of": "ng",
+	"Download CSV Files": "Download CSV Files",
+	"Close": "Close",
+	"Apply Filters": "Apply Filters",
+	"Exported CSV Files": "Exported CSV Files",
+	"No exported data found": "No exported data found"
 }

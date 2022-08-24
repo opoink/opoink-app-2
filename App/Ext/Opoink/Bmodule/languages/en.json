@@ -51,5 +51,10 @@
 	"Export CSV": "Export CSV",
 	"Per Page": "Per Page",
 	"Page": "Page",
-	"of": "of"
+	"of": "of",
+	"Download CSV Files": "Download CSV Files",
+	"Close": "Close",
+	"Apply Filters": "Apply Filters",
+	"Exported CSV Files": "Exported CSV Files",
+	"No exported data found": "No exported data found"
 }

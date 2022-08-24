@@ -8,7 +8,6 @@ define([
 		init: function(){
 			this.sideNavControls.init();
 			this.actionTopButtons.init();
-			this.actionBtns.init();
 		},
 		sideNavControls: {
 			init: function(){

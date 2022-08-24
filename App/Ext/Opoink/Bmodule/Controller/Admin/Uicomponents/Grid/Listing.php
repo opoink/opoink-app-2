@@ -8,7 +8,7 @@ class Listing extends \Of\Controller\Controller {
 	protected $_message;
 
 	/**
-	 * \Of\Session\Session
+	 * \Opoink\Bmodule\Lib\Admin\UserSession
 	 */
 	protected $_session;
 

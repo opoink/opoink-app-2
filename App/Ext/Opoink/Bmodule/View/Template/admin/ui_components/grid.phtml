@@ -36,6 +36,9 @@ $di = $this->_controller->getDi();
 						<a href="<?= $this->getAdminUrl('grid/export/csvfile', ['listing_name' => $this->listingName]) ?>" type="button" class="btn btn-outline-secondary">
 							<i class="fa-solid fa-file-export"></i> <?= $this->_lang->_getLang('Export CSV') ?>
 						</a>
+						<a href="javascript:void(0)" type="button" class="btn btn-outline-secondary" v-on:click="showDownloadCSVFilesModal()">
+							<i class="fa-solid fa-download"></i> <?= $this->_lang->_getLang('Download CSV Files') ?>
+						</a>
 					</v-template>
 				</div>
 			</v-template>
@@ -116,7 +119,7 @@ $di = $this->_controller->getDi();
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="adminGridFiltersModalLabel">Filters</h5>
+					<h5 class="modal-title" id="adminGridFiltersModalLabel"><?= $this->_lang->_getLang('Filters') ?></h5>
 					<button type="button" class="close btn" data-bs-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -151,8 +154,67 @@ $di = $this->_controller->getDi();
 					</v-template>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" v-on:click="applyFilter()">Apply Filter</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= $this->_lang->_getLang('Close') ?></button>
+					<button type="button" class="btn btn-primary" v-on:click="applyFilter()"><?= $this->_lang->_getLang('Apply Filters') ?></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	<div class="modal fade" id="admin-grid-exported-csv-files-modal" tabindex="-1" role="dialog" aria-labelledby="adminGridExportedCsvFilesModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="adminGridExportedCsvFilesModalLabel"><?= $this->_lang->_getLang('Exported CSV Files') ?></h5>
+					<button type="button" class="close btn" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<v-template v-if="!exportedCsvFiles">
+						<div class="row">
+							<div class="col-12">
+								<p class="skeleton-box" style="width: 70%; height: 16px;"></p>
+								<p class="skeleton-box" style="width: 65%; height: 14px;"></p>
+								<p class="skeleton-box" style="width: 87%; height: 14px;"></p>
+							</div>
+						</div>
+					</v-template>
+					<v-template v-if="exportedCsvFiles && exportedCsvFiles['data']">
+						<div class="row" v-if="exportedCsvFiles['data'].length">
+							<div class="col-12">
+								<table class="table table-striped table-hover"> 
+									<tbody>
+										<tr v-for="exportedFile in exportedCsvFiles['data']">
+											<td>
+												<small class="m-0 d-block" >{{exportedFile.generated_file}}</small>
+												<small class="m-0 d-block">
+													<span class="badge bg-secondary" v-if="exportedFile.status == 'pending'">{{exportedFile.status}}</span>
+													<span class="badge bg-success" v-if="exportedFile.status == 'done'">{{exportedFile.status}}</span>
+													<span class="badge bg-warning" v-if="exportedFile.status == 'active'">{{exportedFile.status}}</span>
+												</small>
+												<small class="m-0 d-block" >{{exportedFile.current_count}} <?= $this->_lang->_getLang('of') ?> {{exportedFile.total_count}}</small>
+											</td>
+											<td>
+												<a class="me-2" v-if="exportedFile.status == 'done'" v-bind:href="getExportedFileDownloadLink(exportedFile)" title="Download">
+													<i class="fa-solid fa-download"></i>
+												</a>
+												<a href="javascript:void(0)" title="Delete">
+													<i class="fa-solid fa-trash-can"></i>
+												</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="row" v-if="!exportedCsvFiles['data'].length">
+							<p class="text-center">
+								<?= $this->_lang->_getLang('No exported data found') ?>
+							</p>
+						</div>
+					</v-template>
 				</div>
 			</div>
 		</div>
