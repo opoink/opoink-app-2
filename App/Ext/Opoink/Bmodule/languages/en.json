@@ -58,5 +58,7 @@
 	"Exported CSV Files": "Exported CSV Files",
 	"No exported data found": "No exported data found",
 	"Exported file nor found.": "Exported file nor found.",
-	"Generated file successfully deleted.": "Generated file successfully deleted."
+	"Generated file successfully deleted.": "Generated file successfully deleted.",
+	"Admin user not found": "Admin user not found",
+	"Admin user permanently deleted": "Admin user permanently deleted"
 }

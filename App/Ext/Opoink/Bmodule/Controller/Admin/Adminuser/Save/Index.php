@@ -12,7 +12,7 @@ class Index extends \Of\Controller\Controller {
 	protected $_message;
 
 	/**
-	 * \Of\Session\Session
+	 * \Opoink\Bmodule\Lib\Admin\UserSession
 	 */
 	protected $_session;
 
@@ -22,7 +22,7 @@ class Index extends \Of\Controller\Controller {
 	protected $_formValidate;
 
 	/**
-	 * \Of\Std\Lang
+	 * \Opoink\Bmodule\Lib\Lang
 	 */
 	protected $_lang;
 
@@ -112,7 +112,12 @@ class Index extends \Of\Controller\Controller {
 					$canSave = true;
 				}
 				else {
-					$this->setExistMessage('username', $postFields['username']);
+					if($isExistUsername->getAdminsId() == $id){
+						$canSave = true;
+					}
+					else {
+						$this->setExistMessage('username', $postFields['username']);
+					}
 				}
 			}
 			else {

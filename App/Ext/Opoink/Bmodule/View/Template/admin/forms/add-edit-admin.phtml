@@ -114,7 +114,7 @@
 	$this->_formBuilder->add($form, [ 
 		'label' => "admins_id",
 		"attributes" => [
-			"type" => "text",
+			"type" => "hidden",
 			"name" => "admins_id",
 			"value" => !empty($data->getAdminsId()) ? $data->getAdminsId() : '',
 			"class" => ""

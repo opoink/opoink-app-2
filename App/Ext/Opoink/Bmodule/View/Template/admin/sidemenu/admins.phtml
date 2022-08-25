@@ -1,4 +1,7 @@
-<div class="menu-item">
+<?php
+	$activeMenu = $this->linkActive('/adminuser');
+?>
+<div class="menu-item <?= $activeMenu ?>">
 	<div class="side-menu-icon faicon">
 		<a href="<?= $this->getAdminUrlNoDomain('adminuser'); ?>"><i class="fa-solid fa-users"></i></a>
 	</div>

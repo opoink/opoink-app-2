@@ -24,7 +24,7 @@ class AdminAdminuserIndexIndexGridAction  {
 				data-modal_title="Delete Admin User"
 				data-modal_secondary="No"
 				data-modal_primary="Yes"
-				data-action_url="'.$this->_url->getAdminUrl('/products/deleteaction', ['admins_id' => $fields['admins_id']]).'"
+				data-action_url="'.$this->_url->getAdminUrl('/adminuser/deleteaction', ['admins_id' => $fields['admins_id']]).'"
 			/>
 				<i class="fa-solid fa-trash-can"></i>
 			</a>
