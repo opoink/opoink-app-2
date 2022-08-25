@@ -155,10 +155,13 @@ define([
 				exportedCsvFiles: null,
 				showDownloadCSVFilesModal: () => {
 					$('#admin-grid-exported-csv-files-modal').modal('show');
+					this.getExportGeneratedFiles();
+				},
+				getExportGeneratedFiles: () => {
+					this.exportedCsvFiles = null;
 					req.doRequest(adminUrl + 'grid/export/csvfiles?listing_name='+this.getListingName(), '', 'GET')
 					.then(result => {
 						this.exportedCsvFiles = result;
-						console.log('exportedCsvFiles exportedCsvFiles', this.exportedCsvFiles);
 					}).catch(error => {
 
 					});
@@ -257,7 +260,35 @@ define([
 					else {
 						return 'javascript:void(0)';
 					}
-				}
+				},
+				deleteExportedFileConfirm: (exportedFile) => {
+					
+					$('#confirmationModal .modal-body').empty();
+					$('#confirmationModal .modal-body').append('Are you sure you want to delete ' + exportedFile.generated_file + '?');
+					$('#confirmationModal #confirmationModalLabel').text('Delete file');
+
+					$('#confirmationModal .modal-footer .btn-secondary').text('No');
+					$('#confirmationModal .modal-footer .btn-primary').text('Yes');
+
+					$('#confirmationModal .modal-footer .btn-primary').unbind().on('click', () => {
+						var url = adminUrl + 'grid/export/deletegeneratedfile';
+						var jsonData = {
+							export_id: exportedFile.grid_listing_export_id
+						}
+
+						$('#main-page-loader').removeClass('d-none');
+						req.doRequest(url, JSON.stringify(jsonData), 'POST')
+						.then(result => {
+							this.getExportGeneratedFiles();
+							$('#confirmationModal').modal('hide');
+							$('#main-page-loader').addClass('d-none');
+						}).catch(error => {
+							$('#main-page-loader').addClass('d-none');
+						});
+					});
+
+					$('#confirmationModal').modal('show');
+				}	
 			}
 		},
 		mounted: function(){

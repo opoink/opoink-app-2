@@ -200,7 +200,7 @@ $di = $this->_controller->getDi();
 												<a class="me-2" v-if="exportedFile.status == 'done'" v-bind:href="getExportedFileDownloadLink(exportedFile)" title="Download">
 													<i class="fa-solid fa-download"></i>
 												</a>
-												<a href="javascript:void(0)" title="Delete">
+												<a href="javascript:void(0)" title="Delete" v-on:click="deleteExportedFileConfirm(exportedFile)">
 													<i class="fa-solid fa-trash-can"></i>
 												</a>
 											</td>

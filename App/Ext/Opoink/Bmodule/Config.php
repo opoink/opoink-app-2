@@ -32,6 +32,7 @@ return array (
     'admin_uicomponents_grid_listing' => '\\Opoink\\Bmodule\\Controller\\Admin\\Uicomponents\\Grid\\Listing',
     'admin_grid_export_csvfile' => '\\Opoink\\Bmodule\\Controller\\Admin\\Grid\\Export\\Csvfile',
     'admin_grid_export_csvfiles' => '\\Opoink\\Bmodule\\Controller\\Admin\\Grid\\Export\\Csvfiles',
+    'admin_grid_export_deletegeneratedfile' => '\\Opoink\\Bmodule\\Controller\\Admin\\Grid\\Export\\Deletegeneratedfile',
   ),
   'cron_jobs' => 
   array (

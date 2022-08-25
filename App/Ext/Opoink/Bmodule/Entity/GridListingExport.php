@@ -60,7 +60,8 @@ class GridListingExport extends \Of\Database\Entity {
 			'upaded_at',
 		])->from($mainTable)
 		->where('admins_id')->eq($AdminsId)
-		->where('listing_name')->eq($listingName);
+		->where('listing_name')->eq($listingName)
+		->orderBy('grid_listing_export_id', 'DESC');
 
 		return $this->getFinalResponse($select);
 	}

@@ -46,7 +46,6 @@ class Csvfiles extends \Of\Controller\Controller {
 					$value['generated_file'] = $fileName . '.' . $ext;
 				}
 			}
-
 			$this->toJson($data);
 		}
 		else {

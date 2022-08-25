@@ -56,5 +56,7 @@
 	"Close": "Close",
 	"Apply Filters": "Apply Filters",
 	"Exported CSV Files": "Exported CSV Files",
-	"No exported data found": "No exported data found"
+	"No exported data found": "No exported data found",
+	"Exported file nor found.": "Exported file nor found.",
+	"Exported data successfully deleted.": "Exported data successfully deleted."
 }
