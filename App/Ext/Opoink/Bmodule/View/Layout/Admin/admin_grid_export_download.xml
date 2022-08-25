@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<html xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:id="html" attr="lang='en-US'" weight="999">
+	<head xml:id="head" weight="1">
+
+	</head>
+	<body xml:id="body" weight="1">
+
+		<container xml:id="main_container" htmlId="main_container" htmlClass="main_container" weight="1">
+			<template xml:id="sample_template" vendor="Opoink" module="Bmodule" template="admin/sample_template.phtml" cacheable="1" max-age="604800"/>
+		</container>
+	</body>
+</html>

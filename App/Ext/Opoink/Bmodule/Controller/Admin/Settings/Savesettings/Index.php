@@ -10,7 +10,7 @@ class Index extends \Of\Controller\Controller {
 	protected $_settings;
 
 	/**
-	 * \Of\Std\Lang
+	 * \Opoink\Bmodule\Lib\Lang
 	 */
 	protected $_lang;
 
