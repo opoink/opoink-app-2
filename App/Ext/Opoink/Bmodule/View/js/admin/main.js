@@ -1,13 +1,15 @@
 define([
 	'jquery',
 	'request',
-	'validatorjs'
-], function($, req, validatorjs) {
+	'validatorjs',
+	'vue'
+], function($, req, validatorjs, Vue) {
 
 	let main = {
 		init: function(){
 			this.sideNavControls.init();
 			this.actionTopButtons.init();
+			this.toast.init();
 		},
 		sideNavControls: {
 			init: function(){
@@ -106,6 +108,52 @@ define([
 						formEl.submit();
 					}
 				});
+			}
+		},
+		toast: {
+			isVue: false,
+			messages: [],
+			add: function(message, type = 'success', timeout = 8000){
+				if(message){
+					var m = {
+						message: message,
+						type: type
+					};
+					
+					this.messages.push(m);
+			
+					if(timeout){
+						setTimeout(f =>{
+							this.clear(0);
+						}, timeout);
+					}
+				}
+			},
+			clear(key) {
+				this.messages.splice(key, 1);
+			},
+			init: function(){
+				if(!this.isVue){
+					this.isVue = true;
+					new Vue({
+						data() {
+							return {
+								messages: main.toast.messages,
+								removeMesg: (key, isFromHtml=false) => {
+									if(!isFromHtml){
+										main.toast.clear(key);
+									}
+									else {
+										$('.general_notification_container .toast-msg-'+key).remove();
+									}
+								}
+							}
+						},
+						mounted: function(){
+							console.log(this);
+						}
+					}).$mount('#general-notification-container');
+				}
 			}
 		}
 	};

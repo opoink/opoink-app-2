@@ -1,6 +1,30 @@
-<?php
-	echo $this->_message->toHtml();
-?>
+<div id="general-notification-container" class="general_notification_container">
+	<ul class="general_notification">
+		<?php
+			$messages = $this->_message->getMessage();
+			if($messages){
+				foreach($messages as $mesKey => $mesVal){
+					$type = $mesVal['type'];
+					echo "
+					<li class='general_notification_message alert alert-".$type." toast-msg-".$mesKey."'>
+						<div class='m-0'>{$mesVal['message']}</div>
+						<button class='notificationMessageClose' v-on:click=\"removeMesg('".$mesKey."', true)\">
+							<i class='far fa-times-circle'></i>
+						</button>
+					</li>";
+				}
+				$this->_message->unsetData('__message');
+			}
+		?>
+
+		<li v-for="(msg, key) in messages" v-bind:class="'general_notification_message alert alert-'+msg.type+' toast-msg-0'">
+			<div class="m-0"v-html="msg.message"></div>
+			<button class="notificationMessageClose" v-on:click="removeMesg(key)">
+				<i class="far fa-times-circle"></i>
+			</button>
+		</li>
+	</ul>
+</div>
 <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -18,13 +42,3 @@
 		</div>
 	</div>
 </div>
-<script>
-	require([
-		'jquery'
-	], function($){
-		$('.general_notification_container .notificationMessageClose').on('click', (e) => {
-			$('.general_notification_container .toast-msg-'+e.delegateTarget.dataset.index).remove();
-			console.log('notificationMessageClose', e.delegateTarget.dataset.index);
-		});
-	});
-</script>

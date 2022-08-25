@@ -1,8 +1,9 @@
 define([
 	'jquery',
 	'request',
-	'vue'
-], function($, req, Vue) {
+	'vue',
+	'main'
+], function($, req, Vue, main) {
 
 	var grid = new Vue({
 		data() {
@@ -282,7 +283,10 @@ define([
 							this.getExportGeneratedFiles();
 							$('#confirmationModal').modal('hide');
 							$('#main-page-loader').addClass('d-none');
+
+							main.toast.add(result.message, 'success');
 						}).catch(error => {
+							console.log('deleteExportedFileConfirm deleteExportedFileConfirm', error);
 							$('#main-page-loader').addClass('d-none');
 						});
 					});
