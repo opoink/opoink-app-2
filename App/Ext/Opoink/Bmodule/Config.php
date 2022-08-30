@@ -35,6 +35,7 @@ return array (
     'admin_grid_export_deletegeneratedfile' => '\\Opoink\\Bmodule\\Controller\\Admin\\Grid\\Export\\Deletegeneratedfile',
     'admin_grid_export_download' => '\\Opoink\\Bmodule\\Controller\\Admin\\Grid\\Export\\Download',
     'admin_adminuser_deleteaction_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Adminuser\\Deleteaction\\Index',
+    'admin_users_index_index' => '\\Opoink\\Bmodule\\Controller\\Admin\\Users\\Index\\Index',
   ),
   'cron_jobs' => 
   array (
