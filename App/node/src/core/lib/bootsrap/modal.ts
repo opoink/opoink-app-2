@@ -1,6 +1,6 @@
 import * as $ from './../../../../node_modules/jquery';
 import * as bootstrap from './../../../../node_modules/bootstrap';
-bootstrap.Util.jQueryDetection();
+// bootstrap.Util.jQueryDetection();
 import Vue from './../../../../node_modules/vue/dist/vue.min';
 
 class Modal {
@@ -38,59 +38,105 @@ class Modal {
 		}
 
         $('body').append(`
-            <div id="`+modalId+`" `+attr+`>
-                <div `+mdAddId+` class="modal-dialog `+mdAddClass+`" role="document">
-                    <div class="modal-content">
-                        <`+name+`></`+name+`>
-                    </div>
-                </div>
-            </div>
+			<div id="`+modalId+`" class="modal" tabindex="-1">
+				<div `+mdAddId+` class="modal-dialog `+mdAddClass+`" `+attr+`>
+					<`+name+`></`+name+`>
+				</div>
+			</div>
+
         `);
 
-        let el = $(modalElId);
-
-        let interval = setInterval(f => {
-            if(el.length){
-                Vue.component(options['component']);
-                new Vue({ 
+		let interval = setInterval(f => {
+			let myModalEl = document.getElementById(modalId);
+			if(myModalEl){
+                let modalVue = new Vue({ 
                     el: modalElId
                 });
 
-				if(typeof options['modal_options'] != 'undefined'){
-					$(modalElId).modal(options['modal_options']);
-				} else {
-					$(modalElId).modal({
-						backdrop: 'static',
-						keyboard: false
-					});
+				let modalConfig = {
+					backdrop: 'static',
+					keyboard: false
 				}
-				
-				try {
+				if(typeof options['modal_options'] != 'undefined'){
+					modalConfig = options['modal_options'];
+				}
 
+				setTimeout(() => {
+					/**
+					 * we need to get the element here again
+					 * because the element fetch earlier does not have the component
+					 * needed
+					 */
+					let myModalEl = document.getElementById(modalId);
+					var modal = new bootstrap.Modal(myModalEl, modalConfig);
+					modal.show();
+	
 					let componentService = options['component']['extendOptions'].data().vue;
-					
-					componentService['modalElId'] = modalElId;
 					if(typeof componentService.init == 'function'){
 						componentService.init();
 					}
-					if(typeof this.onClose == 'function'){
-						componentService.onModalClose = this.onClose;
-					}
 
-					$(modalElId).on('show.bs.modal', () => {
+					componentService.hideModal = (data:any = null) => {
+						if(typeof this.onClose == 'function'){
+							this.onClose(data);
+						}
+						modal.hide();
+					}
 	
-					});
-					$(modalElId).on('hidden.bs.modal', () => {
+					myModalEl.addEventListener('hidden.bs.modal', function (event) {
 						$(modalElId).remove();
 					});
-				}
-				catch(err) {
-					console.log(err);
-				}
+				}, 100);
 
-                clearInterval(interval);
-            }
-        }, 10);
+				clearInterval(interval);
+			}
+		}, 100);
+
+
+        // let el = $(modalElId);
+
+        // let interval = setInterval(f => {
+        //     if(el.length){
+        //         Vue.component(options['component']);
+        //         new Vue({ 
+        //             el: modalElId
+        //         });
+
+		// 		if(typeof options['modal_options'] != 'undefined'){
+		// 			$(modalElId).modal(options['modal_options']);
+		// 		} else {
+		// 			$(modalElId).modal({
+		// 				backdrop: 'static',
+		// 				keyboard: false
+		// 			});
+		// 		}
+				
+		// 		try {
+
+		// 			let componentService = options['component']['extendOptions'].data().vue;
+					
+		// 			componentService['modalElId'] = modalElId;
+		// 			if(typeof componentService.init == 'function'){
+		// 				componentService.init();
+		// 			}
+		// 			if(typeof this.onClose == 'function'){
+		// 				componentService.onModalClose = this.onClose;
+		// 			}
+
+		// 			$(modalElId).on('show.bs.modal', () => {
+	
+		// 			});
+		// 			$(modalElId).on('hidden.bs.modal', () => {
+		// 				$(modalElId).remove();
+		// 			});
+		// 		}
+		// 		catch(err) {
+		// 			console.log(err);
+		// 		}
+
+        //         clearInterval(interval);
+        //     }
+        // }, 10);
         this.modalCount++;
     }
 }
