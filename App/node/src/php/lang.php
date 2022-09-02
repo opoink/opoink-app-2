@@ -24,13 +24,13 @@ if(isset($config['modules'])){
         $vDir = $targetDir.DS.$vendor;
         foreach ($modules as $key => $mod) {
             $modDir = $vDir.DS.$mod;
-            $targetDir = $modDir.DS.'languages';
+            $langDir = $modDir.DS.'languages';
 
-			if(is_dir($targetDir)){
-				$files = scandir($targetDir);
+			if(is_dir($langDir)){
+				$files = scandir($langDir);
 				foreach ($files as $key => $file) {
 					if ($file != "." && $file != "..") {
-						$filePath = $targetDir.DS.$file;
+						$filePath = $langDir.DS.$file;
 						$ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 						if($ext == 'json'){
 							$fInfo = pathinfo($filePath);
