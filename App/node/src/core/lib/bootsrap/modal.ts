@@ -72,6 +72,13 @@ class Modal {
 					modal.show();
 	
 					let componentService = options['component']['extendOptions'].data().vue;
+
+					if(typeof options['init_data'] != 'undefined'){
+						for (let [key, value] of Object.entries(options['init_data'])) {
+							componentService[key] = value;
+						}
+					}
+
 					if(typeof componentService.init == 'function'){
 						componentService.init();
 					}
