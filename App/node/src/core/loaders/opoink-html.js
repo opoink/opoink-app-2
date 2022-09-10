@@ -103,13 +103,18 @@ function addAttr(el){
     let regex = /vue-/ig;
     let found = el[0].nodeName.match(regex);
     if(!found){
-        el.attr(cai.component_value_prefix, cai.component_value);
-        let children = el.children();
-        if(children.length){
-            $.each(children, (key, val) => {
-                addAttr($(val));
-            })
-        }
+		regex = /router-view/ig;
+		found = el[0].nodeName.match(regex);
+		
+		if(!found){
+			el.attr(cai.component_value_prefix, cai.component_value);
+			let children = el.children();
+			if(children.length){
+				$.each(children, (key, val) => {
+					addAttr($(val));
+				})
+			}
+		}
     }
     return el[0].outerHTML;
 }
