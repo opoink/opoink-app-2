@@ -105,14 +105,23 @@ function addAttr(el){
     if(!found){
 		regex = /router-view/ig;
 		found = el[0].nodeName.match(regex);
-		
 		if(!found){
 			el.attr(cai.component_value_prefix, cai.component_value);
-			let children = el.children();
-			if(children.length){
-				$.each(children, (key, val) => {
-					addAttr($(val));
-				})
+
+			if(el[0].nodeName == 'TEMPLATE'){
+				let tmpEl = `<div>`+el.html()+`</div>`;
+				tmpEl = $(addAttr($(tmpEl)));
+				tmpEl = tmpEl.html();
+				console.log(tmpEl);
+				el.html(tmpEl);
+			}
+			else {
+				let children = el.children();
+				if(children.length){
+					$.each(children, (key, val) => {
+						addAttr($(val));
+					});
+				}
 			}
 		}
     }
