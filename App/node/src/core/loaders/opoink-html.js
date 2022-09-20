@@ -112,7 +112,6 @@ function addAttr(el){
 				let tmpEl = `<div>`+el.html()+`</div>`;
 				tmpEl = $(addAttr($(tmpEl)));
 				tmpEl = tmpEl.html();
-				console.log(tmpEl);
 				el.html(tmpEl);
 			}
 			else {
