@@ -61,12 +61,12 @@ class Settings extends \Of\Std\DataObject {
 		else {
 			$this->data = [];
 
-			$targetFile = ROOT.DS.'App'.DS.'Ext'.DS;
+			$extDir = ROOT.DS.'App'.DS.'Ext'.DS;
 			$vendors = $this->_config->getConfig('modules');
 
 			foreach ($vendors as $vendor => $modules) {
 				foreach ($modules as $module) {
-					$targetFile .= $vendor.DS.$module.DS.'etc'.DS.'admin'.DS.'settings.php';
+					$targetFile = $extDir . $vendor.DS.$module.DS.'etc'.DS.'admin'.DS.'settings.php';
 					if(file_exists($targetFile) && is_file($targetFile)){
 						$moduleSetings = include($targetFile);
 						$this->setData(array_replace_recursive($this->data, $moduleSetings));
@@ -75,7 +75,6 @@ class Settings extends \Of\Std\DataObject {
 			}
 			return $this->data;
 		}
-
 	}
 
 	/**
