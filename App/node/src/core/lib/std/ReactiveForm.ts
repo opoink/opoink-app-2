@@ -22,61 +22,6 @@ export class ReactiveForm {
 		this.setForm(formId, options);
 	}
 
-	// setForm(formId, options){
-	// 	this.form = document.getElementById(formId);
-	// 	let formEls:any = this.form['elements'];
-
-	// 	for (let i = 0; i < formEls.length; i++) {
-	// 		if (
-	// 			formEls[i].nodeName === "INPUT" ||
-	// 			formEls[i].nodeName === "TEXTAREA" ||
-	// 			formEls[i].nodeName === "SELECT"
-	// 		) {
-	// 			var el:any = formEls[i];
-	// 			var name: string = el.attributes.name.value;
-
-	// 			if(typeof options[name] != 'undefined'){
-	// 				el['rf'] = {
-	// 					name: name,
-	// 					touched: false,
-	// 					is_valid: false,
-	// 					rules: options[name][1] ? options[name][1] : '',
-	// 				}
-
-	// 				if(!this.inputs) {
-	// 					this.inputs = {};
-	// 				}
-
-	// 				this.inputs[name] = el;
-	// 				if(el.type == 'text' || el.type == 'textarea'){
-	// 					this.inputs[name].value = options[name][0] ? options[name][0] : '';
-	// 					$(el).on('keyup', (e) => {
-	// 						e.target.rf.touched = true;
-	// 						this.validate();
-	// 					});
-	// 				}
-	// 				if(el.type == 'radio'){
-	// 					if(el.value + '' == options[name][0]){
-	// 						el.checked = true;
-	// 					}
-
-	// 					$(el).on('change', (e) => {
-	// 						e.target.rf.touched = true;
-	// 						this.validate();
-	// 					});
-	// 				}
-	// 				else {
-	// 					this.inputs[name].value = options[name][0] ? options[name][0] : '';
-	// 					$(el).on('change', (e) => {
-	// 						e.target.rf.touched = true;
-	// 						this.validate();
-	// 					});
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
-
 	setForm(formId, options){
 		for (let [name, option] of Object.entries(options)) {
 			let selector = '#' + formId + ' [name="'+name+'"]';
