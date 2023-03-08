@@ -161,7 +161,7 @@ var config = (env) => {
                     ] 
                 },
                 {
-                    test: /\.(gif|png|jpe?g|svg)$/i,
+                    test: /\.(gif|png|jpe?g|svg|cur)$/i,
                     use: [
                         {
                             loader: 'file-loader',
