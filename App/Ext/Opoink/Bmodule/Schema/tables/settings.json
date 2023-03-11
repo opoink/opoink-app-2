@@ -12,14 +12,13 @@
         {
             "name": "key",
             "type": "CHAR",
-            "length": "100",
+            "length": "255",
             "collation": "utf8_general_ci",
             "after": "settings_id"
         },
         {
             "name": "value",
-            "type": "VARCHAR",
-            "length": "300",
+            "type": "LONGTEXT",
             "collation": "utf8_general_ci",
             "after": "key"
         },
